@@ -4,10 +4,11 @@
 #include <QMessageBox>
 #include <QMovie>
 #include <QtGui>
-#include "event.h"
+//#include "event.h"
 #include "intervenants.h"
 #include <QCloseEvent>
 #include <QSqlRecord>
+#include <QRegularExpression>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView->setModel(I.afficher());
     ui->stackedWidget->setCurrentIndex(1);
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
-
 }
 
 MainWindow::~MainWindow()
@@ -25,14 +25,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
 void MainWindow::on_Ajouter_event_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(0);
 }
-
-
 
 void MainWindow::on_uploade_fichier_clicked()
 {
@@ -91,8 +87,7 @@ void MainWindow::on_pushButton_clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-
-void MainWindow::on_Ajouter_event_2_clicked()
+void MainWindow::on_Ajouter_event_2_clicked() //Login
 {
    QString id = ui->Titre_20->text();
    QString password = ui->Titre_21->text();
@@ -134,21 +129,64 @@ void MainWindow::on_Ajouter_event_2_clicked()
 
 }
 
-
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-
-void MainWindow::on_Ajouter_event_3_clicked()
+void MainWindow::on_Ajouter_event_3_clicked() //SignUp
 {
+    bool errornom = false,errorPrenom=false,errornum=false,errormdp=false;
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("^[A-Za-z]+$"), this);
+    QRegularExpressionValidator *validatornum = new QRegularExpressionValidator(QRegularExpression("^\\d{8}$"),this);
+    QRegularExpressionValidator *validatormdp = new QRegularExpressionValidator(QRegularExpression("^[a-zA-Z0-9_]*$"), this);
+    ui->Titre_22->setValidator(validator);
+    ui->Titre_23->setValidator(validator);
+    ui->Titre_24->setValidator(validatornum);
+    ui->Titre_25->setValidator(validatormdp);
+    bool vide=false;
     QString nom=ui->Titre_22->text();
+    if (nom == "")
+    {
+        vide = true;
+    }
+    if (!ui->Titre_22->hasAcceptableInput())
+    {
+        errornom=true;
+    }
     QString prenom=ui->Titre_23->text();
-    int num=ui->Titre_24->text().toInt();;
+    if (prenom == "")
+    {
+        vide = true;
+    }
+    if (!ui->Titre_23->hasAcceptableInput())
+    {
+        errorPrenom=true;
+    }
+    int num=ui->Titre_24->text().toInt();
+    if (ui->Titre_24->text()=="")
+    {
+        vide = true;
+    }
+    if (!ui->Titre_24->hasAcceptableInput())
+    {
+        errornum=true;
+    }
     QString mdp=ui->Titre_25->text();
+    if (mdp == "")
+    {
+        vide = true;
+    }
+    if ((!ui->Titre_25->hasAcceptableInput())||(mdp.length()<5))
+    {
+        errormdp=true;
+    }
     QString mdp1=ui->Titre_26->text();
-    if (mdp==mdp1)
+    if (mdp1 == "")
+    {
+        vide = true;
+    }
+    if ((mdp==mdp1)&&(vide==false)&&(errornum==false)&&(errornom==false)&&(errorPrenom==false)&&(errormdp==false))
     {
  INTERVENANTS I(nom,prenom,num,mdp);
 
@@ -170,12 +208,42 @@ void MainWindow::on_Ajouter_event_3_clicked()
 }
     else
     {
-        QMessageBox::information(nullptr, QObject::tr("ok"),
-                                 QObject::tr("Passwords Don't match"),QMessageBox::Cancel);
+        if (mdp != mdp1)
+        {
+         QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                QObject::tr("Passwords Don't match"),QMessageBox::Cancel);
+        }
+        if (vide == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Elements can't be empty"),QMessageBox::Cancel);
+        }
+        if (errorPrenom==true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The First Name is Invalid"),QMessageBox::Cancel);
+        }
+        if (errornom==true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Last Name is Invalid"),QMessageBox::Cancel);
+        }
+        if (errornum==true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Phone Number is Invalid"),QMessageBox::Cancel);
+        }
+        if (errormdp==true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Password is Invalid"),QMessageBox::Cancel);
+        }
+
+
     }
 }
 
-void MainWindow::on_Exit_clicked()
+void MainWindow::on_Exit_clicked() // Close session when Clicking on Quit button
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM SESSIONS");
@@ -196,7 +264,7 @@ void MainWindow::on_Intervenants_clicked()
     ui->stackedWidget_in->setCurrentIndex(4);
 }
 
-void MainWindow::mySlot()
+void MainWindow::mySlot() // Close session when clicking on the X button
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM SESSIONS");
@@ -216,31 +284,51 @@ void MainWindow::on_Ajouter_event_4_clicked()
     ui->stackedWidget_in->setCurrentIndex(5);
 }
 
-
-
 void MainWindow::on_Ajouter_event_6_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(4);
 }
 
-
-void MainWindow::on_Ajouter_event_5_clicked()
+void MainWindow::on_Ajouter_event_5_clicked() // Add User Information to add in ADD new user (Admin Side)
 {
     bool vide = false;
+    bool errornom = false,errorPrenom=false,errornum=false,errorSalaire=false,errormdp=false;
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("^[A-Za-z]+$"), this);
+    QRegularExpressionValidator *validatornum = new QRegularExpressionValidator(QRegularExpression("^\\d{8}$"),this);
+    QRegularExpressionValidator *validatormdp = new QRegularExpressionValidator(QRegularExpression("^[a-zA-Z0-9_]*$"), this);
+    //QDoubleValidator *validatorSalary = new QDoubleValidator(0.00,100000.00,2,this);
+    //validatorSalary->setNotation(QDoubleValidator::StandardNotation);
+    ui->Titre_27->setValidator(validator);
+    ui->Titre_28->setValidator(validator);
+    ui->Titre_30->setValidator(validatornum);
+    ui->Titre_31->setValidator(validatormdp);
+    //ui->Titre_29->setValidator(validatorSalary);
     QString nom=ui->Titre_27->text();
     if (nom == "")
     {
        vide = true;
+    }
+    if (!ui->Titre_27->hasAcceptableInput())
+    {
+        errornom = true;
     }
     QString prenom=ui->Titre_28->text();
     if (prenom == "")
     {
         vide = true;
     }
+    if (!ui->Titre_28->hasAcceptableInput())
+    {
+        errorPrenom = true;
+    }
     QString numtest=ui->Titre_30->text();
     if (numtest=="")
     {
         vide = true;
+    }
+    if (!ui->Titre_30->hasAcceptableInput())
+    {
+        errornum = true;
     }
     int num=ui->Titre_30->text().toInt();
     QString mdp=ui->Titre_31->text();
@@ -248,11 +336,19 @@ void MainWindow::on_Ajouter_event_5_clicked()
     {
         vide = true;
     }
+    if ((mdp.length()<5)||(!ui->Titre_31->hasAcceptableInput()))
+    {
+        errormdp=true;
+    }
     QString Salaire=ui->Titre_29->text();
     if (Salaire == "")
     {
         vide = true;
     }
+    //if (!ui->Titre_29->hasAcceptableInput())
+    //{
+      //  errorSalaire = true;
+    //}
     float Sal = Salaire.toFloat();
     QString type;
     if(ui->comboBox->currentIndex() != -1) {
@@ -275,7 +371,7 @@ void MainWindow::on_Ajouter_event_5_clicked()
     {
     vide = true;
     }
-    if (vide == false)
+    if ((vide == false)&&(errorPrenom==false)&&(errornom==false)&&(errormdp==false)&&(errorSalaire==false)&&(errornum==false))
 {
         QByteArray imageData;
         QBuffer buffer(&imageData);
@@ -299,8 +395,36 @@ void MainWindow::on_Ajouter_event_5_clicked()
 }
 else
 {
+        if (vide==true)
+        {
 QMessageBox::information(nullptr, QObject::tr("not ok"),
                          QObject::tr("Error : Empty Values\n" "Click cancel to exit."),QMessageBox::Cancel);
+        }
+        if (errorPrenom == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The First Name is Invalid"),QMessageBox::Cancel);
+        }
+        if (errornom == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Last Name is Invalid"),QMessageBox::Cancel);
+        }
+        if (errornum == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Phone Number is Invalid"),QMessageBox::Cancel);
+        }
+        if (errorSalaire == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Salary is Invalid"),QMessageBox::Cancel);
+        }
+        if (errormdp == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("Probleme"),
+                                   QObject::tr("The Password is Invalid"),QMessageBox::Cancel);
+        }
 }
 }
 
@@ -315,18 +439,15 @@ void MainWindow::on_Ajouter_event_8_clicked()
     ui->stackedWidget_in->setCurrentIndex(4);
 }
 
-
 void MainWindow::on_Ajouter_event_7_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(3);
 }
 
-
 void MainWindow::on_Ajouter_event_10_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(4);
 }
-
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
@@ -344,7 +465,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
     }
 }
 
-void MainWindow::on_uploade_fichier_2_clicked()
+void MainWindow::on_uploade_fichier_2_clicked() // Choose a picture to add in ADD new user (Admin Side)
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a Picture"), "", tr("Images (*.png *.xpm *.jpg)"));
       if (!fileName.isEmpty()) {
@@ -357,8 +478,7 @@ void MainWindow::on_uploade_fichier_2_clicked()
       }
 }
 
-
-void MainWindow::on_Profil_clicked()
+void MainWindow::on_Profil_clicked() // Show Current User Information ReadOnly
 {
     QSqlQuery query;
     QSqlQuery query1;
@@ -405,14 +525,12 @@ void MainWindow::on_Profil_clicked()
     ui->stackedWidget_in->setCurrentIndex(6);
 }
 
-
 void MainWindow::on_Ajouter_event_12_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(6);
 }
 
-
-void MainWindow::on_Ajouter_event_9_clicked()
+void MainWindow::on_Ajouter_event_9_clicked() //Show Current User Inforamtion for him to update
 {
     QSqlQuery query;
     QSqlQuery query1;
@@ -462,19 +580,35 @@ void MainWindow::on_Ajouter_event_9_clicked()
     ui->stackedWidget_in->setCurrentIndex(7);
 }
 
-
-void MainWindow::on_Ajouter_event_11_clicked()
+void MainWindow::on_Ajouter_event_11_clicked() //Update Current User Information
 {
     bool vide1 = false;
+    bool errornom = false,errorPrenom=false,errornum=false,errorSalaire=false;
+    QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("^[A-Za-z]+$"), this);
+    QRegularExpressionValidator *validatornum = new QRegularExpressionValidator(QRegularExpression("^\\d{8}$"),this);
+    //QDoubleValidator *validatorSalary = new QDoubleValidator(this);
+    //validatorSalary->setRange(20000.0, 200000.0, 2);
+    ui->lineEdit_3->setValidator(validator);
+    ui->lineEdit_4->setValidator(validator);
+    ui->Titre_38->setValidator(validatornum);
+    //ui->Titre_35->setValidator(validatorSalary);
     QString nom=ui->lineEdit_4->text();
     if (nom == "")
     {
        vide1 = true;
     }
+    if (ui->lineEdit_4->hasAcceptableInput())
+    {
+        errornom=true;
+    }
     QString prenom=ui->lineEdit_3->text();
     if (prenom == "")
     {
         vide1 = true;
+    }
+    if (!ui->lineEdit_3->hasAcceptableInput())
+    {
+        errorPrenom = true;
     }
     QString numtest=ui->Titre_38->text();
     if (numtest=="")
@@ -482,10 +616,18 @@ void MainWindow::on_Ajouter_event_11_clicked()
         vide1 = true;
     }
     int num=ui->Titre_38->text().toInt();
-    QString Salaire=ui->Titre_35->text();
-    if (Salaire == "")
+    if (!ui->Titre_38->hasAcceptableInput())
     {
-        vide1 = true;
+        errornum = true;
+    }
+    QString Salaire=ui->Titre_35->text();
+   // if (Salaire == "")
+    //{
+      //  vide1 = true;
+    //}
+    if (!ui->Titre_35->hasAcceptableInput())
+    {
+        errorSalaire = true;
     }
     float Sal = Salaire.toFloat();
     QString type;
@@ -507,7 +649,7 @@ void MainWindow::on_Ajouter_event_11_clicked()
     QDateTime DOB=ui->dateTimeEdit_event_4->dateTime();
     if (imageIntervenant.isNull()==false)
     {
-    if (vide1 == false)
+    if ((vide1 == false)&&(errorSalaire == false)&&(errornum == false)&&(errornom == false)&&(errorPrenom == false))
 {
         QByteArray imageData;
         QBuffer buffer(&imageData);
@@ -573,13 +715,42 @@ void MainWindow::on_Ajouter_event_11_clicked()
  }
 }
 else
+    {
+        if (vide1 == true)
 {
 QMessageBox::information(nullptr, QObject::tr("not ok"),
                          QObject::tr("Error : Empty Values\n" "Click cancel to exit."),QMessageBox::Cancel);
 }
+if (errornom == true)
+{
+    QMessageBox::information(nullptr, QObject::tr("not ok"),
+                         QObject::tr("Error : Last Name Can not Contain Number\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+}
+if (errorPrenom == true)
+    {
+        QMessageBox::information(nullptr, QObject::tr("not ok"),
+                             QObject::tr("Error : First Name Can not Contain Number\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+    }
+if (errornum == true)
+    {
+        QMessageBox::information(nullptr, QObject::tr("not ok"),
+                             QObject::tr("Error : Phone Number is Invalid\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+    }
+if (errorSalaire == true)
+    {
+        QMessageBox::information(nullptr, QObject::tr("not ok"),
+                             QObject::tr("Error : Salary is Invalid \n" "Click cancel to exit."),QMessageBox::Cancel);
+
+    }
+    }
     }
     else
-{
+    {
+        if ((vide1 == false)&&(errorSalaire == false)&&(errornum == false)&&(errornom == false)&&(errorPrenom == false))
+        {
         INTERVENANTS I1(ui->Titre_39->text().toInt(),nom, prenom,num,Sal,type,etat,DOB);
  bool test = I1.ModifierIntervenant1();
  if(test)
@@ -636,13 +807,45 @@ QMessageBox::information(nullptr, QObject::tr("not ok"),
      QMessageBox::information(nullptr, QObject::tr("not ok"),
                               QObject::tr("Unable to Add\n" "Click cancel to exit."),QMessageBox::Cancel);
  }
+  }
+        else
+        {
+            if (vide1 == true)
+            {
+        QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                 QObject::tr("Error : Empty Values\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+        }
+         if (errornom == true)
+        {
+            QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                 QObject::tr("Error : Last Name Can not Contain Number\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+        }
+             if (errorPrenom == true)
+            {
+                QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                     QObject::tr("Error : First Name Can not Contain Number\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+            }
+             if (errornum == true)
+            {
+                QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                     QObject::tr("Error : Phone Number is Invalid\n" "Click cancel to exit."),QMessageBox::Cancel);
+
+            }
+             if (errorSalaire == true)
+            {
+                QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                     QObject::tr("Error : Salary is Invalid \n" "Click cancel to exit."),QMessageBox::Cancel);
+
+            }
+}
+    }
+
 }
 
-}
-
-
-
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_pushButton_4_clicked() //Choose another Picture in Update Current User Information
 {
     qDebug() << "Button clicked";
         QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a Picture"), "", tr("Images (*.png *.xpm *.jpg)"));
