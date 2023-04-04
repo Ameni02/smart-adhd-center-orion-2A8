@@ -75,10 +75,34 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
+    void on_Profil_2_clicked();
+
+    void on_Ajouter_event_13_clicked();
+
+    void on_lineEdit_5_textChanged(const QString &arg1);
+
+    void on_tableView_activated(const QModelIndex &index);
+
+    void on_Ajouter_event_15_clicked();
+
+    void on_Ajouter_event_14_clicked();
+
+    void on_Ajouter_event_16_clicked();
+
+    void on_Ajouter_event_17_clicked();
+
+    void on_Ajouter_event_18_clicked();
+
+    void on_Ajouter_event_19_clicked();
+
+    void on_Ajouter_event_20_clicked();
+
 private:
     Ui::MainWindow *ui;
     Event Evt;
     INTERVENANTS I;
-    QImage imageIntervenant;
+    QImage imageIntervenant,imageIntervenantTable;
 };
 #endif // MAINWINDOW_H

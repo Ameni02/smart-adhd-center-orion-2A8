@@ -141,3 +141,20 @@ bool INTERVENANTS::ModifierIntervenant1()
     query.bindValue(":dob",dob);
     return query.exec();
 }
+
+
+QSqlQueryModel * INTERVENANTS::afficherRecherche(QString NOM)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    model->setQuery("select IDINTERVENANT,NOM,PRENOM,NUM,DOB,TYPE,ETAT,SALAIRE from INTERVENANTS WHERE NOM LIKE '%"+NOM+"%'");
+    model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("First Name"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Last Name"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Phone Number"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("Date Of Birth"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Type"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Etat"));
+    model->setHeaderData(7,Qt::Horizontal,QObject::tr("Salary"));
+    return model;
+}

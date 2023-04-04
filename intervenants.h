@@ -45,6 +45,8 @@ public:
        bool AjouterIntervenant();
        bool ModifierIntervenant();
        bool ModifierIntervenant1();
+       QSqlQueryModel * afficherRecherche(QString NOM);
+
 
 
 
