@@ -1378,6 +1378,7 @@ void MainWindow::on_Ajouter_event_19_clicked()
         int count = query.value(1).toInt();
         series->append(type, count);
     }
+    series->slices().at(0)->setLabel("Autre");
     series->setLabelsVisible();
     QBrush brush1(QColor("#336699"));
     series->slices().at(0)->setBrush(brush1);
@@ -1387,13 +1388,40 @@ void MainWindow::on_Ajouter_event_19_clicked()
     series->slices().at(2)->setBrush(brush3);
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Types of Data");
+    chart->setTitle("Type of Intervenants");
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(chartView);
+    QSqlQuery query1;
+    query1.prepare("SELECT ETAT, COUNT(*) FROM INTERVENANTS GROUP BY ETAT");
+    query1.exec();
+    if (!query1.exec()) {
+        qDebug() << "Query failed:" << query1.lastError().text();
+    } else {
+    QPieSeries *series1 = new QPieSeries();
+    while (query1.next()) {
+        QString etat = query1.value(0).toString();
+        int count = query.value(1).toInt();
+        series1->append(etat, count);
+    }
+    QBrush brush1(QColor("#336699"));
+    series1->slices().at(0)->setBrush(brush1);
+    QBrush brush2(QColor("#993366"));
+    series1->slices().at(1)->setBrush(brush2);
+    QChart *chart1 = new QChart();
+    chart1->addSeries(series);
+    chart1->setTitle("Etat of Intervenants");
+    QChartView *chartView1 = new QChartView(chart1);
+    chartView1->setRenderHint(QPainter::Antialiasing);
+    QVBoxLayout *layout = new QVBoxLayout();
+    chartView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    chartView1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    layout->addWidget(chartView1);
+    layout->addWidget(ui->Ajouter_event_20);
     ui->stackedWidget_in->widget(10)->setLayout(layout);
     ui->stackedWidget_in->setCurrentIndex(10);
+    }
     }
 
 }
@@ -1403,4 +1431,62 @@ void MainWindow::on_Ajouter_event_20_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(4);
 }
+
+
+void MainWindow::on_Ajouter_event_22_clicked()
+{
+    ui->stackedWidget_in->setCurrentIndex(4);
+}
+
+
+void MainWindow::on_Ajouter_event_23_clicked()
+{
+    QString userInput = ui->userInput->text();
+    QString chatbotResponse = C.sendMessage(userInput);
+    ui->chatDisplay->append("User: " + userInput);
+    ui->chatDisplay->append("Chatbot: " + chatbotResponse);
+    ui->userInput->clear();
+}
+
+
+void MainWindow::on_Ajouter_event_21_clicked()
+{
+    ui->stackedWidget_in->setCurrentIndex(11);
+}
+
+
+void MainWindow::on_Ajouter_event_24_clicked()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM INTERVENANTS");
+    query.exec();
+    QString fileName2 = QFileDialog::getSaveFileName(this, "Save PDF File", "", "*.pdf");
+    if (fileName2.isEmpty()) {
+        return;
+    }
+    QPdfWriter writer(fileName2);
+    writer.setResolution(2400);
+    QTextDocument textDocument;
+    QPainter painter(&writer);
+    QFont font("Arial", 12);
+    QPen pen(Qt::black, 1);
+    int row = 0;
+    QString html;
+    while (query.next()) {
+        int id = query.value("IDIntervenant").toInt();
+        QString nom = query.value("NOM").toString();
+        QString prenom = query.value("PRENOM").toString();
+        QString type = query.value("TYPE").toString();
+        QString etat = query.value("ETAT").toString();
+        float salaire = query.value("SALAIRE").toInt();
+        QDateTime DOB = query.value("DOB").toDateTime();
+        painter.setFont(font);
+        painter.setPen(pen);
+        painter.drawText(100, 100 + row * 1000, QString("%1 %2 %3 %4 %5 %6 %7").arg(id).arg(nom).arg(prenom).arg(type).arg(etat).arg(QString::number(salaire, 'f', 2)).arg(DOB.toString()));
+        row++;
+    }
+    painter.end();
+    QMessageBox::information(this, "Exported", "Data exported to PDF file.");
+}
+
 

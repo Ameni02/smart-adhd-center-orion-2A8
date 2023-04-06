@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "intervenants.h"
 #include <QPixmap>
+#include "chatbot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -99,10 +100,22 @@ private slots:
 
     void on_Ajouter_event_20_clicked();
 
+    void on_Ajouter_event_22_clicked();
+
+    void on_Ajouter_event_23_clicked();
+
+    void on_Ajouter_event_21_clicked();
+
+    void on_Ajouter_event_24_clicked();
+
+    void on_tableView_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Event Evt;
     INTERVENANTS I;
     QImage imageIntervenant,imageIntervenantTable;
+    Chatbot C;
+
 };
 #endif // MAINWINDOW_H
