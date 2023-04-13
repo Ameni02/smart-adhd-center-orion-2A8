@@ -12,53 +12,31 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include<QDateTime>
-#define file_rx "[A-z0-9]+(\\.(jpg|png|gif|jpeg|jfif))"
-
-bool MainWindow::controle_saisir(int n)
-
-{
-     QLineEdit *lineEdit_nom = ui->stackedWidget_in->findChild<QLineEdit*>("lineEditTitre_event");
-     QLineEdit *lineEdit_Desc = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_Desc");
-     QLineEdit *lineEdit_lieuEvent = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_lieuEvent");
-     QLineEdit *lineEdit_EtatEvent = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_EtatEvent");
-     //QCheckBox *checkBox_P = ui->stackedWidget_in->findChild<QCheckBox*>("radioButton_Pub");
-     //QCheckBox *checkBox_S = ui->stackedWidget_in->findChild<QCheckBox*>("radioButton_Sensib");
-
-     QLabel *error_name = ui->stackedWidget_in->findChild<QLabel*>("label_2");
-     QLabel *error_desc = ui->stackedWidget_in->findChild<QLabel*>("label_11");
-     QLabel *error_lieu = ui->stackedWidget_in->findChild<QLabel*>("label_12");
-     QLabel *error_etat = ui->stackedWidget_in->findChild<QLabel*>("label_14");
-      //QLabel *error_genre = ui->stackedWidget_in->findChild<QLabel*>("label_15");
-
-     if (n==1)
-     {
-         if ((lineEdit_nom->text()=="") || (lineEdit_Desc->text()=="")||(lineEdit_lieuEvent->text()=="")|| (lineEdit_EtatEvent->text()==""))
-         {
-
-              if(lineEdit_nom->text()==""){error_name->show(); error_name->setText("Champs Obligatoire !"); }
-              if(lineEdit_Desc->text()==""){error_desc->show(); error_name->setText("Champs Obligatoire !"); }
-              if(lineEdit_lieuEvent->text()==""){error_lieu->show(); error_name->setText("Champs Obligatoire !"); }
-              if(lineEdit_EtatEvent->text()==""){error_etat->show(); error_name->setText("Champs Obligatoire !"); }
-               //if(!(checkBox_P->isChecked())&&(!(checkBox_S->isChecked()))){error_genre->show(); error_genre->setText("Choisier un genre!");}
-              return  0;
-         }else
-         {
-
-             qDebug()<<"suii3";
-             return  1;
-         }
+#include <QPrinter>
+#include <QPainter>
+#include <QStandardPaths>
+#include <QPrintDialog>
+#include <QPixmap>
+#include <QAxBase>
 
 
-     }
 
-     qDebug()<<"suii4";
-         return 1;
-}
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     //QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     //le slot update_label suite à la reception du signal readyRead (reception des données).
+
     //refrech l'affichage
     ui->tableView_events->setModel(Evt.afficher_event());
 
@@ -67,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEditTitre_event->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
     ui->lineEdit_Desc->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
     ui->lineEdit_lieuEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-    ui->lineEdit_EtatEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-
+    //ui->lineEdit_EtatEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
+    ui->lineEdit_chercheEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
 
 //AFFICHAGE DE COMBOX DE LES ID
     QComboBox *Combodelete = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_suppr");
@@ -85,17 +63,39 @@ MainWindow::MainWindow(QWidget *parent)
             Combodelete->addItem(intString);
         }
     }
+//AFFICHAGE DE COMBOX DE LES NOM POUR LA PAGE DE DETAILS EVENTS
+    QComboBox *ComboSELECT = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_selest");
+    ComboSELECT->clear();
+    ComboSELECT->addItem("Select a name of event");
+
+    QSqlQuery query_SELECT;
+    query_SELECT.prepare("SELECT NOM FROM EVENTS");
+
+    // Executing the query and fetching the NAME column from the result set
+    if (query_SELECT.exec()) {
+        while (query_SELECT.next()) {
+            QString name = query_SELECT.value(0).toString();
+            // Add the name to the combobox
+            ComboSELECT->addItem(name);
+        }
+    }
 
 
-
-//ajouter les option de combobox
-   /* ui->comboBox_events->addItem("Sélectionnez un intervenant");
-    ui->comboBox_events->setItemData(0, QVariant(Qt::UserRole), Qt::UserRole);  //une option non selectionne
-    ui->comboBox_events->addItem("Psychiatre");
-    ui->comboBox_events->addItem("Médecin généraliste");
-    ui->comboBox_events->addItem("Neurologue");*/
-
-
+    //AFFICHAGE DE COMBOX DE LES ID
+        QComboBox *comboBox_emmisionCO2 = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_emmisionCO2");
+        comboBox_emmisionCO2->clear();
+        QSqlQuery query_emmisionCO2;
+        query_emmisionCO2.prepare("SELECT IDEVENT FROM EVENTS");
+    // Executing the query and fetching the IDEVENT from the result set
+        if (query_emmisionCO2.exec()) {
+            while (query_emmisionCO2.next()) {
+                int id=query_emmisionCO2.value(0).toInt();
+                // Convert the IDEVENT to a string format
+                QString intString = QString::number(id);
+                // Add the string representation of the ID_EM to the combobox
+                comboBox_emmisionCO2->addItem(intString);
+            }
+        }
 
 //comptage des  events
 
@@ -122,6 +122,11 @@ MainWindow::MainWindow(QWidget *parent)
     gif_nbEvent->start();
     ui->label_GIF_2->setFixedSize(481,371);
    //ui->label_nbGIF->setFixedSize(161,131);
+
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
+    ui->axWidget->dynamicCall("Navigate(const QString&)", "file:///C:/Users/Mozrani%20amine/Desktop/Projet/projet/index.html");
+
 }
 
 MainWindow::~MainWindow()
@@ -159,8 +164,7 @@ void MainWindow::on_Events_clicked()
      ui->stackedWidget_in->setCurrentIndex(3);
 
 
-     QStringList lineEditNames = {"Titre_event_update", "lineEdit_Desc_update", "lineEdit_lieuEvent_update",
-                                  "lineEdit_EtatEvent_update"};
+     QStringList lineEditNames = {"Titre_event_update", "lineEdit_Desc_update", "lineEdit_lieuEvent_update"};
 
      for (const QString& name : lineEditNames) {
          QLineEdit* lineEdit = ui->stackedWidget_in->findChild<QLineEdit*>(name);
@@ -177,12 +181,40 @@ void MainWindow::on_Events_clicked()
 
      }
 
+
+     QCheckBox* radioButton_Virtuel = ui->stackedWidget_in->findChild<QCheckBox*>("radioButton_Virtuel_update");
+     QCheckBox* radioButton_Hybride = ui->stackedWidget_in->findChild<QCheckBox*>("radioButton_Hybride_update");
+     QCheckBox* radioButton_Present = ui->stackedWidget_in->findChild<QCheckBox*>("radioButton_Present_update");
+     if (radioButton_Virtuel && radioButton_Hybride && radioButton_Present) {
+         radioButton_Virtuel->setChecked(false);
+         radioButton_Hybride->setChecked(false);
+         radioButton_Present->setChecked(false);
+
+     }
+
 }
 //add events
 void MainWindow::on_validation_ajout_clicked()
-{
-if (controle_saisir(1))
-{
+{  int controle=0;
+
+    if(ui->lineEditTitre_event->text() == "")
+    {
+        ui->label_2->setText("Champ Obligatoire*");
+        controle=1;
+    }
+    if(ui->lineEdit_Desc->text() == "")
+    {
+        ui->label_11->setText("Champ Obligatoire*");
+        controle=1;
+    }
+    if(ui->lineEdit_lieuEvent->text() == "")
+    {
+        ui->label_12->setText("Champ Obligatoire*");
+        controle=1;
+    }
+
+
+
 
     QString Titre_event=ui->lineEditTitre_event->text();
 
@@ -191,16 +223,33 @@ if (controle_saisir(1))
     QString lieuEvent=ui->lineEdit_lieuEvent->text();
 
     QString  genre_event;
-    if(ui->radioButton_Pub->isChecked()) {
-        genre_event = ui->radioButton_Pub->text();
+
+        if(ui->radioButton_Pub->isChecked()) {
+            genre_event = ui->radioButton_Pub->text();
+        }
+        else if(ui->radioButton_Sensib->isChecked()) {
+            genre_event = ui->radioButton_Sensib->text();
+        }
+
+
+
+QDateTime date_event=ui->dateTimeEdit_event->dateTime();
+
+
+    QString  etat_event;
+    if(ui->radioButton_Virtuel->isChecked()) {
+        etat_event = ui->radioButton_Virtuel->text();
     }
-    else if(ui->radioButton_Sensib->isChecked()) {
-        genre_event = ui->radioButton_Sensib->text();
+    else if(ui->radioButton_Hybride->isChecked()) {
+        etat_event = ui->radioButton_Hybride->text();
+    }
+    else if(ui->radioButton_present->isChecked()) {
+        etat_event = ui->radioButton_present->text();
     }
 
-    QString etat_event=ui->lineEdit_EtatEvent->text();
+    //QString etat_event=ui->lineEdit_EtatEvent->text();
 
-    QDateTime date_event=ui->dateTimeEdit_event->dateTime();
+
 
 
       //convertir image en binaire BLOB
@@ -209,7 +258,8 @@ if (controle_saisir(1))
             buffer.open(QIODevice::WriteOnly);
             image_event.save(&buffer, "PNG");
             buffer.close();
-
+if(controle==0)
+{
  Event E(Titre_event,  Desc_event,  lieuEvent,  genre_event,  etat_event,  date_event,imageData);
 
  bool test=E.ajouter_event();
@@ -229,6 +279,34 @@ if (controle_saisir(1))
         QLCDNumber *lcdNumber = this->findChild<QLCDNumber*>("lcdNumber");
         ui->lcdNumber->display(row_count);
 
+        QComboBox *Combodelete = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_suppr");
+        Combodelete->clear();
+        QSqlQuery query_delate;
+        query_delate.prepare("SELECT IDEVENT FROM EVENTS");
+    // Executing the query and fetching the IDEVENT from the result set
+        if (query_delate.exec()) {
+            while (query_delate.next()) {
+                int id=query_delate.value(0).toInt();
+                // Convert the IDEVENT to a string format
+                QString intString = QString::number(id);
+                // Add the string representation of the ID_EM to the combobox
+                Combodelete->addItem(intString);
+            }
+        }
+
+        QComboBox *ComboSELECT = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_selest");
+        ComboSELECT->clear();
+        QSqlQuery query_SELECT;
+        query_SELECT.prepare("SELECT NOM FROM EVENTS");
+        // Executing the query and fetching the NAME column from the result set
+        if (query_SELECT.exec()) {
+            while (query_SELECT.next()) {
+                QString name = query_SELECT.value(0).toString();
+                // Add the name to the combobox
+                ComboSELECT->addItem(name);
+            }
+        }
+
     }
  else
      {
@@ -236,8 +314,9 @@ if (controle_saisir(1))
                  QObject::tr("ajouter non effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
      }
 }
-
 }
+
+
 //delate events
 void MainWindow::on_botton_supprimer_clicked()
 {
@@ -282,6 +361,20 @@ void MainWindow::on_botton_supprimer_clicked()
          ui->lcdNumber->display(row_count);
 
          ui->tableView_events->setModel(Evt.afficher_event());
+          //update cmbox de details event
+         QComboBox *ComboSELECT = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_selest");
+         ComboSELECT->clear();
+         QSqlQuery query_SELECT;
+         query_SELECT.prepare("SELECT NOM FROM EVENTS");
+
+         // Executing the query and fetching the NAME column from the result set
+         if (query_SELECT.exec()) {
+             while (query_SELECT.next()) {
+                 QString name = query_SELECT.value(0).toString();
+                 // Add the name to the combobox
+                 ComboSELECT->addItem(name);
+             }
+         }
 
   }
   else
@@ -346,6 +439,7 @@ void MainWindow::on_botton_update_events_clicked()
 
            QLineEdit *lineEditTitre_event = ui->stackedWidget_in->findChild<QLineEdit*>("Titre_event_update");
            lineEditTitre_event->setText(Titre_event);
+          // lineEditTitre_event->setReadOnly(true);
            lineEditTitre_event->update();
 
            QLineEdit *lineEdit_Desc = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_Desc_update");
@@ -367,9 +461,17 @@ void MainWindow::on_botton_update_events_clicked()
                ui->radioButton_Sensib_update->setChecked(true);
            }
 
-           QLineEdit *lineEdit_EtatEvent = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_EtatEvent_update");
-           lineEdit_EtatEvent->setText(etat_event);
-           lineEdit_EtatEvent->update();
+           if(etat_event=="Virtuel"){
+               ui->radioButton_Virtuel_update->setChecked(true);
+           }else if(etat_event=="Hybride"){
+               ui->radioButton_Hybride_update->setChecked(true);
+           }
+           else if(etat_event=="Presentiel"){
+                ui->radioButton_Present_update->setChecked(true);
+           }
+
+
+
 
 
            QPixmap update_afffiche;
@@ -409,8 +511,21 @@ void MainWindow::on_validation_update_events_clicked()
          genre_event = "Sensibilisation";
         }
 
+       QString etat_event = "";
+         if (ui->radioButton_Virtuel_update->isChecked()==true)
+          {
+           etat_event = "Virtuel";
+          }
+         else if (ui->radioButton_Hybride_update->isChecked()==true)
+          {
+           etat_event = "Hybride";
+          }
+         else if (ui->radioButton_Present_update->isChecked()==true)
+          {
+           etat_event = "Presentiel";
+          }
 
-      QString etat_event=ui->lineEdit_EtatEvent_update->text();
+      //QString etat_event=ui->lineEdit_EtatEvent_update->text();
 
       QDateTime date_event= ui->dateTimeEdit_event_update_2->dateTime();
 
@@ -486,5 +601,324 @@ void MainWindow::on_uploade_fichier_3_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-     ui->stackedWidget_2->setCurrentIndex(2);
+     ui->stackedWidget_in->setCurrentIndex(2);
 }
+
+void MainWindow::on_lineEdit_chercheEvent_textChanged(const QString &arg1)
+{
+    ui->tableView_events->setModel(Evt.recherche_titreEvent(arg1));
+}
+
+
+
+void MainWindow::on_events_statistics_clicked()
+{
+    ui->stackedWidget_in->setCurrentIndex(4);
+    Event e;
+    QGridLayout *StatsLayout1 = ui->gridLayout;
+    StatsLayout1->addWidget(e.stat_gender(), 0, 0);
+
+
+    QGridLayout *StatsLayout2 = ui->stackedWidget_in->findChild<QGridLayout*>("gridLayout_2");
+    StatsLayout2->addWidget(e.stat_type(), 0, 0);
+}
+
+void MainWindow::on_details_events_clicked()
+{
+     ui->stackedWidget_in->setCurrentIndex(5);
+
+     //AFFICHAGE DE COMBOX DE LES NOM POUR LA PAGE DE DETAILS EVENTS
+         QComboBox *ComboSELECT = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_selest");
+         ComboSELECT->clear();
+         ComboSELECT->addItem("Select a name of event");
+         QSqlQuery query_SELECT;
+         query_SELECT.prepare("SELECT NOM FROM EVENTS");
+
+         // Executing the query and fetching the NAME column from the result set
+         if (query_SELECT.exec()) {
+             while (query_SELECT.next()) {
+                 QString name = query_SELECT.value(0).toString();
+                 // Add the name to the combobox
+                 ComboSELECT->addItem(name);
+             }
+         }
+
+         connect(ComboSELECT, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index){
+
+
+             QString selectedItemText = ComboSELECT->currentText();
+
+             QString titre = selectedItemText;
+
+             QSqlQuery query2;
+
+             query2.prepare("SELECT NOM, DESCRIPTION,LIEU FROM EVENTS WHERE NOM =:titre");
+             query2.bindValue(":titre", titre);
+               qDebug() << "preparation completed ";
+             if (query2.exec() && query2.next()) {
+                         qDebug() << "preparation recete ";
+                 // Retrieve the values for each column
+                 QString Titre_eventD = query2.value("NOM").toString();
+                 QString Desc_eventD = query2.value("DESCRIPTION").toString();
+                 QString lieu_eventD = query2.value("LIEU").toString();
+
+
+
+               ui->axWidget->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps?q="+lieu_eventD);
+
+
+                 QLineEdit *lineEditTitre_event = ui->stackedWidget_in->findChild<QLineEdit*>("lineEditTitre_event_2");
+                 lineEditTitre_event->setText(Titre_eventD);
+                 lineEditTitre_event->setReadOnly(true);
+                 lineEditTitre_event->update();
+
+                 QLineEdit *lineEdit_Desc = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_Desc_2");
+                 lineEdit_Desc->setText(Desc_eventD);
+                 lineEdit_Desc->setReadOnly(true);
+                 lineEdit_Desc->update();
+
+
+
+
+
+             }
+
+         });
+
+
+
+}
+
+void MainWindow::on_EmissionCO2_clicked()
+{
+      ui->stackedWidget_in->setCurrentIndex(6);
+
+
+      QComboBox *comboBox_emmisionCO2 = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_emmisionCO2");
+      comboBox_emmisionCO2->clear();
+       comboBox_emmisionCO2->addItem("Select");
+       ui->comboBox_emmisionCO2->setItemData(0, QVariant(Qt::UserRole), Qt::UserRole);
+       QSqlQuery query, query1;
+       query.prepare("SELECT IDEVENT FROM EVENTS");
+
+// Executing the query and fetching the IDEVENT from the result set
+   if (query.exec()) {
+       while (query.next())
+         {
+            int i=query.value(0).toInt();
+           // Convert the ID_EM to a string format
+           QString intString = QString::number(i);
+             // Add the string representation of the IDEVENT to the
+             comboBox_emmisionCO2->addItem(intString);
+          }
+   }
+
+}
+
+
+
+
+void MainWindow::on_pdf_Event_test_clicked()
+{
+
+    QSqlDatabase db;
+
+       QTableView tableView;
+       QSqlQueryModel * Modal=new  QSqlQueryModel();
+       QSqlQuery qry;
+       qry.prepare("SELECT* FROM EVENTS");
+       qry.exec();
+       Modal->setQuery(qry);
+          tableView.setModel(Modal);
+          db.close();
+          QString strStream;
+          QTextStream out(&strStream);
+          const int rowCount = tableView.model()->rowCount();
+          const int columnCount =  tableView.model()->columnCount();
+          const QString strTitle ="ListedesEvents";
+          out <<  "<html>\n"
+                      "<img src='C:/Users/Mozrani amine/Desktop/Projet/projet/logoqt.png' height='300' width='250'/>"
+                      "<head>\n"
+                      "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                  <<  QString("<title>%1</title>\n").arg(strTitle)
+                  <<  "</head>\n"
+                      "<body bgcolor=#ffffff link=#5000A0>\n"
+                  << QString("<h3 style=\" font-size: 50px; font-family: Arial, Helvetica, sans-serif; color: #e80e32; font-weight: lighter; text-align: center;\">%1</h3>\n").arg("LISTE DES EVENEMENT")
+                  <<  "<br>"
+
+                  <<  "<table border=1 cellspacing=0 cellpadding=2 width=\"100%\">\n";
+              out << "<thead><tr bgcolor=#f0f0f0>";
+              for (int column = 0; column < columnCount; column++)
+                  if (!tableView.isColumnHidden(column))
+                out << QString("<th>%1</th>").arg(tableView.model()->headerData(column, Qt::Horizontal).toString());
+               out << "</tr></thead>\n";
+               for (int row = 0; row < rowCount; row++)
+               {
+                 out << "<tr>";
+                 for (int column = 0; column < columnCount; column++)
+                 {
+                                 if (!tableView.isColumnHidden(column))
+
+                                 {
+                                    QString data = tableView.model()->data(tableView.model()->index(row, column)).toString().simplified();
+                                    out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+
+                                 }
+                 }
+                            out << "</tr>\n";
+
+               }
+                       out <<  "</table>\n"
+                               "<br><br>"
+                           <<"<br>"
+                           <<"<table border=1 cellspacing=0 cellpadding=2>\n";
+                       out << "<thead><tr bgcolor=#f0f0f0>";
+                       out <<  "</table>\n"
+                               "</body>\n"
+                               "</html>\n";
+
+                       QTextDocument *ListeDesevent = new QTextDocument();
+                            ListeDesevent->setHtml(strStream);
+
+                            QPrinter printer;
+                                QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+
+                                if (dialog->exec() == QDialog::Accepted)
+                                     {
+                                         ListeDesevent->print(&printer);
+                                     }
+                                printer.setOutputFormat(QPrinter::PdfFormat);
+                                     printer.setPaperSize(QPrinter::A4);
+                                     printer.setOutputFileName("/tmp/Event.pdf");
+                                     printer.setPageMargins(QMarginsF(15, 15, 15, 15));
+                                     delete ListeDesevent;
+
+
+
+
+}
+
+
+
+void MainWindow::on_radioButton_2_clicked()
+{
+    QString croissance=ui->radioButton_2->text();
+    ui->tableView_events->setModel(Evt.trierD());
+}
+
+void MainWindow::on_radioButtontrier_eventC_2_clicked()
+{
+    QString croissance=ui->radioButtontrier_eventC_2->text();
+    ui->tableView_events->setModel(Evt.trierC());
+}
+//arduino  project
+void MainWindow::on_Settings_2_clicked()
+{
+     ui->stackedWidget_in->setCurrentIndex(7);
+
+
+}
+
+void MainWindow::on_pushButton_PORT_ON_clicked()
+{
+     A.write_to_arduino("1");
+}
+
+void MainWindow::on_pushButton_OFF_PORT_clicked()
+{
+    A.write_to_arduino("0");
+}
+
+void MainWindow::on_botton_selsct_event_2_clicked()
+{
+    QComboBox *comboBox_emmisionCO2 = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_emmisionCO2");
+    comboBox_emmisionCO2->clear();
+    QSqlQuery query_emmisionCO2;
+    query_emmisionCO2.prepare("SELECT IDEVENT FROM EVENTS");
+// Executing the query and fetching the IDEVENT from the result set
+    if (query_emmisionCO2.exec()) {
+        while (query_emmisionCO2.next()) {
+            int id=query_emmisionCO2.value(0).toInt();
+            // Convert the IDEVENT to a string format
+            QString intString = QString::number(id);
+            // Add the string representation of the ID_EM to the combobox
+            comboBox_emmisionCO2->addItem(intString);
+        }
+    }
+
+             ui->comboBox_emmisionCO2->setItemData(0, QVariant(Qt::UserRole), Qt::UserRole);
+
+             connect(comboBox_emmisionCO2, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index){
+
+
+                 QString selectedItemText = comboBox_emmisionCO2->currentText();
+                       int id = selectedItemText.toInt();
+                       QSqlQuery qry;
+                       qry.prepare ("SELECT ETAT FROM EVENTS WHERE IDEVENT = :id");
+                       qry.bindValue(":id", id);
+                        qDebug() << "preparation completed ";
+                       qry.exec ();
+
+    int Total = 0;
+    float CF;
+    int nb = ui->Titre_event_update_2->text().toInt();
+    if (ui->checkBox->isChecked() == true)
+    {
+        Total++;
+    }
+    if (ui->checkBox_2->isChecked() == true)
+    {
+        Total++;
+    }
+    if (ui->checkBox_3->isChecked() == true)
+    {
+        Total++;
+    }
+    if (ui->checkBox_4->isChecked() == true)
+    {
+        Total++;
+    }
+    float Energie = Total*53.3;
+
+
+    if (qry.exec() && qry.next())
+    {
+        QString Type = qry.value("ETAT").toString();
+    if (Type == "Virtuel")
+    {
+         CF = 34.92;
+    }
+    else if (Type == "Presentiel")
+    {
+         CF = 1815;
+    }
+     if (Type == "Hybride")
+    {
+         CF = 239;
+    }
+    float CO2 = nb*(Energie/1000)*CF;
+    float CO2Hybride = nb*(Energie/1000)*239;
+    float CO2Physique = nb*(Energie/1000)*1815;
+    float CO2Virtuel = nb*(Energie/1000)*34.92;
+    QString energyStringH = QString::number(CO2Hybride, 'f', 2);
+    QString energyStringP = QString::number(CO2Physique, 'f', 2);
+    QString energyStringV = QString::number(CO2Virtuel, 'f', 2);
+    QString energyString = QString::number(CO2, 'f', 2);
+    ui->label_26->setText(energyString);
+    ui->label_25->setText(energyStringV);
+    ui->label_39->setText(energyStringP);
+    ui->label_43->setText(energyStringH);
+    float PP,PV,PH;
+    PP = 100*CO2Physique/CO2;
+    PV = 100*CO2Virtuel/CO2;
+    PH = 100*CO2Hybride/CO2;
+    QString H = QString::number(PH, 'f', 2);
+    QString P = QString::number(PP, 'f', 2);
+    QString V = QString::number(PV, 'f', 2);
+    ui->label_78->setText(V);
+    ui->label_76->setText(P);
+    ui->label_77->setText(H);
+    }
+});
+}
+

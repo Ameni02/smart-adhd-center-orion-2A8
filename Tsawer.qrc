@@ -4,4 +4,5 @@
         <file>Exit.png</file>
         <file>Loupe.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

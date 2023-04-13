@@ -6,6 +6,13 @@
 #include<QDateTime>
 #include <QByteArray>
 
+#include <QtCharts/QPieSlice>
+#include <QGridLayout>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts>
+#include <QChartView>
+
 class Event
 {
 
@@ -44,6 +51,13 @@ public:
     bool supprimer_event(int);
     bool modifier_event(int i);
     bool modifier_eventimage(int i);
+    QSqlQueryModel * recherche_titreEvent(QString);
+    QChartView * stat_gender();
+    QChartView *stat_type();
+    QSqlQueryModel * trier_event();
+    void exportToPDF(QTableView *tableView);
+    QSqlQueryModel *trierC();               //La classe QSqlQueryModel fournit un modèle de données en lecture seule pour les ensembles de résultats SQL.
+    QSqlQueryModel *trierD();
 
 };
 

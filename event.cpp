@@ -11,6 +11,9 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
 #include <QByteArray>
+#include <QPrinter>
+#include <QTableView>
+#include <QPrintDialog>
 
 Event::Event()
 {
@@ -66,13 +69,13 @@ query.prepare("INSERT INTO EVENTS (NOM,DESCRIPTION,DATEEVENT,LIEU,GENRE,ETAT,AFF
       QSqlQueryModel * model=new QSqlQueryModel();
 
       model->setQuery("SELECT * FROM Events");
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("IDEVENT"));
+      model->setHeaderData(0,Qt::Horizontal,QObject::tr("IDEVENT"));
       model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("DESCRIPTION"));
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("DATEEVENT"));
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("LIEU"));
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("GENRE"));
-      model->setHeaderData(1,Qt::Horizontal,QObject::tr("ETAT"));
+      model->setHeaderData(2,Qt::Horizontal,QObject::tr("DESCRIPTION"));
+      model->setHeaderData(3,Qt::Horizontal,QObject::tr("DATEEVENT"));
+      model->setHeaderData(4,Qt::Horizontal,QObject::tr("LIEU"));
+      model->setHeaderData(5,Qt::Horizontal,QObject::tr("GENRE"));
+      model->setHeaderData(6,Qt::Horizontal,QObject::tr("ETAT"));
 
       return model;
   }
@@ -121,4 +124,181 @@ query.prepare("INSERT INTO EVENTS (NOM,DESCRIPTION,DATEEVENT,LIEU,GENRE,ETAT,AFF
 
    }
 
+   QSqlQueryModel * Event::recherche_titreEvent(QString titre)
+   {
+       QSqlQueryModel * model = new QSqlQueryModel();
 
+       model->setQuery("select * from EVENTS WHERE LOWER(NOM) LIKE LOWER('%"+titre+"%')");
+       model->setHeaderData(0,Qt::Horizontal,QObject::tr("IDEVENT"));
+       model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
+       model->setHeaderData(2,Qt::Horizontal,QObject::tr("DESCRIPTION"));
+       model->setHeaderData(3,Qt::Horizontal,QObject::tr("DATEEVENT"));
+       model->setHeaderData(4,Qt::Horizontal,QObject::tr("LIEU"));
+       model->setHeaderData(5,Qt::Horizontal,QObject::tr("GENRE"));
+       model->setHeaderData(6,Qt::Horizontal,QObject::tr("ETAT"));
+       return model;
+   }
+QChartView *Event::stat_gender()
+{
+    int pub=0;
+    int Sensib=0;
+
+
+    QSqlQuery query;
+    query.prepare("select * from EVENTS where GENRE='Publicite'");
+    query.exec();
+    while(query.next())
+        pub++;
+
+    query.prepare("select * from EVENTS where GENRE='Sensibilisation'");
+    query.exec();
+    while(query.next())
+        Sensib++;
+
+     qDebug() << pub << Sensib  ;
+
+     QPieSeries *series = new QPieSeries();
+         series->append("Publicite",pub);
+         series->append("Sensibilisation",Sensib);
+
+         int total = pub + Sensib;
+             // ajouter des étiquettes avec des pourcentages
+          QString labelPublicite = QString("Pub (%1%)").arg((double)pub/total * 100, 0, 'f', 1);
+          QString labelSensibilisation = QString("Sensib (%1%)").arg((double)Sensib/total * 100, 0, 'f', 1);
+           series->slices().at(1)->setLabel(labelSensibilisation);
+           series->slices().at(0)->setLabel(labelPublicite);
+
+
+         QPieSlice *slice = series->slices().at(0);
+         slice->setExploded(true);
+         slice->setColor("#ffdaac");
+         QPieSlice *slice2 = series->slices().at(1);
+         slice2->setColor("#990000");
+
+         QChart *chart = new QChart();
+         chart->addSeries(series);
+         chart->setTitle("Gender statistics");
+
+         series->setLabelsVisible();
+
+         QChartView *chartView = new QChartView(chart);
+         chartView->setRenderHint(QPainter::Antialiasing);
+         chartView->chart()->setAnimationOptions(QChart::AllAnimations);
+         chartView->chart()->legend()->hide();
+         return chartView;
+}
+QChartView * Event::stat_type()
+{
+    int Virt=0;
+    int Hyb=0;
+    int Presen=0;
+
+    QSqlQuery query;
+    query.prepare("select * from EVENTS where ETAT='Virtuel'");
+    query.exec();
+    while(query.next())
+        Virt++;
+
+
+    query.prepare("select * from EVENTS where ETAT='Hybride'");
+    query.exec();
+    while(query.next())
+        Hyb++;
+
+    query.prepare("select * from EVENTS where ETAT='Presentiel'");
+    query.exec();
+    while(query.next())
+        Presen++;
+
+     qDebug() << Virt << Hyb << Presen ;
+
+
+     QPieSeries *series0 = new QPieSeries();
+         series0->append("Virtuel",Virt);
+         series0->append("Hybride",Hyb);
+         series0->append("Presentiel",Presen);
+      int total = Virt + Hyb + Presen;
+
+QString labelVirtuel = QString("Virtuel (%1%)").arg((double)Virt/total * 100, 0, 'f', 1);
+QString labelHybride = QString("Hybride (%1%)").arg((double)Hyb/total * 100, 0, 'f', 1);
+QString labelPresentiel = QString("Present (%1%)").arg((double)Presen/total * 100, 0, 'f', 1);
+series0->slices().at(0)->setLabel(labelVirtuel);
+series0->slices().at(1)->setLabel(labelHybride);
+series0->slices().at(2)->setLabel(labelPresentiel);
+     QPieSlice *slice3 = series0->slices().at(0);
+     slice3->setExploded(true);
+     slice3->setColor("#81c1b0");
+     QPieSlice *slice4 = series0->slices().at(1);
+     slice4->setColor("#b081c1");
+     QPieSlice *slice5 = series0->slices().at(2);
+     slice5->setColor("#f55d11");
+
+     QChart *chart1 = new QChart();
+     chart1->addSeries(series0);
+     chart1->setTitle("type statistics");
+
+     series0->setLabelsVisible();
+
+     QChartView *chartView1 = new QChartView(chart1);
+     chartView1->setRenderHint(QPainter::Antialiasing);
+     chartView1->chart()->setAnimationOptions(QChart::AllAnimations);
+     chartView1->chart()->legend()->hide();
+     return chartView1;
+}
+QSqlQueryModel * Event::trierC( )
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EVENTS ORDER BY DATEEVENT ASC ");
+
+    return model;
+}
+
+QSqlQueryModel * Event::trierD( )
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EVENTS ORDER BY DATEEVENT DESC ");
+
+    return model;
+}
+  QSqlQueryModel *  Event::trier_event()
+{
+   QSqlQueryModel * model = new QSqlQueryModel();
+
+
+
+       model->setQuery("SELECT * FROM EVENTS ORDER BY DATEEVENT DESC");
+       model->setHeaderData(0,Qt::Horizontal,QObject::tr("IDEVENT"));
+       model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
+       model->setHeaderData(2,Qt::Horizontal,QObject::tr("DESCRIPTION"));
+       model->setHeaderData(3,Qt::Horizontal,QObject::tr("DATEEVENT"));
+       model->setHeaderData(4,Qt::Horizontal,QObject::tr("LIEU"));
+       model->setHeaderData(5,Qt::Horizontal,QObject::tr("GENRE"));
+       model->setHeaderData(6,Qt::Horizontal,QObject::tr("ETAT"));
+
+
+   return model;
+}
+  void Event::exportToPDF(QTableView *tableView)
+  {
+
+     QPrinter printer(QPrinter::HighResolution);
+     printer.setPrinterName("Printer Name"); // Définir le nom de l'imprimante
+     QPrintDialog dialog(&printer, nullptr);
+     if (dialog.exec() != QDialog::Accepted)
+     {
+               return; // Annuler si l'utilisateur annule la boîte de dialogue
+     }
+      QPainter painter(&printer);
+      painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+       double xscale = printer.pageRect().width() / double(tableView->width());
+
+     painter.scale(xscale, xscale);
+     // Calculate the y-position to center the table on the page
+     double ypos = (printer.pageRect().height() / xscale - tableView->height()) / 1500;
+      // Translate the painter to center the table on the page
+     painter.translate(0, ypos);
+           // Dessiner le TableView sur le QPainter
+     tableView->render(&painter);
+
+          painter.end();
+  }

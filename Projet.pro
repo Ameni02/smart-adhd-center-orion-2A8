@@ -1,8 +1,15 @@
+
 QT       += core gui sql
+QT+= charts serialport
 QT += sql
-
+QT+= location qml quickwidgets
+QT += charts
+QT += axcontainer
+QT += printsupport
+QT += core gui widgets printsupport
+QT+= location qml quickwidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+TARGET = projet
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -17,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arduino.cpp \
     connect.cpp \
     event.cpp \
     login.cpp \
@@ -24,6 +32,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    arduino.h \
     connect.h \
     event.h \
     login.h \
@@ -42,3 +51,5 @@ DISTFILES +=
 
 RESOURCES += \
     Tsawer.qrc
+
+

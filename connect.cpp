@@ -1,12 +1,12 @@
 #include "connect.h"
 
-connect::connect()
+connec::connec()
 {
 
 
 }
 
-bool connect::createconnect()
+bool connec::createconnect()
 {
 bool test=false;
 QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
@@ -24,7 +24,7 @@ test=true;
     return  test;
 
 }
-void connect::closeConnect()
+void connec::closeConnect()
 {
     db.close();
 }
