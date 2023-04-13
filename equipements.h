@@ -3,6 +3,13 @@
 #include <QString>
 #include<QSqlQuery>
 #include<QSqlQueryModel>
+#include <QtCharts/QPieSlice>
+#include <QGridLayout>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts>
+#include <QChartView>
+
 
 
 
@@ -34,8 +41,9 @@ public:
     bool modifier(int);
     bool supprimer(int);
     QSqlQueryModel * recherche_NOM(QString);
-    QSqlQueryModel * tri_id();
+    QSqlQueryModel * tri_PrixC();
     QSqlQueryModel * tri_alphabetique();
+    QChartView *stat_type();
 
 
 };

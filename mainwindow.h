@@ -51,6 +51,23 @@ private slots:
 
     void on_Ajouter_equipement_2_clicked();
 
+
+
+
+    void on_pdf_btn_clicked();
+
+
+
+    void on_statistic_clicked();
+
+    void on_qrcode_clicked();
+
+    void on_table_equip_activated(const QModelIndex &index);
+
+
+
+    void on_pdf_btn_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     Equipements E;
