@@ -1,18 +1,18 @@
 #include "connect.h"
 
-connect::connect()
+Connect::Connect()
 {
 
 
 }
 
-bool connect::createconnect()
+bool Connect::createconnect()
 {
 bool test=false;
 QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 db.setDatabaseName("hyperflow");
 db.setUserName("system");//inserer nom de l'utilisateur
-db.setPassword("sarah123");//inserer mot de passe de cet utilisateur
+db.setPassword("sarah147");//inserer mot de passe de cet utilisateur
 
 if (db.open())
 test=true;
@@ -24,7 +24,7 @@ test=true;
     return  test;
 
 }
-void connect::closeConnect()
+void Connect::closeConnect()
 {
     db.close();
 }

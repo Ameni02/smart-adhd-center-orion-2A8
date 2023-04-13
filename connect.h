@@ -4,11 +4,11 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-class connect
+class Connect
 {
    QSqlDatabase db ;
 public:
-    connect();
+    Connect();
 
 
     bool createconnect();

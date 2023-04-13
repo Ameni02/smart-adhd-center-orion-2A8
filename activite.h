@@ -4,6 +4,12 @@
 #include<QSqlQueryModel>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QtCharts>
+#include <QChartView>
+#include <QObject>
+#include <QDateTime>
+
+
 class activite
 {
     int idactivite;
@@ -29,6 +35,28 @@ bool ajouter();
 QSqlQueryModel * afficher();
 bool supprmier(int);
 bool modifier(int);
+QSqlQueryModel * recherche_NOM(QString);
+QSqlQueryModel * tri_croissant();
+QSqlQueryModel * tri_decroissant();
+QChartView * Stat();
+//calender
+void ajouterActivite(QCalendarWidget *calendrier);
+
+private:
+
+};
+class Tache
+{
+    int idtache;
+    QString Nom_inter,Nom_tache,Etat;
+public:
+
+   Tache();
+   Tache(int,QString,QString,QString);
+
+
+bool ajouter_tache();
+QSqlQueryModel * afficher_tache();
 private:
 
 };

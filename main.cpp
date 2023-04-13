@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-     connect c;
+     Connect c;
     bool test=c.createconnect();//la conx est la
         MainWindow w; // appel du constructeur
     if(test)
@@ -26,7 +26,10 @@ int main(int argc, char *argv[])
 
 
    return a.exec();
-}
+
+
+   }
+
 
 
 

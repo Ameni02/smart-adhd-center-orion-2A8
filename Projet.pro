@@ -1,5 +1,9 @@
-QT       += core gui sql
-QT += sql
+QT       += core gui
+QT       += sql
+QT += core gui charts
+QT += widgets
+QT += core
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,8 +22,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     activite.cpp \
+    agenda.cpp \
     connect.cpp \
     event.cpp \
+    historiquec.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -27,8 +33,10 @@ SOURCES += \
 
 HEADERS += \
     activite.h \
+    agenda.h \
     connect.h \
     event.h \
+    historiquec.h \
     login.h \
     mainwindow.h \
     patient.h
