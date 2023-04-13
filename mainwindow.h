@@ -3,7 +3,8 @@
 #include "event.h"
 #include "patient.h"
 #include <QMainWindow>
-using namespace std;
+#include "smtp.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -45,13 +46,20 @@ private slots:
 
 
     void on_modifierPatient_2_clicked();
+    void on_statisque_clicked();
 
     void on_updat_done_clicked();
-
+    void on_txtFilter_textChanged(const QString &arg1);
+    void on_uploade_photo_clicked();
+    void on_pdf_2_clicked();
+    void makePlot();
+    void on_photo_patient_clicked();
+    void sendMail();
 
 private:
     Ui::MainWindow *ui;
     Event Evt;
     Patient pat;
+    QImage imagePatient,imagePatientTable;
 };
 #endif // MAINWINDOW_H

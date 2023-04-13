@@ -1,9 +1,13 @@
-QT       += core gui sql
+QT += core gui sql network
+QT += printsupport
 QT += sql
+
+RC_ICONS = hyperflow.ico
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+
+CONFIG += c++11 console
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -22,25 +26,33 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
-    patient.cpp
+    patient.cpp \
+    qcustomplot.cpp \
+    smtp.cpp
 
 HEADERS += \
     connect.h \
     event.h \
     login.h \
     mainwindow.h \
-    patient.h
-
+    mainwindow.h \
+    patient.h \
+    qcustomplot.h \
 FORMS += \
-    login.ui \
-    mainwindow.ui
+    smtp.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+DISTFILES += \
+    simplemail/simplemail-qt5.pc.in
 
 RESOURCES += \
     Tsawer.qrc
+
+FORMS += \
+    login.ui \
+    mainwindow.ui
+

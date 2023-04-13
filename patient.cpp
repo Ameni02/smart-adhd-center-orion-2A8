@@ -1,12 +1,14 @@
 #include "patient.h"
 #include<QSqlQuery>
 #include<QSqlQueryModel>
+#include<QSqlTableModel>
 #include<QString>
 Patient::Patient()
 {
 id_patient = 0;
 }
-Patient::Patient(QString nom_patient,QString prenom_patient,QDateTime DOB,QString photo_patient,int num_patient,int num_urg,QString etat_patient)
+
+Patient::Patient(QString nom_patient,QString prenom_patient,QDateTime DOB,int num_patient,int num_urg,QString etat_patient,QByteArray photo_patient)
 {
 
   this->nom_patient=nom_patient;
@@ -16,6 +18,7 @@ Patient::Patient(QString nom_patient,QString prenom_patient,QDateTime DOB,QStrin
   this->num_patient=num_patient;
   this->num_urg=num_urg;
   this->etat_patient=etat_patient;
+  this->point=point;
 }
  bool Patient::ajouter_patient()
  {
@@ -43,6 +46,7 @@ QSqlQueryModel * Patient::afficher_patient()
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("Prenom"));
     return model;
  }
+
 bool Patient::supprimer_patient(int id)
 {
     QSqlQuery query;
@@ -69,3 +73,15 @@ bool Patient::modifier(int i)
         return query.exec();
 
 }
+
+QSqlQueryModel * Patient::afficherRecherche(QString NOM)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    model->setQuery("select * from PATIENTS WHERE NOM LIKE '%"+NOM+"%'");
+    model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("Nom"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Prenom"));
+    return model;
+}
+

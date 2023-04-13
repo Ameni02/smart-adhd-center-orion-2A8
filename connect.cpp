@@ -11,17 +11,16 @@ bool connect::createconnect()
 bool test=false;
 QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 db.setDatabaseName("hyperflow");
-db.setUserName("moataz");//inserer nom de l'utilisateur
-db.setPassword("moataz");//inserer mot de passe de cet utilisateur
+db.setUserName("moataz");
+db.setPassword("moataz");
 
 if (db.open())
 test=true;
-
-
-
-
-
-    return  test;
+    return  test;/*
+db.open();
+QSqlQuery query(db);
+test=true;
+return  test;*/
 
 }
 void connect::closeConnect()
