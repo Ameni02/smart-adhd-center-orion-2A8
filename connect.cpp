@@ -13,14 +13,12 @@ QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 db.setDatabaseName("hyperflow");
 db.setUserName("moataz");
 db.setPassword("moataz");
+///db.setConnectOptions("MYSQL_OPT_CONNECT_ATTR_SET=utf8");
 
 if (db.open())
 test=true;
-    return  test;/*
-db.open();
-QSqlQuery query(db);
-test=true;
-return  test;*/
+
+    return  test;
 
 }
 void connect::closeConnect()

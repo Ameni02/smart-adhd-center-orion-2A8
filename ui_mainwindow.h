@@ -27,6 +27,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 #include "qcustomplot.h"
 
@@ -92,14 +93,15 @@ public:
     QLabel *AjouterUnEvent_2;
     QPushButton *validation_ajout_2;
     QPushButton *uploade_photo;
-    QRadioButton *radioButton;
+    QRadioButton *radioButtonAdult;
     QWidget *page_9;
     QGroupBox *groupBox_12;
     QTableView *tableView;
     QLabel *AjouterUnEvent_3;
     QLineEdit *txtFilter;
     QLabel *label_titreEvent_4;
-    QPushButton *pdf;
+    QWidget *page_16;
+    QTableWidget *tableWidget;
     QWidget *page_13;
     QWidget *page_15;
     QGroupBox *groupBox_14;
@@ -199,12 +201,12 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1251, 781);
+        MainWindow->resize(1162, 754);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         stackedWidget = new QStackedWidget(centralwidget);
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
-        stackedWidget->setGeometry(QRect(-30, 20, 1251, 751));
+        stackedWidget->setGeometry(QRect(-60, -40, 1251, 751));
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
         groupBox = new QGroupBox(page);
@@ -770,9 +772,30 @@ public:
 "color:white;\n"
 "\n"
 "background:rgb(207, 77, 206);}"));
-        radioButton = new QRadioButton(groupBox_11);
-        radioButton->setObjectName(QString::fromUtf8("radioButton"));
-        radioButton->setGeometry(QRect(250, 170, 91, 22));
+        radioButtonAdult = new QRadioButton(groupBox_11);
+        radioButtonAdult->setObjectName(QString::fromUtf8("radioButtonAdult"));
+        radioButtonAdult->setGeometry(QRect(220, 160, 131, 31));
+        radioButtonAdult->setStyleSheet(QString::fromUtf8("QRadioButton {\n"
+"  font-family: Arial, sans-serif;\n"
+"  font-size: 14px;\n"
+"  font-weight: bold;\n"
+"  color: #333;\n"
+"  padding: 2px 8px;\n"
+"  border: 1px solid ;\n"
+"  border-radius: 8px;\n"
+"  background-color:rgb(192, 192, 255);\n"
+"}\n"
+"\n"
+"QRadioButton::indicator {\n"
+"  width: 16px;\n"
+"  height: 16px;\n"
+"  border-radius: 8px;\n"
+"  border: 2px solid #999;\n"
+"}\n"
+"\n"
+"QRadioButton::indicator:checked {\n"
+"  background-color:#7f7c82;\n"
+"}"));
         stackedWidget_in->addWidget(page_8);
         page_9 = new QWidget();
         page_9->setObjectName(QString::fromUtf8("page_9"));
@@ -781,10 +804,33 @@ public:
         groupBox_12->setGeometry(QRect(0, 0, 971, 611));
         tableView = new QTableView(groupBox_12);
         tableView->setObjectName(QString::fromUtf8("tableView"));
-        tableView->setGeometry(QRect(0, 70, 961, 371));
+        tableView->setGeometry(QRect(10, 80, 951, 491));
+        tableView->setMouseTracking(true);
+        tableView->setTabletTracking(true);
+        tableView->setAutoFillBackground(false);
+        tableView->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
+"        background-color: black; \n"
+"        border-radius: 10px\n"
+"    }\n"
+"\n"
+"    QTableWidget::item {\n"
+"        color: #ff7777;                    \n"
+"        background-color: #2222fd;\n"
+"        margin-top: 5px;          \n"
+"        border-radius: 9px;\n"
+"        padding-left: 5px;\n"
+"    }\n"
+"\n"
+"    QTableWidget::item:selected {\n"
+"        background-color: yellow;\n"
+"        color: blue;\n"
+"    }"));
+        tableView->setAlternatingRowColors(true);
+        tableView->setSortingEnabled(true);
+        tableView->verticalHeader()->setVisible(true);
         AjouterUnEvent_3 = new QLabel(groupBox_12);
         AjouterUnEvent_3->setObjectName(QString::fromUtf8("AjouterUnEvent_3"));
-        AjouterUnEvent_3->setGeometry(QRect(300, 0, 361, 41));
+        AjouterUnEvent_3->setGeometry(QRect(310, 0, 361, 71));
         AjouterUnEvent_3->setStyleSheet(QString::fromUtf8("text-shadow: 5px 5px 5px black;\n"
 "color:rgb(0, 0, 0);\n"
 " font-family: Arial, sans-serif;\n"
@@ -792,7 +838,7 @@ public:
 "  font-weight: bold;"));
         txtFilter = new QLineEdit(groupBox_12);
         txtFilter->setObjectName(QString::fromUtf8("txtFilter"));
-        txtFilter->setGeometry(QRect(40, 20, 291, 31));
+        txtFilter->setGeometry(QRect(150, 20, 151, 31));
         txtFilter->setStyleSheet(QString::fromUtf8("QLineEdit{ \n"
 "                                      background-color:rgb(192, 192, 255);\n"
 "                                        border: 2px solid gray;\n"
@@ -804,34 +850,21 @@ public:
 "                                        background-color:rgb(192, 192, 255);}"));
         label_titreEvent_4 = new QLabel(groupBox_12);
         label_titreEvent_4->setObjectName(QString::fromUtf8("label_titreEvent_4"));
-        label_titreEvent_4->setGeometry(QRect(10, 20, 81, 31));
+        label_titreEvent_4->setGeometry(QRect(20, 20, 131, 31));
         label_titreEvent_4->setStyleSheet(QString::fromUtf8("color:rgb(127, 124, 130);\n"
 "font: 8pt \"Tahoma\";\n"
 " font-family: Arial, sans-serif;"));
-        pdf = new QPushButton(groupBox_12);
-        pdf->setObjectName(QString::fromUtf8("pdf"));
-        pdf->setGeometry(QRect(770, 10, 151, 41));
-        pdf->setStyleSheet(QString::fromUtf8("QPushButton{\n"
-"width: 214.24px;\n"
-"height: 42.47px;\n"
-"left: 90px;\n"
-"top: 97px;\n"
-"color:rgb(0, 0, 0);\n"
-"background: #F0D9FF;\n"
-"border-radius: 10px;\n"
-"}\n"
-"QPushButton::hover\n"
-"{\n"
-"font: 75 8pt \"MS Shell Dlg 2\";\n"
-"color:white;\n"
-"\n"
-"background:rgb(207, 77, 206);}"));
         tableView->raise();
         AjouterUnEvent_3->raise();
         label_titreEvent_4->raise();
         txtFilter->raise();
-        pdf->raise();
         stackedWidget_in->addWidget(page_9);
+        page_16 = new QWidget();
+        page_16->setObjectName(QString::fromUtf8("page_16"));
+        tableWidget = new QTableWidget(page_16);
+        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        tableWidget->setGeometry(QRect(5, 1, 961, 571));
+        stackedWidget_in->addWidget(page_16);
         page_13 = new QWidget();
         page_13->setObjectName(QString::fromUtf8("page_13"));
         stackedWidget_in->addWidget(page_13);
@@ -1062,7 +1095,7 @@ public:
         groupBox_15->setGeometry(QRect(-10, 0, 971, 611));
         IDPatient_2 = new QLineEdit(groupBox_15);
         IDPatient_2->setObjectName(QString::fromUtf8("IDPatient_2"));
-        IDPatient_2->setGeometry(QRect(280, 210, 291, 31));
+        IDPatient_2->setGeometry(QRect(150, 30, 291, 31));
         IDPatient_2->setStyleSheet(QString::fromUtf8("QLineEdit{ \n"
 "                                      background-color:rgb(192, 192, 255);\n"
 "                                        border: 2px solid gray;\n"
@@ -1074,13 +1107,13 @@ public:
 "                                        background-color:rgb(192, 192, 255);}"));
         label_titreEvent_7 = new QLabel(groupBox_15);
         label_titreEvent_7->setObjectName(QString::fromUtf8("label_titreEvent_7"));
-        label_titreEvent_7->setGeometry(QRect(180, 220, 81, 31));
+        label_titreEvent_7->setGeometry(QRect(50, 40, 81, 31));
         label_titreEvent_7->setStyleSheet(QString::fromUtf8("color:rgb(127, 124, 130);\n"
 "font: 8pt \"Tahoma\";\n"
 " font-family: Arial, sans-serif;"));
         supprimerPatient_3 = new QPushButton(groupBox_15);
         supprimerPatient_3->setObjectName(QString::fromUtf8("supprimerPatient_3"));
-        supprimerPatient_3->setGeometry(QRect(280, 340, 291, 61));
+        supprimerPatient_3->setGeometry(QRect(150, 90, 291, 61));
         supprimerPatient_3->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "width: 214.24px;\n"
 "height: 42.47px;\n"
@@ -1098,7 +1131,7 @@ public:
 "}"));
         pdf_2 = new QPushButton(groupBox_15);
         pdf_2->setObjectName(QString::fromUtf8("pdf_2"));
-        pdf_2->setGeometry(QRect(590, 340, 291, 61));
+        pdf_2->setGeometry(QRect(150, 250, 291, 61));
         pdf_2->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "width: 214.24px;\n"
 "height: 42.47px;\n"
@@ -1116,7 +1149,7 @@ public:
 "}"));
         mail = new QPushButton(groupBox_15);
         mail->setObjectName(QString::fromUtf8("mail"));
-        mail->setGeometry(QRect(280, 420, 291, 61));
+        mail->setGeometry(QRect(150, 170, 291, 61));
         mail->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "width: 214.24px;\n"
 "height: 42.47px;\n"
@@ -1323,6 +1356,7 @@ public:
 "color:white;\n"
 "\n"
 "background:rgb(207, 77, 206);}"));
+        affichePatient->setCheckable(false);
         supprimerPatient_2 = new QPushButton(groupBox);
         supprimerPatient_2->setObjectName(QString::fromUtf8("supprimerPatient_2"));
         supprimerPatient_2->setGeometry(QRect(410, 30, 151, 41));
@@ -1658,7 +1692,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1251, 21));
+        menubar->setGeometry(QRect(0, 0, 1162, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -1667,7 +1701,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget->setCurrentIndex(0);
-        stackedWidget_in->setCurrentIndex(1);
+        stackedWidget_in->setCurrentIndex(6);
         tabevents->setCurrentIndex(0);
         stackedWidget_2->setCurrentIndex(3);
 
@@ -1708,7 +1742,7 @@ public:
         label_titreEvent_3->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">nom</span></p><p><br/></p></body></html>", nullptr));
         label_descEvent_3->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">prenom</span></p><p><br/></p></body></html>", nullptr));
         label_genreEvent_3->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">etat</span></p></body></html>", nullptr));
-        radioButtonEnfant->setText(QCoreApplication::translate("MainWindow", "enfent", nullptr));
+        radioButtonEnfant->setText(QCoreApplication::translate("MainWindow", "Enfant", nullptr));
         label_descEvent_4->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>date de naissance</p></body></html>", nullptr));
         label_descEvent_5->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>photo</p><p><br/></p></body></html>", nullptr));
         label_descEvent_6->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>numero </p><p><br/></p></body></html>", nullptr));
@@ -1716,11 +1750,10 @@ public:
         AjouterUnEvent_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Ajouter un patient </span></p></body></html>", nullptr));
         validation_ajout_2->setText(QCoreApplication::translate("MainWindow", "Ajouter patient", nullptr));
         uploade_photo->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        radioButton->setText(QCoreApplication::translate("MainWindow", "Adult", nullptr));
+        radioButtonAdult->setText(QCoreApplication::translate("MainWindow", "Adult", nullptr));
         groupBox_12->setTitle(QString());
         AjouterUnEvent_3->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Afficher tous les patient </span></p></body></html>", nullptr));
-        label_titreEvent_4->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>filter:</p></body></html>", nullptr));
-        pdf->setText(QCoreApplication::translate("MainWindow", "pdf", nullptr));
+        label_titreEvent_4->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:700;\">Recherche :</span></p></body></html>", nullptr));
         groupBox_14->setTitle(QString());
         label_titreEvent_6->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">nom</span></p><p><br/></p></body></html>", nullptr));
         label_descEvent_13->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">prenom</span></p><p><br/></p></body></html>", nullptr));
@@ -1759,7 +1792,7 @@ public:
         tabevents->setTabText(tabevents->indexOf(tab_2), QCoreApplication::translate("MainWindow", "nombre evennement", nullptr));
         Ajouter_event->setText(QCoreApplication::translate("MainWindow", "Ajouter Even\303\251ments", nullptr));
         affichePatient->setText(QCoreApplication::translate("MainWindow", "afficher tous les patients", nullptr));
-        supprimerPatient_2->setText(QCoreApplication::translate("MainWindow", "supprimer un patient", nullptr));
+        supprimerPatient_2->setText(QCoreApplication::translate("MainWindow", "centre de control", nullptr));
         modifierPatient_2->setText(QCoreApplication::translate("MainWindow", "modifier un patient", nullptr));
         statisque->setText(QCoreApplication::translate("MainWindow", "statistique", nullptr));
         groupBox_4->setTitle(QString());

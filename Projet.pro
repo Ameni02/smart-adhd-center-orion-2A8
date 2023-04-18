@@ -21,8 +21,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ImageTableModel.cpp \
+    buttondelegate.cpp \
+    centeredtextdelegate.cpp \
     connect.cpp \
-    event.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -31,8 +33,10 @@ SOURCES += \
     smtp.cpp
 
 HEADERS += \
+    ImageTableModel.h \
+    buttondelegate.h \
+    centeredtextdelegate.h \
     connect.h \
-    event.h \
     login.h \
     mainwindow.h \
     mainwindow.h \
@@ -51,6 +55,7 @@ DISTFILES += \
 
 RESOURCES += \
     Tsawer.qrc
+
 
 FORMS += \
     login.ui \

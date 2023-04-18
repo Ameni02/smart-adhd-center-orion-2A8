@@ -1,5 +1,7 @@
+release/ImageTableModel.o
+release/buttondelegate.o
+release/centeredtextdelegate.o
 release/connect.o
-release/event.o
 release/login.o
 release/main.o
 release/mainwindow.o
@@ -7,6 +9,7 @@ release/patient.o
 release/qcustomplot.o
 release/smtp.o
 release/qrc_Tsawer.o
+release/moc_buttondelegate.o
 release/moc_login.o
 release/moc_mainwindow.o
 release/moc_qcustomplot.o

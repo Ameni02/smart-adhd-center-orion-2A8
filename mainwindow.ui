@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1251</width>
-    <height>781</height>
+    <width>1162</width>
+    <height>754</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>-30</x>
-      <y>20</y>
+      <x>-60</x>
+      <y>-40</y>
       <width>1251</width>
       <height>751</height>
      </rect>
@@ -377,7 +377,7 @@ background:rgb(207, 77, 206);}</string>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>6</number>
        </property>
        <widget class="QWidget" name="page_6">
         <widget class="QGroupBox" name="groupBox_2">
@@ -974,7 +974,7 @@ QRadioButton::indicator:checked {
 }</string>
           </property>
           <property name="text">
-           <string>enfent</string>
+           <string>Enfant</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_descEvent_4">
@@ -1194,14 +1194,37 @@ background:rgb(207, 77, 206);}</string>
            <string>PushButton</string>
           </property>
          </widget>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="radioButtonAdult">
           <property name="geometry">
            <rect>
-            <x>250</x>
-            <y>170</y>
-            <width>91</width>
-            <height>22</height>
+            <x>220</x>
+            <y>160</y>
+            <width>131</width>
+            <height>31</height>
            </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QRadioButton {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  padding: 2px 8px;
+  border: 1px solid ;
+  border-radius: 8px;
+  background-color:rgb(192, 192, 255);
+}
+
+QRadioButton::indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+
+QRadioButton::indicator:checked {
+  background-color:#7f7c82;
+}</string>
           </property>
           <property name="text">
            <string>Adult</string>
@@ -1225,20 +1248,57 @@ background:rgb(207, 77, 206);}</string>
          <widget class="QTableView" name="tableView">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>70</y>
-            <width>961</width>
-            <height>371</height>
+            <x>10</x>
+            <y>80</y>
+            <width>951</width>
+            <height>491</height>
            </rect>
           </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="tabletTracking">
+           <bool>true</bool>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTableWidget {
+        background-color: black; 
+        border-radius: 10px
+    }
+
+    QTableWidget::item {
+        color: #ff7777;                    
+        background-color: #2222fd;
+        margin-top: 5px;          
+        border-radius: 9px;
+        padding-left: 5px;
+    }
+
+    QTableWidget::item:selected {
+        background-color: yellow;
+        color: blue;
+    }</string>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>true</bool>
+          </attribute>
          </widget>
          <widget class="QLabel" name="AjouterUnEvent_3">
           <property name="geometry">
            <rect>
-            <x>300</x>
+            <x>310</x>
             <y>0</y>
             <width>361</width>
-            <height>41</height>
+            <height>71</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1255,9 +1315,9 @@ color:rgb(0, 0, 0);
          <widget class="QLineEdit" name="txtFilter">
           <property name="geometry">
            <rect>
-            <x>40</x>
+            <x>150</x>
             <y>20</y>
-            <width>291</width>
+            <width>151</width>
             <height>31</height>
            </rect>
           </property>
@@ -1276,9 +1336,9 @@ color:rgb(0, 0, 0);
          <widget class="QLabel" name="label_titreEvent_4">
           <property name="geometry">
            <rect>
-            <x>10</x>
+            <x>20</x>
             <y>20</y>
-            <width>81</width>
+            <width>131</width>
             <height>31</height>
            </rect>
           </property>
@@ -1288,44 +1348,25 @@ font: 8pt &quot;Tahoma&quot;;
  font-family: Arial, sans-serif;</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;filter:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pdf">
-          <property name="geometry">
-           <rect>
-            <x>770</x>
-            <y>10</y>
-            <width>151</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-width: 214.24px;
-height: 42.47px;
-left: 90px;
-top: 97px;
-color:rgb(0, 0, 0);
-background: #F0D9FF;
-border-radius: 10px;
-}
-QPushButton::hover
-{
-font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-color:white;
-
-background:rgb(207, 77, 206);}</string>
-          </property>
-          <property name="text">
-           <string>pdf</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700;&quot;&gt;Recherche :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
          <zorder>tableView</zorder>
          <zorder>AjouterUnEvent_3</zorder>
          <zorder>label_titreEvent_4</zorder>
          <zorder>txtFilter</zorder>
-         <zorder>pdf</zorder>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="page_16">
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="geometry">
+          <rect>
+           <x>5</x>
+           <y>1</y>
+           <width>961</width>
+           <height>571</height>
+          </rect>
+         </property>
         </widget>
        </widget>
        <widget class="QWidget" name="page_13"/>
@@ -1784,8 +1825,8 @@ background:rgb(207, 77, 206);}</string>
          <widget class="QLineEdit" name="IDPatient_2">
           <property name="geometry">
            <rect>
-            <x>280</x>
-            <y>210</y>
+            <x>150</x>
+            <y>30</y>
             <width>291</width>
             <height>31</height>
            </rect>
@@ -1805,8 +1846,8 @@ background:rgb(207, 77, 206);}</string>
          <widget class="QLabel" name="label_titreEvent_7">
           <property name="geometry">
            <rect>
-            <x>180</x>
-            <y>220</y>
+            <x>50</x>
+            <y>40</y>
             <width>81</width>
             <height>31</height>
            </rect>
@@ -1823,8 +1864,8 @@ font: 8pt &quot;Tahoma&quot;;
          <widget class="QPushButton" name="supprimerPatient_3">
           <property name="geometry">
            <rect>
-            <x>280</x>
-            <y>340</y>
+            <x>150</x>
+            <y>90</y>
             <width>291</width>
             <height>61</height>
            </rect>
@@ -1853,8 +1894,8 @@ color:black;
          <widget class="QPushButton" name="pdf_2">
           <property name="geometry">
            <rect>
-            <x>590</x>
-            <y>340</y>
+            <x>150</x>
+            <y>250</y>
             <width>291</width>
             <height>61</height>
            </rect>
@@ -1883,8 +1924,8 @@ color:black;
          <widget class="QPushButton" name="mail">
           <property name="geometry">
            <rect>
-            <x>280</x>
-            <y>420</y>
+            <x>150</x>
+            <y>170</y>
             <width>291</width>
             <height>61</height>
            </rect>
@@ -2314,6 +2355,9 @@ background:rgb(207, 77, 206);}</string>
        <property name="text">
         <string>afficher tous les patients</string>
        </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
       </widget>
       <widget class="QPushButton" name="supprimerPatient_2">
        <property name="geometry">
@@ -2342,7 +2386,7 @@ color:white;
 background:rgb(207, 77, 206);}</string>
        </property>
        <property name="text">
-        <string>supprimer un patient</string>
+        <string>centre de control</string>
        </property>
       </widget>
       <widget class="QPushButton" name="modifierPatient_2">
@@ -3022,7 +3066,7 @@ background-color: rgba( 255, 255, 255, 0% );</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1251</width>
+     <width>1162</width>
      <height>21</height>
     </rect>
    </property>

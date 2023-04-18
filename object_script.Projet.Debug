@@ -1,5 +1,7 @@
+debug/ImageTableModel.o
+debug/buttondelegate.o
+debug/centeredtextdelegate.o
 debug/connect.o
-debug/event.o
 debug/login.o
 debug/main.o
 debug/mainwindow.o
@@ -7,6 +9,7 @@ debug/patient.o
 debug/qcustomplot.o
 debug/smtp.o
 debug/qrc_Tsawer.o
+debug/moc_buttondelegate.o
 debug/moc_login.o
 debug/moc_mainwindow.o
 debug/moc_qcustomplot.o

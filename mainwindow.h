@@ -1,9 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "event.h"
 #include "patient.h"
 #include <QMainWindow>
 #include "smtp.h"
+#include <QBuffer>
+#include <QFile>
+#include <QPixmap>
+#include <QByteArray>
+#include "imagetablemodel.h"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -19,11 +24,11 @@ public:
     ~MainWindow();
 
 private slots:
-
+void onButtonClicked(const QModelIndex& index);
     void on_Ajouter_event_clicked();
     void on_Ajouter_patient_clicked();
 
-
+    void populateModel();
 
     void on_uploade_fichier_clicked();
 
@@ -55,11 +60,16 @@ private slots:
     void makePlot();
     void on_photo_patient_clicked();
     void sendMail();
+    QString currDate();
+
+    void on_supprimerPatient_3_clicked();
+
+    void on_affichePatient_new_clicked();
 
 private:
     Ui::MainWindow *ui;
-    Event Evt;
     Patient pat;
     QImage imagePatient,imagePatientTable;
+    QByteArray photoPatient;
 };
 #endif // MAINWINDOW_H

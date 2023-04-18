@@ -3,6 +3,9 @@
 #include<QSqlQueryModel>
 #include<QSqlTableModel>
 #include<QString>
+#include "QByteArray"
+#include "QBuffer"
+//#include "ImageTableModel.cpp"
 Patient::Patient()
 {
 id_patient = 0;
@@ -18,34 +21,46 @@ Patient::Patient(QString nom_patient,QString prenom_patient,QDateTime DOB,int nu
   this->num_patient=num_patient;
   this->num_urg=num_urg;
   this->etat_patient=etat_patient;
-  this->point=point;
 }
- bool Patient::ajouter_patient()
- {
-     QSqlQuery query;
-     QVariant nup = QVariant(num_patient);
-     QVariant nur = QVariant(num_urg);
-     query.prepare("INSERT INTO PATIENTS (NOM,PRENOM,DOB,PHOTO,NUMPERSO,NUMURGENCE,ETAT) values (:nom_patient,:prenom_patient , :DOB , :photo_patient,:num_patient , :num_urg, :etat_patient  )");
+bool Patient::ajouter_patient()
+{
+  QSqlQuery query;
+  QVariant nup = QVariant(num_patient);
+  QVariant nur = QVariant(num_urg);
+  query.prepare("INSERT INTO PATIENTS (NOM,PRENOM,DOB,NUMPERSO,NUMURGENCE,ETAT,PHOTO) values (:nom_patient,:prenom_patient , :DOB,:num_patient , :num_urg, :etat_patient  , :photo_patient)");
 
-     query.bindValue(":nom_patient",nom_patient);
-     query.bindValue(":prenom_patient",prenom_patient);
-     query.bindValue(":DOB",DOB);
-     query.bindValue(":photo_patient",photo_patient);
-     query.bindValue(":num_patient",nup);
-     query.bindValue(":num_urg",nur);
-     query.bindValue(":etat_patient",etat_patient);
+  query.bindValue(":nom_patient", nom_patient);
+  query.bindValue(":prenom_patient", prenom_patient);
+  query.bindValue(":DOB", DOB);
+  query.bindValue(":photo_patient", photo_patient);
+  query.bindValue(":num_patient", nup);
+  query.bindValue(":num_urg", nur);
+  query.bindValue(":etat_patient", etat_patient);
 
-     return query.exec();
- }
+  return query.exec();
+}
+
+
 QSqlQueryModel * Patient::afficher_patient()
  {
-    QSqlQueryModel * model=new QSqlQueryModel();
-    model->setQuery("SELECT * FROM PATIENTS");
+   QSqlQueryModel* model = new QSqlQueryModel();
+   model->setQuery("SELECT * FROM PATIENTS");
+
     model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("Nom"));
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("Prenom"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Date De Naissance"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("Numero Personelle"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Numero d'urgence"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Etat"));
+    model->setHeaderData(7,Qt::Horizontal,QObject::tr("Point Dex Recompence"));
+    model->setHeaderData(8,Qt::Horizontal,QObject::tr("Photo"));
+
     return model;
  }
+
+
+
 
 bool Patient::supprimer_patient(int id)
 {

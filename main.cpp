@@ -2,6 +2,7 @@
 #include "connect.h"
 #include <QApplication>
 #include <QMessageBox>
+#include <QFile>
 
 int main(int argc, char *argv[])
 {
@@ -18,9 +19,22 @@ int main(int argc, char *argv[])
 
 }
     else
+    {
         QMessageBox::critical(nullptr, QObject::tr("database is not open"),
                     QObject::tr("connection failed.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
+}
+//open qss file
+/*QFile file("Irrorater.qss");
+file.open(QFile::ReadOnly);
+
+QString styleSheet { QLatin1String(file.readAll()) };
+
+//setup stylesheet
+a.setStyleSheet(styleSheet);
+
+//run
+w.show();*/
 
 
    return a.exec();
