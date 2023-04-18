@@ -22,7 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ImageTableModel.cpp \
-    buttondelegate.cpp \
     centeredtextdelegate.cpp \
     connect.cpp \
     login.cpp \
@@ -34,7 +33,6 @@ SOURCES += \
 
 HEADERS += \
     ImageTableModel.h \
-    buttondelegate.h \
     centeredtextdelegate.h \
     connect.h \
     login.h \

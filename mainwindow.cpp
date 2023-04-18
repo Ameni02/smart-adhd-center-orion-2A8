@@ -88,13 +88,6 @@ ui->    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 
 
-    // Create and set the custom delegate to the last column of the table view
-    ButtonDelegate* buttonDelegate = new ButtonDelegate(ui->tableView);
-    ui->tableView->setItemDelegateForColumn(ui->tableView->model()->columnCount() - 1, buttonDelegate);
-    // Connect the buttonClicked() signal to a slot
-      int id=ui->IDPatient_2->text().toInt();
-    connect(buttonDelegate, &ButtonDelegate::buttonClicked, this, &MainWindow::onButtonClicked); // Replace MyClass::onButtonClicked with the appropriate slot function
-
 
 
 }
