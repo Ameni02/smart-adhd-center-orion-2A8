@@ -98,7 +98,7 @@ void MainWindow::on_Equipements_clicked()
 
 void MainWindow::on_supprimer_equipement_clicked()
 {
-  ui->stackedWidget_in->setCurrentIndex(4);
+  ui->stackedWidget_in->setCurrentIndex(6);
 }
 
 
