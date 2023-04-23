@@ -63,7 +63,7 @@ void Notification::notification_ajoutEquipement()
                   QIcon icon("C:/Users/zbira/Desktop/Projetameni/LOGO.png");
                   notifyIcon->setIcon(icon);
                   notifyIcon->show();
-                     notifyIcon->showMessage("Vous avez un équipement qui n'a pas été utilisé pendant plus de 7 jours "," veuillez vérifier son état ",QSystemTrayIcon::Information,15000);
+                     notifyIcon->showMessage("un équipement qui n'a pas été utilisé pendant plus de 7 jours "," veuillez vérifier son état ",QSystemTrayIcon::Information,15000);
 
               }
           }
