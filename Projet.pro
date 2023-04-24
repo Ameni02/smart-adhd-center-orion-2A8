@@ -4,6 +4,7 @@ QT       += core gui sql printsupport multimediawidgets
 
 
 QT += core gui charts
+QT       += core gui  serialport
 
 
 
@@ -24,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Qrcode.cpp \
+    arduino.cpp \
     connection.cpp \
     equipements.cpp \
     main.cpp \
@@ -32,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
     Qrcode.h \
+    arduino.h \
     connection.h \
     equipements.h \
     mainwindow.h \
