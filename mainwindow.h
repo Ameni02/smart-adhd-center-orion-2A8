@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 #include"equipements.h"
 #include <QMainWindow>
-
+#include "arduino.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -64,13 +64,16 @@ private slots:
 
     void on_table_equip_activated(const QModelIndex &index);
 
-
+    void update_label();
 
     void on_pdf_btn_2_clicked();
 
 private:
     Ui::MainWindow *ui;
     Equipements E;
+    QByteArray data; // variable contenant les données reçues
+
+    Arduino A; // objet temporaire
     //Ajouter un attribut à la classe mainwindow qui correspond à un objet de la classe equipement pour pouvoir faire appel à la méthode supprimer ()
 };
 #endif // MAINWINDOW_H

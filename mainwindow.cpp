@@ -23,7 +23,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include<QSystemTrayIcon>
-#include<notification.h>
+#include"notification.h"
+
 using namespace qrcodegen;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,6 +32,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     //le slot update_label suite à la reception du signal readyRead (reception des données).
     Notification n ;
       n.notification_ajoutEquipement();
 
@@ -79,6 +90,24 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::update_label()
+{
+    QString data = A.read_from_arduino().trimmed();
+    qDebug() << data;
+    QSqlQuery query2;
+    query2.prepare("SELECT NOM FROM EQUIPEMENTS WHERE IDEQUIPEMENT = :data");
+    query2.bindValue(":data", data);
+    if (query2.exec() && query2.next()) {
+        qDebug() << "Requête SQL réussie";
+        QString titreEvent = query2.value("NOM").toString();
+        QByteArray data2 = titreEvent.toUtf8();
+        A.write_to_arduino(data2);
+    } else {
+        qDebug() << "Requête SQL échouée";
+    }
+}
+
 
 
 void MainWindow::on_Ajouter_equipement_clicked()
