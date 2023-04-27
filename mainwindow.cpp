@@ -18,6 +18,7 @@
 #include <QPrintDialog>
 #include <QPixmap>
 #include <QAxBase>
+#include  <arduino.h>
 
 
 
@@ -34,8 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
        break;
     case(-1):qDebug() << "arduino is not available";
     }
-     //QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(fingerarduino())); // permet de lancer
      //le slot update_label suite à la reception du signal readyRead (reception des données).
+
+
 
     //refrech l'affichage
     ui->tableView_events->setModel(Evt.afficher_event());
@@ -127,6 +130,10 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
     ui->axWidget->dynamicCall("Navigate(const QString&)", "file:///C:/Users/Mozrani%20amine/Desktop/Projet/projet/index.html");
 
+
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -134,6 +141,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::fingerarduino()
+{
+    qDebug() << "update label";
+    QByteArray data = A.read_from_arduino();
+    QString id = QString::fromUtf8(data).trimmed().simplified();
+    id = id.remove(QRegExp("[^\\d]")); // remove all non-numeric characters
+    int id_num = id.toInt(); // convert the resulting string to an integer
+    qDebug() << "ID de l'empreinte digitale:" << id_num;
+
+    QSqlQuery query2;
+          query2.prepare("SELECT IDEVENT FROM EVENTS WHERE IDEVENT =:id_num");
+          query2.bindValue(":id_num", id_num);
+          query2.exec();
+
+          if (query2.next()) {
+              QString titreEvent = query2.value("IDEVENT").toString();
+              QByteArray data2 = titreEvent.toUtf8();
+                        A.write_to_arduino(data2);
+                       qDebug() << "Ihoha" << data2;
+          }
+
+
+}
+void MainWindow::testy()
+{
+  qDebug() << "test";
+  fingerarduino();
+}
 void MainWindow::on_Ajouter_event_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(0);
@@ -721,12 +757,13 @@ void MainWindow::on_EmissionCO2_clicked()
 void MainWindow::on_pdf_Event_test_clicked()
 {
 
-    QSqlDatabase db;
+       QSqlDatabase db;
 
        QTableView tableView;
        QSqlQueryModel * Modal=new  QSqlQueryModel();
        QSqlQuery qry;
-       qry.prepare("SELECT* FROM EVENTS");
+       QString titre = ui->lineEdit_chercheEvent->text();
+       qry.prepare("select * from EVENTS WHERE LOWER(NOM) LIKE LOWER('%"+titre+"%')");
        qry.exec();
        Modal->setQuery(qry);
           tableView.setModel(Modal);
@@ -819,15 +856,9 @@ void MainWindow::on_Settings_2_clicked()
 
 }
 
-void MainWindow::on_pushButton_PORT_ON_clicked()
-{
-     A.write_to_arduino("1");
-}
 
-void MainWindow::on_pushButton_OFF_PORT_clicked()
-{
-    A.write_to_arduino("0");
-}
+
+
 
 void MainWindow::on_botton_selsct_event_2_clicked()
 {

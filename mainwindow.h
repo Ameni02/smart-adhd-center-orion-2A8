@@ -73,17 +73,15 @@ private slots:
 
     void on_Settings_2_clicked();
 
-    void on_pushButton_PORT_ON_clicked();
 
-    void on_pushButton_OFF_PORT_clicked();
 
     void on_comboBox_selest_currentTextChanged(const QString &arg1);
 
     void on_botton_selsct_event_2_clicked();
 
     void on_botton_selsct_event_clicked();
-
-
+    void fingerarduino();
+    void testy();
 
 private:
     Ui::MainWindow *ui;

@@ -60,9 +60,12 @@ int arduino::close_arduino()
 {
     if(serial->isReadable()){
          data=serial->readAll(); //récupérer les données reçues
-
+             }
+         else{
+                 qDebug() << "Couldn't read to serial!";
+             }
          return data;
-    }
+
  }
 
 
