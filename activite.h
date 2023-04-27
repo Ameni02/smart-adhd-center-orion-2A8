@@ -42,6 +42,7 @@ QChartView * Stat();
 //calender
 void ajouterActivite(QCalendarWidget *calendrier);
 
+
 private:
 
 };
@@ -54,9 +55,11 @@ public:
    Tache();
    Tache(int,QString,QString,QString);
 
-
+  int getid_tache();
+   void setid_tache(int);
 bool ajouter_tache();
 QSqlQueryModel * afficher_tache();
+bool supprmier_tache(int);
 private:
 
 };

@@ -49,7 +49,14 @@ Tache::Tache(int idtache, QString Nom_inter, QString Nom_tache, QString Etat)
     this->Nom_tache=Nom_tache;
     this->Etat=Etat;
 }
-
+int Tache::getid_tache()
+{
+    return idtache;
+}
+void Tache::setid_tache(int idtache)
+{
+    this->idtache=idtache;
+}
 int activite::getid(){
     return idactivite;
 }
@@ -158,7 +165,17 @@ return query.exec();
 
     return query.exec();
 }
+bool Tache::supprmier_tache(int id)
+{
+    QSqlQuery query;
 
+    query.prepare(" Delete from TACHE where IDTACHE=:id");
+    query.bindValue(0,id);
+
+return query.exec();
+
+    return query.exec();
+}
 bool activite::modifier(int idactivite)
 {
 
@@ -341,4 +358,6 @@ void ajouterActivite(QCalendarWidget *calendrier)
 }
 
 */
+
+
 

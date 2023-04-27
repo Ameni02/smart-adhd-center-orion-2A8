@@ -2,10 +2,13 @@
 #include "connect.h"
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
+
      Connect c;
     bool test=c.createconnect();//la conx est la
         MainWindow w; // appel du constructeur

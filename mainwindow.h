@@ -99,10 +99,22 @@ private slots:
 
    void on_le_chercher_textChanged(const QString &arg1);
 
+   void on_supprimetodo_clicked();
+   void ajouttodo();
+
+   void done();
+
+   void done2();
+
+   void load();
+
+   void inprogress();
+   void on_b1_clicked();
+
+   void on_table_act_activated(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
-    activite A;
-    Tache T;
-   calender_A H;
+
 };
 #endif // MAINWINDOW_H
