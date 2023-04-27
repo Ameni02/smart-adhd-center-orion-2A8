@@ -100,6 +100,10 @@ public:
     QLabel *AjouterUnEvent_3;
     QLineEdit *txtFilter;
     QLabel *label_titreEvent_4;
+    QPushButton *expoterdb;
+    QPushButton *exportxl;
+    QPushButton *deletall;
+    QPushButton *deletall_2;
     QWidget *page_16;
     QTableWidget *tableWidget;
     QWidget *page_13;
@@ -124,13 +128,14 @@ public:
     QLineEdit *nom_patient_4;
     QLabel *label_titreEvent_8;
     QPushButton *photo_patient;
+    QPushButton *pdf_3;
+    QPushButton *mail;
+    QPushButton *pdf_2;
     QWidget *page_14;
     QGroupBox *groupBox_15;
     QLineEdit *IDPatient_2;
     QLabel *label_titreEvent_7;
     QPushButton *supprimerPatient_3;
-    QPushButton *pdf_2;
-    QPushButton *mail;
     QWidget *page_12;
     QGroupBox *groupBox_13;
     QLabel *label_10;
@@ -153,6 +158,16 @@ public:
     QLCDNumber *lcdNumber;
     QLabel *label_nbGIF;
     QPushButton *Ajouter_event;
+    QWidget *page_17;
+    QGroupBox *groupBox_16;
+    QLabel *label_12;
+    QPushButton *pushButton_5;
+    QPushButton *pushButton_6;
+    QPushButton *pushButton_7;
+    QPushButton *pushButton_8;
+    QPushButton *pushButton_9;
+    QPushButton *pushButton_10;
+    QPushButton *pushButton_11;
     QPushButton *affichePatient;
     QPushButton *supprimerPatient_2;
     QPushButton *modifierPatient_2;
@@ -830,7 +845,7 @@ public:
         tableView->verticalHeader()->setVisible(true);
         AjouterUnEvent_3 = new QLabel(groupBox_12);
         AjouterUnEvent_3->setObjectName(QString::fromUtf8("AjouterUnEvent_3"));
-        AjouterUnEvent_3->setGeometry(QRect(310, 0, 361, 71));
+        AjouterUnEvent_3->setGeometry(QRect(250, 0, 361, 71));
         AjouterUnEvent_3->setStyleSheet(QString::fromUtf8("text-shadow: 5px 5px 5px black;\n"
 "color:rgb(0, 0, 0);\n"
 " font-family: Arial, sans-serif;\n"
@@ -854,10 +869,86 @@ public:
         label_titreEvent_4->setStyleSheet(QString::fromUtf8("color:rgb(127, 124, 130);\n"
 "font: 8pt \"Tahoma\";\n"
 " font-family: Arial, sans-serif;"));
+        expoterdb = new QPushButton(groupBox_12);
+        expoterdb->setObjectName(QString::fromUtf8("expoterdb"));
+        expoterdb->setGeometry(QRect(560, 20, 81, 31));
+        expoterdb->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        exportxl = new QPushButton(groupBox_12);
+        exportxl->setObjectName(QString::fromUtf8("exportxl"));
+        exportxl->setGeometry(QRect(650, 20, 81, 31));
+        exportxl->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        deletall = new QPushButton(groupBox_12);
+        deletall->setObjectName(QString::fromUtf8("deletall"));
+        deletall->setGeometry(QRect(840, 20, 91, 31));
+        deletall->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        deletall_2 = new QPushButton(groupBox_12);
+        deletall_2->setObjectName(QString::fromUtf8("deletall_2"));
+        deletall_2->setGeometry(QRect(740, 20, 91, 31));
+        deletall_2->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
         tableView->raise();
         AjouterUnEvent_3->raise();
         label_titreEvent_4->raise();
         txtFilter->raise();
+        expoterdb->raise();
+        exportxl->raise();
+        deletall->raise();
+        deletall_2->raise();
         stackedWidget_in->addWidget(page_9);
         page_16 = new QWidget();
         page_16->setObjectName(QString::fromUtf8("page_16"));
@@ -1035,7 +1126,7 @@ public:
 "  font-weight: bold;"));
         updat_done = new QPushButton(groupBox_14);
         updat_done->setObjectName(QString::fromUtf8("updat_done"));
-        updat_done->setGeometry(QRect(380, 440, 301, 61));
+        updat_done->setGeometry(QRect(600, 280, 291, 61));
         updat_done->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "width: 214.24px;\n"
 "height: 42.47px;\n"
@@ -1087,6 +1178,60 @@ public:
 "color:white;\n"
 "\n"
 "background:rgb(207, 77, 206);}"));
+        pdf_3 = new QPushButton(groupBox_14);
+        pdf_3->setObjectName(QString::fromUtf8("pdf_3"));
+        pdf_3->setGeometry(QRect(600, 210, 291, 61));
+        pdf_3->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        mail = new QPushButton(groupBox_14);
+        mail->setObjectName(QString::fromUtf8("mail"));
+        mail->setGeometry(QRect(600, 70, 291, 61));
+        mail->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pdf_2 = new QPushButton(groupBox_14);
+        pdf_2->setObjectName(QString::fromUtf8("pdf_2"));
+        pdf_2->setGeometry(QRect(600, 140, 291, 61));
+        pdf_2->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
         stackedWidget_in->addWidget(page_15);
         page_14 = new QWidget();
         page_14->setObjectName(QString::fromUtf8("page_14"));
@@ -1115,42 +1260,6 @@ public:
         supprimerPatient_3->setObjectName(QString::fromUtf8("supprimerPatient_3"));
         supprimerPatient_3->setGeometry(QRect(150, 90, 291, 61));
         supprimerPatient_3->setStyleSheet(QString::fromUtf8("QPushButton{\n"
-"width: 214.24px;\n"
-"height: 42.47px;\n"
-"left: 90px;\n"
-"top: 97px;\n"
-"color:white;\n"
-"\n"
-"background:rgb(207, 77, 206);\n"
-"border-radius: 10px;\n"
-"}\n"
-"QPushButton::hover\n"
-"{\n"
-"background: #F0D9FF;\n"
-"color:black;\n"
-"}"));
-        pdf_2 = new QPushButton(groupBox_15);
-        pdf_2->setObjectName(QString::fromUtf8("pdf_2"));
-        pdf_2->setGeometry(QRect(150, 250, 291, 61));
-        pdf_2->setStyleSheet(QString::fromUtf8("QPushButton{\n"
-"width: 214.24px;\n"
-"height: 42.47px;\n"
-"left: 90px;\n"
-"top: 97px;\n"
-"color:white;\n"
-"\n"
-"background:rgb(207, 77, 206);\n"
-"border-radius: 10px;\n"
-"}\n"
-"QPushButton::hover\n"
-"{\n"
-"background: #F0D9FF;\n"
-"color:black;\n"
-"}"));
-        mail = new QPushButton(groupBox_15);
-        mail->setObjectName(QString::fromUtf8("mail"));
-        mail->setGeometry(QRect(150, 170, 291, 61));
-        mail->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "width: 214.24px;\n"
 "height: 42.47px;\n"
 "left: 90px;\n"
@@ -1338,6 +1447,150 @@ public:
 "color:black;\n"
 "}"));
         stackedWidget_in->addWidget(Page_event);
+        page_17 = new QWidget();
+        page_17->setObjectName(QString::fromUtf8("page_17"));
+        groupBox_16 = new QGroupBox(page_17);
+        groupBox_16->setObjectName(QString::fromUtf8("groupBox_16"));
+        groupBox_16->setGeometry(QRect(0, 0, 971, 611));
+        label_12 = new QLabel(groupBox_16);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setGeometry(QRect(40, 30, 861, 71));
+        label_12->setStyleSheet(QString::fromUtf8("QLabel{ \n"
+"                                      background-color:rgb(192, 192, 255);\n"
+"                                        border: 2px solid gray;\n"
+"                                        border-radius: 10px;\n"
+"                                        padding: 0 8px;\n"
+"                                        selection-background-color: darkgray;\n"
+"                                        font-size: 16px;}\n"
+"                                        QLineEdit:focus { \n"
+"                                        background-color:rgb(192, 192, 255);}"));
+        pushButton_5 = new QPushButton(groupBox_16);
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        pushButton_5->setGeometry(QRect(70, 190, 121, 111));
+        pushButton_5->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_6 = new QPushButton(groupBox_16);
+        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
+        pushButton_6->setGeometry(QRect(250, 190, 121, 111));
+        pushButton_6->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_7 = new QPushButton(groupBox_16);
+        pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
+        pushButton_7->setGeometry(QRect(320, 360, 121, 111));
+        pushButton_7->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_8 = new QPushButton(groupBox_16);
+        pushButton_8->setObjectName(QString::fromUtf8("pushButton_8"));
+        pushButton_8->setGeometry(QRect(540, 360, 121, 111));
+        pushButton_8->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_9 = new QPushButton(groupBox_16);
+        pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
+        pushButton_9->setGeometry(QRect(430, 190, 121, 111));
+        pushButton_9->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_10 = new QPushButton(groupBox_16);
+        pushButton_10->setObjectName(QString::fromUtf8("pushButton_10"));
+        pushButton_10->setGeometry(QRect(610, 190, 121, 111));
+        pushButton_10->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        pushButton_11 = new QPushButton(groupBox_16);
+        pushButton_11->setObjectName(QString::fromUtf8("pushButton_11"));
+        pushButton_11->setGeometry(QRect(800, 190, 121, 111));
+        pushButton_11->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"width: 214.24px;\n"
+"height: 42.47px;\n"
+"left: 90px;\n"
+"top: 97px;\n"
+"color:white;\n"
+"\n"
+"background:rgb(207, 77, 206);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover\n"
+"{\n"
+"background: #F0D9FF;\n"
+"color:black;\n"
+"}"));
+        stackedWidget_in->addWidget(page_17);
         affichePatient = new QPushButton(groupBox);
         affichePatient->setObjectName(QString::fromUtf8("affichePatient"));
         affichePatient->setGeometry(QRect(240, 30, 151, 41));
@@ -1701,7 +1954,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget->setCurrentIndex(0);
-        stackedWidget_in->setCurrentIndex(6);
+        stackedWidget_in->setCurrentIndex(10);
         tabevents->setCurrentIndex(0);
         stackedWidget_2->setCurrentIndex(3);
 
@@ -1754,6 +2007,10 @@ public:
         groupBox_12->setTitle(QString());
         AjouterUnEvent_3->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Afficher tous les patient </span></p></body></html>", nullptr));
         label_titreEvent_4->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:700;\">Recherche :</span></p></body></html>", nullptr));
+        expoterdb->setText(QCoreApplication::translate("MainWindow", "Exporter PDF", nullptr));
+        exportxl->setText(QCoreApplication::translate("MainWindow", "Exporter Excel", nullptr));
+        deletall->setText(QCoreApplication::translate("MainWindow", "supprimer tout", nullptr));
+        deletall_2->setText(QCoreApplication::translate("MainWindow", "suprimer ", nullptr));
         groupBox_14->setTitle(QString());
         label_titreEvent_6->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">nom</span></p><p><br/></p></body></html>", nullptr));
         label_descEvent_13->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt;\">prenom</span></p><p><br/></p></body></html>", nullptr));
@@ -1768,11 +2025,12 @@ public:
         updat_done->setText(QCoreApplication::translate("MainWindow", "modifier", nullptr));
         label_titreEvent_8->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>id</p></body></html>", nullptr));
         photo_patient->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        pdf_3->setText(QCoreApplication::translate("MainWindow", "pdf", nullptr));
+        mail->setText(QCoreApplication::translate("MainWindow", "envoyer un email", nullptr));
+        pdf_2->setText(QCoreApplication::translate("MainWindow", "pdf", nullptr));
         groupBox_15->setTitle(QString());
         label_titreEvent_7->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>ID Patient</p><p><br/></p></body></html>", nullptr));
         supprimerPatient_3->setText(QCoreApplication::translate("MainWindow", "supprimer patient", nullptr));
-        pdf_2->setText(QCoreApplication::translate("MainWindow", "pdf", nullptr));
-        mail->setText(QCoreApplication::translate("MainWindow", "envoyer un email", nullptr));
         groupBox_13->setTitle(QString());
         label_10->setText(QCoreApplication::translate("MainWindow", "Adult", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Enfant", nullptr));
@@ -1791,9 +2049,18 @@ public:
         label_nbGIF->setText(QString());
         tabevents->setTabText(tabevents->indexOf(tab_2), QCoreApplication::translate("MainWindow", "nombre evennement", nullptr));
         Ajouter_event->setText(QCoreApplication::translate("MainWindow", "Ajouter Even\303\251ments", nullptr));
+        groupBox_16->setTitle(QString());
+        label_12->setText(QString());
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "first activity", nullptr));
+        pushButton_6->setText(QCoreApplication::translate("MainWindow", "second activity", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("MainWindow", "pause", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("MainWindow", "play", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("MainWindow", "third activity", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("MainWindow", "Welcome", nullptr));
+        pushButton_11->setText(QCoreApplication::translate("MainWindow", "Bye", nullptr));
         affichePatient->setText(QCoreApplication::translate("MainWindow", "afficher tous les patients", nullptr));
         supprimerPatient_2->setText(QCoreApplication::translate("MainWindow", "centre de control", nullptr));
-        modifierPatient_2->setText(QCoreApplication::translate("MainWindow", "modifier un patient", nullptr));
+        modifierPatient_2->setText(QCoreApplication::translate("MainWindow", "centre de control", nullptr));
         statisque->setText(QCoreApplication::translate("MainWindow", "statistique", nullptr));
         groupBox_4->setTitle(QString());
         groupBox_5->setTitle(QString());

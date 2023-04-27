@@ -43,6 +43,7 @@ public:
     bool modifier(int);
     QSqlQueryModel *afficherRecherche(QString );
 
+    bool supprimer_patients();
 };
 
 #endif // PATIENT_H

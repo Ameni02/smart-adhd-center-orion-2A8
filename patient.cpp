@@ -70,6 +70,12 @@ bool Patient::supprimer_patient(int id)
     query.bindValue(":id",res);
     return query.exec();
 }
+bool Patient::supprimer_patients()
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM PATIENTS");
+    return query.exec();
+}
 bool Patient::modifier(int i)
 {
 

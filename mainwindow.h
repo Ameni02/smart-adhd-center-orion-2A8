@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "arduino.h"
 #include "patient.h"
 #include <QMainWindow>
 #include "smtp.h"
@@ -24,26 +25,23 @@ public:
     ~MainWindow();
 
 private slots:
-void onButtonClicked(const QModelIndex& index);
+    void update_label();   // slot permettant la mise à jour du label état de la lampe 1,
+    // ce slot est lancé à chaque réception d'un message de Arduino
+
     void on_Ajouter_event_clicked();
     void on_Ajouter_patient_clicked();
 
     void populateModel();
 
-    void on_uploade_fichier_clicked();
 
     void on_Events_clicked();
     void on_patients_clicked();
 
-    void on_validation_ajout_clicked();
-    void on_validation_ajout_patient_clicked();
 
     void on_Patients_clicked();
 
     void on_validation_ajout_2_clicked();
 
-
-    void on_supprimerPatient_clicked();
     void on_affichePatient_clicked();
 
     void on_supprimerPatient_2_clicked();
@@ -60,16 +58,34 @@ void onButtonClicked(const QModelIndex& index);
     void makePlot();
     void on_photo_patient_clicked();
     void sendMail();
-    QString currDate();
 
     void on_supprimerPatient_3_clicked();
 
-    void on_affichePatient_new_clicked();
+
+    void on_expoterdb_clicked();
+
+    void on_exportxl_clicked();
+
+    void on_deletall_clicked();
+
+    void on_deletall_2_clicked();
+
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
+    void on_pushButton_8_clicked();
+    void on_pushButton_9_clicked();
+
+    void on_pushButton_10_clicked();
+
+    void on_pushButton_11_clicked();
 
 private:
     Ui::MainWindow *ui;
     Patient pat;
     QImage imagePatient,imagePatientTable;
     QByteArray photoPatient;
+    Arduino A;
+    QByteArray data;
 };
 #endif // MAINWINDOW_H

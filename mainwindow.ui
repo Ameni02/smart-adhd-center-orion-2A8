@@ -377,7 +377,7 @@ background:rgb(207, 77, 206);}</string>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>6</number>
+        <number>10</number>
        </property>
        <widget class="QWidget" name="page_6">
         <widget class="QGroupBox" name="groupBox_2">
@@ -1295,7 +1295,7 @@ QRadioButton::indicator:checked {
          <widget class="QLabel" name="AjouterUnEvent_3">
           <property name="geometry">
            <rect>
-            <x>310</x>
+            <x>250</x>
             <y>0</y>
             <width>361</width>
             <height>71</height>
@@ -1351,10 +1351,134 @@ font: 8pt &quot;Tahoma&quot;;
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700;&quot;&gt;Recherche :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
+         <widget class="QPushButton" name="expoterdb">
+          <property name="geometry">
+           <rect>
+            <x>560</x>
+            <y>20</y>
+            <width>81</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Exporter PDF</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="exportxl">
+          <property name="geometry">
+           <rect>
+            <x>650</x>
+            <y>20</y>
+            <width>81</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Exporter Excel</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="deletall">
+          <property name="geometry">
+           <rect>
+            <x>840</x>
+            <y>20</y>
+            <width>91</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>supprimer tout</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="deletall_2">
+          <property name="geometry">
+           <rect>
+            <x>740</x>
+            <y>20</y>
+            <width>91</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>suprimer </string>
+          </property>
+         </widget>
          <zorder>tableView</zorder>
          <zorder>AjouterUnEvent_3</zorder>
          <zorder>label_titreEvent_4</zorder>
          <zorder>txtFilter</zorder>
+         <zorder>expoterdb</zorder>
+         <zorder>exportxl</zorder>
+         <zorder>deletall</zorder>
+         <zorder>deletall_2</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="page_16">
@@ -1711,9 +1835,9 @@ color:rgb(0, 0, 0);
          <widget class="QPushButton" name="updat_done">
           <property name="geometry">
            <rect>
-            <x>380</x>
-            <y>440</y>
-            <width>301</width>
+            <x>600</x>
+            <y>280</y>
+            <width>291</width>
             <height>61</height>
            </rect>
           </property>
@@ -1807,6 +1931,96 @@ background:rgb(207, 77, 206);}</string>
            <string>PushButton</string>
           </property>
          </widget>
+         <widget class="QPushButton" name="pdf_3">
+          <property name="geometry">
+           <rect>
+            <x>600</x>
+            <y>210</y>
+            <width>291</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>pdf</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="mail">
+          <property name="geometry">
+           <rect>
+            <x>600</x>
+            <y>70</y>
+            <width>291</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>envoyer un email</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pdf_2">
+          <property name="geometry">
+           <rect>
+            <x>600</x>
+            <y>140</y>
+            <width>291</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>pdf</string>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="page_14">
@@ -1889,66 +2103,6 @@ color:black;
           </property>
           <property name="text">
            <string>supprimer patient</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pdf_2">
-          <property name="geometry">
-           <rect>
-            <x>150</x>
-            <y>250</y>
-            <width>291</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-width: 214.24px;
-height: 42.47px;
-left: 90px;
-top: 97px;
-color:white;
-
-background:rgb(207, 77, 206);
-border-radius: 10px;
-}
-QPushButton::hover
-{
-background: #F0D9FF;
-color:black;
-}</string>
-          </property>
-          <property name="text">
-           <string>pdf</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="mail">
-          <property name="geometry">
-           <rect>
-            <x>150</x>
-            <y>170</y>
-            <width>291</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-width: 214.24px;
-height: 42.47px;
-left: 90px;
-top: 97px;
-color:white;
-
-background:rgb(207, 77, 206);
-border-radius: 10px;
-}
-QPushButton::hover
-{
-background: #F0D9FF;
-color:black;
-}</string>
-          </property>
-          <property name="text">
-           <string>envoyer un email</string>
           </property>
          </widget>
         </widget>
@@ -2325,6 +2479,255 @@ color:black;
          </property>
         </widget>
        </widget>
+       <widget class="QWidget" name="page_17">
+        <widget class="QGroupBox" name="groupBox_16">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>971</width>
+           <height>611</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QLabel" name="label_12">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>30</y>
+            <width>861</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel{ 
+                                      background-color:rgb(192, 192, 255);
+                                        border: 2px solid gray;
+                                        border-radius: 10px;
+                                        padding: 0 8px;
+                                        selection-background-color: darkgray;
+                                        font-size: 16px;}
+                                        QLineEdit:focus { 
+                                        background-color:rgb(192, 192, 255);}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="geometry">
+           <rect>
+            <x>70</x>
+            <y>190</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>first activity</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_6">
+          <property name="geometry">
+           <rect>
+            <x>250</x>
+            <y>190</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>second activity</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_7">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>360</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>pause</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_8">
+          <property name="geometry">
+           <rect>
+            <x>540</x>
+            <y>360</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>play</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_9">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>190</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>third activity</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_10">
+          <property name="geometry">
+           <rect>
+            <x>610</x>
+            <y>190</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Welcome</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_11">
+          <property name="geometry">
+           <rect>
+            <x>800</x>
+            <y>190</y>
+            <width>121</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+width: 214.24px;
+height: 42.47px;
+left: 90px;
+top: 97px;
+color:white;
+
+background:rgb(207, 77, 206);
+border-radius: 10px;
+}
+QPushButton::hover
+{
+background: #F0D9FF;
+color:black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Bye</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
       </widget>
       <widget class="QPushButton" name="affichePatient">
        <property name="geometry">
@@ -2416,7 +2819,7 @@ color:white;
 background:rgb(207, 77, 206);}</string>
        </property>
        <property name="text">
-        <string>modifier un patient</string>
+        <string>centre de control</string>
        </property>
       </widget>
       <widget class="QPushButton" name="statisque">

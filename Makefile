@@ -233,6 +233,7 @@ Makefile: Projet.pro ../../../../Qt/5.15.2/mingw81_32/mkspecs/win32-g++/qmake.co
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/toolchain.prf \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/default_pre.prf \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/win32/default_pre.prf \
+		QXlsx.pri \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/resolve_config.prf \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/exclusive_builds_post.prf \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/default_post.prf \
@@ -258,6 +259,7 @@ Makefile: Projet.pro ../../../../Qt/5.15.2/mingw81_32/mkspecs/win32-g++/qmake.co
 		../../../../Qt/5.15.2/mingw81_32/lib/Qt5Gui.prl \
 		../../../../Qt/5.15.2/mingw81_32/lib/Qt5Sql.prl \
 		../../../../Qt/5.15.2/mingw81_32/lib/Qt5Network.prl \
+		../../../../Qt/5.15.2/mingw81_32/lib/Qt5SerialPort.prl \
 		../../../../Qt/5.15.2/mingw81_32/lib/Qt5Core.prl \
 		../../../../Qt/5.15.2/mingw81_32/mkspecs/features/build_pass.prf \
 		Tsawer.qrc
@@ -425,6 +427,7 @@ Makefile: Projet.pro ../../../../Qt/5.15.2/mingw81_32/mkspecs/win32-g++/qmake.co
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/toolchain.prf:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/default_pre.prf:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/win32/default_pre.prf:
+QXlsx.pri:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/resolve_config.prf:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/exclusive_builds_post.prf:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/default_post.prf:
@@ -450,6 +453,7 @@ Projet.pro:
 ../../../../Qt/5.15.2/mingw81_32/lib/Qt5Gui.prl:
 ../../../../Qt/5.15.2/mingw81_32/lib/Qt5Sql.prl:
 ../../../../Qt/5.15.2/mingw81_32/lib/Qt5Network.prl:
+../../../../Qt/5.15.2/mingw81_32/lib/Qt5SerialPort.prl:
 ../../../../Qt/5.15.2/mingw81_32/lib/Qt5Core.prl:
 ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/build_pass.prf:
 Tsawer.qrc:

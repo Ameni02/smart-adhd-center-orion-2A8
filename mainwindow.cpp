@@ -5,7 +5,6 @@
 #include <QMessageBox>
 #include <QMovie>
 #include <QtGui>
-#include "event.h"
 #include "patient.h"
 #include <QCloseEvent>
 #include <QSqlRecord>
@@ -23,8 +22,11 @@
 #include <QTableView>
 #include <QTableWidget>
 #include <iostream>
+#include <QSqlField>
 #include "centeredtextdelegate.h"
-#include "buttonDelegate.h"
+#include "xlsxdocument.h"
+#include "xlsxabstractsheet.h"
+//#include "arduino.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -71,16 +73,15 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-   ui-> tableView->setFocusPolicy(Qt::NoFocus);
-   ui-> tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui-> tableView->setFocusPolicy(Qt::NoFocus);
+    ui-> tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
- ui->   tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-ui->    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->verticalHeader()->setVisible(false);
     ui->tableView->horizontalHeader()->setVisible(true);
-   ui-> tableView->setShowGrid(false);
+    ui-> tableView->setShowGrid(false);
     ui->tableView->setObjectName("tableView");
-   // ui->tableView->setRowCount(0);
     ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
     ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
@@ -88,7 +89,16 @@ ui->    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 
 
-
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+        break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+    QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+    //le slot update_label suite à la reception du signal readyRead (reception des données).
 
 }
 
@@ -96,15 +106,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-void MainWindow::onButtonClicked(const QModelIndex& index) {
-    // Get the row and column index of the clicked button
-    int row = index.row();
-    int column = index.column();
 
-    // Call pat.supprimer_patient(id) with the appropriate row and column information
-    // Replace this with your actual function call
-    pat.supprimer_patient(row);
-}
 
 
 void MainWindow::populateModel() {
@@ -136,7 +138,20 @@ void MainWindow::populateModel() {
     }
 }
 
+void MainWindow::update_label()
+{
+    data=A.read_from_arduino();
 
+    if(data=="1")
+
+    ui->label_3->setText("ON"); // si les données reçues de arduino via la liaison série sont égales à 1
+    // alors afficher ON
+
+    else if (data=="0")
+
+    ui->label_3->setText("OFF");   // si les données reçues de arduino via la liaison série sont égales à 0
+    //alors afficher ON
+}
 
 
 void MainWindow::on_Ajouter_event_clicked()
@@ -231,14 +246,14 @@ void MainWindow::on_affichePatient_clicked()
         CenteredTextDelegate* centeredTextDelegate = new CenteredTextDelegate(ui->tableView);
 
         // Set the delegate on the table view for the desired column (e.g., column 0)
-        ui->tableView->setItemDelegateForColumn(0, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(1, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(2, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(3, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(4, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(5, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(6, centeredTextDelegate);
-        ui->tableView->setItemDelegateForColumn(7, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(0, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(1, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(2, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(3, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(4, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(5, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(6, centeredTextDelegate);
+//        ui->tableView->setItemDelegateForColumn(7, centeredTextDelegate);
        // ui->tableView->setItemDelegateForColumn(8, centeredTextDelegate);
 
 
@@ -356,6 +371,11 @@ void MainWindow::on_pdf_2_clicked()
         }
         painter.end();
         QMessageBox::information(this, "Exported", "Data exported to PDF file.");
+
+
+
+
+
 }
 
 void MainWindow::makePlot()
@@ -426,4 +446,256 @@ void MainWindow::on_supprimerPatient_3_clicked()
 
 
 
+
+
+void MainWindow::on_expoterdb_clicked()
+{
+    QFile data("outputs/output.csv");
+    if (data.open(QFile::WriteOnly))
+    {
+            QTextStream outTxt(&data);
+            QSqlQuery query;
+            query.prepare("SELECT * FROM PATIENTS");
+            if(query.exec()){
+                // Get the record and output the headers
+                const QSqlRecord recrd = query.record();
+                for(int i = 0; i < recrd.count(); ++i) {
+                outTxt << recrd.fieldName(i);
+                if (i < recrd.count() - 1) {
+                    outTxt << " | ";
+                }
+                }
+                outTxt << "\n";
+
+                // Output the data rows
+                while (query.next()) {
+                for(int i = 0; i < recrd.count(); ++i) {
+                    outTxt << query.value(i).toString();
+                    if (i < recrd.count() - 1) {
+                        outTxt << " | ";
+                    }
+                }
+                outTxt << "\n";
+                }
+            }
+
+            // Close the file and seek the file position to the beginning
+            data.close();
+            data.open(QIODevice::ReadOnly);
+            data.seek(0);
+
+            QTextDocument doc;
+            // Create a QTextStream object to read the file
+            QTextStream in(&data);
+
+            // Read the CSV data into a string
+            QString csvData = in.readAll();
+
+            // Set the CSV data to the QTextDocument object
+            doc.setHtml("<pre>" + csvData + "</pre>");
+
+            data.close();
+
+            QPrinter printer(QPrinter::HighResolution);
+
+            // Set the output file name and format
+            printer.setOutputFileName("outputs/output.pdf");
+            printer.setOutputFormat(QPrinter::PdfFormat);
+
+            // Print the QTextDocument to the QPrinter
+            doc.print(&printer);
+    }
+}
+
+
+void MainWindow::on_exportxl_clicked()
+{
+    // Create a QSqlQuery object and execute the query
+    QSqlQuery query;
+    query.prepare("SELECT * FROM PATIENTS");
+    if(query.exec())
+    {
+            // Create a QXlsx::Document object and add a worksheet
+            QXlsx::Document xlsx;
+            xlsx.addSheet("Patients");
+
+            // Get the record and output the headers
+            const QSqlRecord recrd = query.record();
+            for(int i = 0; i < recrd.count(); ++i) {
+                xlsx.write(1, i + 1, recrd.fieldName(i));
+            }
+
+            // Output the data rows
+            int row = 2;
+            while (query.next()) {
+                for(int i = 0; i < recrd.count(); ++i) {
+                xlsx.write(row, i + 1, query.value(i).toString());
+                }
+                row++;
+            }
+
+            // Save the Excel file
+            xlsx.saveAs("outputs/output.xlsx");
+    }
+}
+
+
+void MainWindow::on_deletall_clicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation", "Are you sure?", QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+            bool test=pat.supprimer_patients();
+            if(test)
+            {
+                QMessageBox::information(nullptr, QObject::tr("ok"),
+                                         QObject::tr("suppression effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
+                ImageTableModel *imageModel = new ImageTableModel(this);
+                imageModel->setTable("PATIENTS");
+                imageModel->select();
+                ui->tableView->setModel(imageModel);
+
+                CenteredTextDelegate* centeredTextDelegate = new CenteredTextDelegate(ui->tableView);
+
+                // Set the delegate on the table view for the desired column (e.g., column 0)
+//                ui->tableView->setItemDelegateForColumn(0, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(1, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(2, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(3, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(4, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(5, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(6, centeredTextDelegate);
+//                ui->tableView->setItemDelegateForColumn(7, centeredTextDelegate);
+                // ui->tableView->setItemDelegateForColumn(8, centeredTextDelegate);
+            }
+            else
+            {
+                QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                         QObject::tr("suppression non effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
+            }
+    } else {
+            QMessageBox::information(nullptr, QObject::tr("ok"),
+                                     QObject::tr("aucun patient n'a été supprimé \n" "Click close to exite."),QMessageBox::Cancel);
+    }
+
+}
+
+
+void MainWindow::on_deletall_2_clicked()
+{
+    QItemSelectionModel *selectionModel = ui->tableView->selectionModel();
+    QModelIndexList selectedRows = selectionModel->selectedRows();
+    // get the IDs of the selected rows
+    QList<int> selectedIds;
+    foreach (QModelIndex index, selectedRows) {
+            int id = index.sibling(index.row(), 0).data().toInt();
+            selectedIds.append(id);
+    }
+
+    // delete the selected rows from the database
+    foreach (int id, selectedIds) {
+            bool test=pat.supprimer_patient(id);
+            if(test)
+            {
+                QMessageBox::information(nullptr, QObject::tr("ok"),
+                                         QObject::tr("suppression effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
+                ui->tableView->setModel(pat.afficher_patient());
+            }
+            else
+            {
+                QMessageBox::information(nullptr, QObject::tr("not ok"),
+                                         QObject::tr("suppression non effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
+            }
+}
+
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+QSqlQuery query ;
+query.prepare("SELECT TWO FROM ARDUINO WHERE ID=:id");
+query.bindValue(":id", 1);
+query.exec();
+A.write_to_arduino("1");
+while (query.next())
+{
+            ui->label_12->setText("Speaker:"+query.value("TWO").toString());
+
+}
+}
+void MainWindow::on_pushButton_6_clicked()
+{
+QSqlQuery query ;
+query.prepare("SELECT THREE FROM ARDUINO WHERE ID=:id");
+query.bindValue(":id", 1);
+query.exec();
+A.write_to_arduino("2");
+while (query.next())
+{
+            ui->label_12->setText("Speaker:"+query.value("THREE").toString());
+
+}
+
+}
+void MainWindow::on_pushButton_7_clicked()
+{
+A.write_to_arduino("6");
+ui->label_12->setText("Speaker:Paused");
+
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+A.write_to_arduino("0");
+ui->label_12->setText("Speaker:Resumed");
+
+
+}
+
+void MainWindow::on_pushButton_9_clicked()
+{
+QSqlQuery query ;
+query.prepare("SELECT FOUR FROM ARDUINO WHERE ID=:id");
+query.bindValue(":id", 1);
+query.exec();
+A.write_to_arduino("3");
+while (query.next())
+{
+            ui->label_12->setText(query.value("FOUR").toString());
+
+}
+
+}
+
+
+
+
+void MainWindow::on_pushButton_10_clicked()
+{
+QSqlQuery query ;
+query.prepare("SELECT ONE FROM ARDUINO WHERE ID=:id");
+query.bindValue(":id", 1);
+query.exec();
+A.write_to_arduino("4");
+while (query.next())
+{
+            ui->label_12->setText("Speaker:"+query.value("ONE").toString());
+
+}
+}
+
+
+void MainWindow::on_pushButton_11_clicked()
+{
+QSqlQuery query ;
+query.prepare("SELECT SIX FROM ARDUINO WHERE ID=:id");
+query.bindValue(":id", 1);
+query.exec();
+A.write_to_arduino("5");
+while (query.next())
+{
+            ui->label_12->setText("Speaker:"+query.value("SIX").toString());
+
+}
+}
 

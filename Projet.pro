@@ -1,6 +1,8 @@
-QT += core gui sql network
+QT += core gui sql network serialport
 QT += printsupport
 QT += sql
+
+
 
 RC_ICONS = hyperflow.ico
 
@@ -20,8 +22,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+# QXlsx code for Application Qt project
+QXLSX_PARENTPATH=./         # current QXlsx path is . (. means curret directory)
+QXLSX_HEADERPATH=./header/  # current QXlsx header path is ./header/
+QXLSX_SOURCEPATH=./source/  # current QXlsx source path is ./source/
+include(./QXlsx.pri)
+
+
 SOURCES += \
     ImageTableModel.cpp \
+    arduino.cpp \
     centeredtextdelegate.cpp \
     connect.cpp \
     login.cpp \
@@ -29,10 +39,12 @@ SOURCES += \
     mainwindow.cpp \
     patient.cpp \
     qcustomplot.cpp \
-    smtp.cpp
+    smtp.cpp \
+
 
 HEADERS += \
     ImageTableModel.h \
+    arduino.h \
     centeredtextdelegate.h \
     connect.h \
     login.h \
