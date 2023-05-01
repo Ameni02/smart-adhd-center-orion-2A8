@@ -1,7 +1,7 @@
 QT       += core gui sql printsupport multimediawidgets
 
-
-
+QT += widgets
+QT += core
 
 QT += core gui charts
 QT       += core gui  serialport
@@ -30,15 +30,19 @@ SOURCES += \
     equipements.cpp \
     main.cpp \
     mainwindow.cpp \
-    notification.cpp
-
+    activite.cpp \
+    historiquec.cpp \
+notification.cpp
 HEADERS += \
     Qrcode.h \
     arduino.h \
     connection.h \
     equipements.h \
     mainwindow.h \
+    activite.h \
+    historiquec.h \
     notification.h
+
 
 FORMS += \
     mainwindow.ui

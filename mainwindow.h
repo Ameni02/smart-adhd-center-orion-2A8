@@ -1,8 +1,33 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include"equipements.h"
+
 #include <QMainWindow>
+#include <QWidget>
+#include <QTextTableFormat>
+#include <QStandardItemModel>
+#include <QFileDialog>
+#include <QDesktopWidget>
+#include <QSettings>
+#include <QTextStream>
+#include <QFile>
+#include <QDataStream>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QStackedWidget>
+#include <QDebug>
+#include <QtSql/QSqlQuery>
+#include <QtCharts>
+#include <QChartView>
+#include <QCalendarWidget>
+#include <QDate>
+#include <QTextCharFormat>
+#include <QObject>
 #include "arduino.h"
+#include"equipements.h"
+#include "historiquec.h"
+#include"activite.h"
+#include"notification.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -68,8 +93,79 @@ private slots:
 
     void on_pdf_btn_2_clicked();
 
+
+    void on_uploade_fichier_clicked();
+
+   void on_pushButton_clicked();
+
+   void on_valider_ajout_clicked();
+
+
+
+   void on_pushButton_2_clicked();
+
+
+   void on_update_clicked();
+
+   void on_pushButton_3_clicked();
+
+   void on_validermodif_clicked();
+
+   void on_pushButton_4_clicked();
+
+   void on_gestion_activite_clicked();
+
+   void on_chercher_clicked();
+
+   void on_stat_clicked();
+
+   void on_croissant_clicked();
+
+   void on_decroissant_clicked();
+
+   void on_pdf_clicked();
+
+   void on_agenda_clicked();
+
+   void on_todoo_clicked();
+
+   void on_calendarWidget_clicked(const QDate &date);
+
+   void on_ajoutDate_clicked();
+
+
+   void on_pushButton_5_clicked();
+
+
+   void on_le_chercher_textChanged(const QString &arg1);
+
+
+   void ajouttodo();
+
+   void done();
+
+   void done2();
+
+   void load();
+
+   void inprogress();
+   void on_b1_clicked();
+
+   void on_Activites_clicked();
+
+   void on_Intervenants_clicked();
+
+   void on_Events_clicked();
+
+   void on_Patients_clicked();
+
+   void on_l_supp_clicked();
+
 private:
     Ui::MainWindow *ui;
+    activite Act;
+    Tache T;
+   calender_A H;
     Equipements E;
     QByteArray data; // variable contenant les données reçues
 
