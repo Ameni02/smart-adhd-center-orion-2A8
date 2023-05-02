@@ -28,6 +28,7 @@
 #include "historiquec.h"
 #include"activite.h"
 #include"notification.h"
+#include"event.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -57,7 +58,6 @@ private slots:
 
     void on_Equipements_clicked();
 
-
     void on_consulter_equipement_pb_clicked();
 
     void on_consulter_equipement_pb_2_clicked();
@@ -76,12 +76,7 @@ private slots:
 
     void on_Ajouter_equipement_2_clicked();
 
-
-
-
     void on_pdf_btn_clicked();
-
-
 
     void on_statistic_clicked();
 
@@ -93,17 +88,13 @@ private slots:
 
     void on_pdf_btn_2_clicked();
 
-
     void on_uploade_fichier_clicked();
 
    void on_pushButton_clicked();
 
    void on_valider_ajout_clicked();
 
-
-
    void on_pushButton_2_clicked();
-
 
    void on_update_clicked();
 
@@ -134,11 +125,8 @@ private slots:
    void on_ajoutDate_clicked();
 
 
-   void on_pushButton_5_clicked();
-
 
    void on_le_chercher_textChanged(const QString &arg1);
-
 
    void ajouttodo();
 
@@ -161,10 +149,56 @@ private slots:
 
    void on_l_supp_clicked();
 
+   void on_Ajouter_event_clicked();
+
+
+
+   void on_botton_supprimer_clicked();
+
+   void on_botton_update_events_clicked();
+
+
+
+   void on_validation_update_events_clicked();
+
+
+
+   void on_lineEdit_chercheEvent_textChanged(const QString &arg1);
+
+   void on_events_statistics_clicked();
+
+   void on_details_events_clicked();
+
+   void on_EmissionCO2_clicked();
+
+   void on_pdf_Event_test_clicked();
+
+   void on_radioButton_2_clicked();
+
+   void on_radioButtontrier_eventC_2_clicked();
+
+   void on_Settings_2_clicked();
+
+   void on_botton_selsct_event_2_clicked();
+
+
+   void fingerarduino();
+   void testy();
+
+   void on_validation_ajout_event_clicked();
+
+   void on_uploade_fichier_event_clicked();
+
+
+
+   void on_uploade_fichier_event_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     activite Act;
     Tache T;
+    Event Evt;
+    QImage image_event;
    calender_A H;
     Equipements E;
     QByteArray data; // variable contenant les données reçues

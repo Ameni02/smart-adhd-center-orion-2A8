@@ -1,4 +1,4 @@
-#ifndef ACTIVITE_H
+ #ifndef ACTIVITE_H
 #define ACTIVITE_H
 #include <QString>
 #include<QSqlQueryModel>

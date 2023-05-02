@@ -100,9 +100,9 @@ bool activite::ajouter()
 
     QSqlQuery query;
     QString res = QString::number(idactivite);
-    query.prepare("insert into ACTIVITES (IDACTIVITE, NOM, DESCRIPTION, GENRE, CIBLE)"
-                  "VALUES (:idactivite, :Nom, :Description, :Genre, :Cible)");
-    query.bindValue(":idactivite",res);
+    query.prepare("insert into ACTIVITES ( NOM, DESCRIPTION, GENRE, CIBLE)"
+                  "VALUES ( :Nom, :Description, :Genre, :Cible)");
+    //query.bindValue(":idactivite",res);
     query.bindValue(":Nom",Nom);
 query.bindValue(":Description",Description);
 query.bindValue(":Genre",Genre);

@@ -6,10 +6,19 @@ QT += core
 QT += core gui charts
 QT       += core gui  serialport
 
+QT+= charts serialport
+QT += sql
+QT+= location qml quickwidgets
+QT += charts
+QT += axcontainer
+QT += printsupport
+QT += core gui widgets printsupport
+QT+= location qml quickwidgets
+
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+TARGET = projet
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -24,6 +33,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+     event.cpp \
     Qrcode.cpp \
     arduino.cpp \
     connection.cpp \
@@ -34,6 +44,7 @@ SOURCES += \
     historiquec.cpp \
 notification.cpp
 HEADERS += \
+ event.h \
     Qrcode.h \
     arduino.h \
     connection.h \
