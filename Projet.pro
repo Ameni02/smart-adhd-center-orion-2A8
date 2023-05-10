@@ -58,6 +58,7 @@ SOURCES += \
 notification.cpp \
     patient.cpp \
     qcustomplot.cpp \
+    sidebar.cpp \
     smtp.cpp
 HEADERS += \
     arduino2.h \
@@ -76,6 +77,7 @@ HEADERS += \
     notification.h \
     patient.h \
     qcustomplot.h \
+    sidebar.h \
     smtp.h
 
 

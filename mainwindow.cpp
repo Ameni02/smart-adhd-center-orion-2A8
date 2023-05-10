@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "centeredtextdelegate.h"
 #include "qsqlrecord.h"
+#include "resizablebutton.h"
 #include "ui_mainwindow.h"
 #include"equipements.h"
 #include"connection.h"
@@ -49,6 +50,7 @@
 #include <QMediaPlayer>
 #include <QtMultimedia>
 #include <QVideoWidget>
+#include "sidebar.h"
 using namespace qrcodegen;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -56,24 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-  //  MainWindow::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-   // showFullScreen();
     QTimer::singleShot(0, this, SLOT(showFullScreen()));
-
-   /* QList<QSerialPortInfo> portInfoList = QSerialPortInfo::availablePorts();
-
-    // Loop through each serial port and print its information
-    foreach (const QSerialPortInfo& portInfo, portInfoList) {
-        if (portInfo.hasVendorIdentifier() && portInfo.vendorIdentifier() == 0x2A03) {
-            // The connected device is an Arduino Uno
-            qDebug() << "ameni " << portInfo.portName();
-        }
-        else if (portInfo.hasVendorIdentifier() && portInfo.vendorIdentifier() == 0x2341) {
-            // The connected device is an Arduino Uno
-            qDebug() << "moataz " << portInfo.portName();
-        }
-    }*/
 
 
     //ARDUINO FINGERPRINT
@@ -87,15 +72,52 @@ MainWindow::MainWindow(QWidget *parent)
          break;
     }
     ui->pushButton->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/LOGO.png"));
-    ui->Profil->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/profile.png"));
-    ui->Patients->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/patient.png"));
-    ui->Activites->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/activite.png"));
-    ui->Intervenants->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/intervenant.png"));
-    ui->Events->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/event.png"));
-    ui->Equipements->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/equipement.png"));
-   // ui->exit->setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/profile.png"));
+    ui->Profil->setIcon(QIcon("D:/projet/profile.png"));
+    ui->Patients->setIcon(QIcon("D:/projet/patient.png"));
+    ui->Activites->setIcon(QIcon("D:/projet/activite.png"));
+    ui->Intervenants->setIcon(QIcon("D:/projet/intervenant.png"));
+    ui->Events->setIcon(QIcon("D:/projet/event.png"));
+    ui->Equipements->setIcon(QIcon("D:/projet/equipement.png"));
+    ui->quit->setIcon(QIcon("D:/projet/exit1.png"));
+    ui->Exit->setIcon(QIcon("D:/projet/exit.png"));
+    ui->sidebarButton->setIcon(QIcon("D:/projet/menu.png"));
+    ui->affichePatient->setIcon(QIcon("D:/projet/icons8-search-account-64 (1).png"));
+    ui->expoterdb_2->setIcon(QIcon("D:/projet/icons8-add-user-male-64.png"));
+    ui->modifierPatient_2->setIcon(QIcon("D:/projet/icons8-user-settings-64.png"));
+    ui->deletall_2->setIcon(QIcon("D:/projet/icons8-denied-64.png"));
+    ui->deletall->setIcon(QIcon("D:/projet/icons8-remove-100.png"));
+    ui->expoterdb->setIcon(QIcon("D:/projet/icons8-pdf-100 (1).png"));
+    ui->exportxl->setIcon(QIcon("D:/projet/icons8-microsoft-excel-100.png"));
+    ui->statisque->setIcon(QIcon("D:/projet/icons8-graph-64.png"));
+
+
+
+
+    ui->consulter_equipement_pb->setIcon(QIcon("D:/projet/icons8-back-to-64 (1).png"));//back
+    ui->Ajouter_event_27->setIcon(QIcon("D:/projet/icons8-chatbot-64.png"));//vhatbotn seif
+    ui->Ajouter_event_21->setIcon(QIcon("D:/projet/icons8-information-64.png"));//aide seif
+
+    ui->pushButton_4->setIcon(QIcon("D:/projet/icons8-edit-64.png.png"));//modif
+    ui->Ajouter_event_24->setIcon(QIcon("D:/projet/icons8-pdf-100 (1).png"));//pdf seif
+    ui->Ajouter_event_19->setIcon(QIcon("D:/projet/icons8-graph-64.png"));//stat seif
+    ui->Ajouter_event_4->setIcon(QIcon("D:/projet/icons8-add-user-male-64.png"));//add
+    ui->statistic->setIcon(QIcon("D:/projet/icons8-graph-64.png"));//stat eq
+    ui->pdf_btn->setIcon(QIcon("D:/projet/icons8-pdf-100 (1).png"));//pdf eq
+    ui->supprimer_equipement->setIcon(QIcon("D:/projet/icons8-remove-100.png"));//supp eq
+    ui->modifier_equipement->setIcon(QIcon("D:/projet/icons8-edit-64.png"));//modifiern eq
+    ui->Ajouter_equipement_2->setIcon(QIcon("D:/projet/icons8-add-user-male-64.png"));// ajout equipement
+    ui->affichePatient->setIcon(QIcon("D:/projet/icons8-search-account-64 (1).png"));//affiche
+    ui->pushButton_2->setIcon(QIcon("D:/projet/icons8-add-user-male-64.png"));//ajout
+    ui->pushButton_4->setIcon(QIcon("D:/projet/icons8-edit-64.png"));//modif
+    ui->agenda->setIcon(QIcon("D:/projet/icons8-planner-64.png"));//agenda
+    ui->l_supp->setIcon(QIcon("D:/projet/icons8-remove-100.png"));//suprimer
+    ui->pdf->setIcon(QIcon("D:/projet/icons8-pdf-100 (1).png"));//pdf
+    ui->todoo->setIcon(QIcon("D:/projet/icons8-checklist-64.png"));//todo
+    ui->stat->setIcon(QIcon("D:/projet/icons8-graph-64.png"));//stat
+
 
     QList<QSerialPortInfo> portInfoList = QSerialPortInfo::availablePorts();
+
 
     // Loop through each serial port and check if it's an Arduino Uno
     foreach (const QSerialPortInfo& portInfo, portInfoList) {
@@ -120,35 +142,14 @@ MainWindow::MainWindow(QWidget *parent)
          }
 
 
-     // permet de lancer
-     //le slot update_label suite à la reception du signal readyRead (reception des données).
-     //arduino afficheur lcd
-
-   /*  int rett=A2.connect_arduino(); // lancer la connexion à arduino
-     switch(rett){
-     case(0):qDebug()<< "arduino A2 is available and connected to : "<< A2.getarduino_port_name();
-       break;
-     case(1):qDebug() << "arduino A2 is available but not connected to :" <<A2.getarduino_port_name();
-       break;
-     case(-1):qDebug() << "arduino A2 is not available";
-         break;
-     }
-     QObject::connect(A2.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));*/
-
-
-
-
-
       //Evenements///////////////////////
       //refrech l'affichage
       ui->tableView_events->setModel(Evt.afficher_event());
 
      //controle de saisir
-      // ui->l_id->setValidator(new QRegExpValidator(QRegExp("[0-9]{4}")));
       ui->lineEditTitre_event->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
       ui->lineEdit_Desc->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
       ui->lineEdit_lieuEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-      //ui->lineEdit_EtatEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
       ui->lineEdit_chercheEvent->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
 
   //AFFICHAGE DE COMBOX DE LES ID
@@ -210,50 +211,21 @@ MainWindow::MainWindow(QWidget *parent)
          QLCDNumber *lcdNumber = this->findChild<QLCDNumber*>("lcdNumber");
          ui->lcdNumber->display(row_count);
          ui->tableView_events->setModel(Evt.afficher_event());
-/*
 
-  //ajouter des GIF
-      QMovie *gif_log = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\gif1.gif");
-      QMovie *gif_profif = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\hello_GIF.gif");
-      QMovie *gif_nbEvent = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\GIF_event.gif");
 
-      ui->label_GIF->setMovie(gif_log);
-      ui->label_GIF_2->setMovie(gif_profif);
-      ui->label_nbGIF->setMovie(gif_nbEvent);
-      gif_log->start();
-      gif_profif->start();
-      gif_nbEvent->start();
-      ui->label_GIF_2->setFixedSize(481,371);
-     //ui->label_nbGIF->setFixedSize(161,131);
-*/
       QSettings settings(QSettings::IniFormat, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
-      ui->axWidget->dynamicCall("Navigate(const QString&)", "file:///D:/projet/integration_ameni-sarah back up + seif/index.html");
-
-
-
-
-
-
+     // ui->axWidget->dynamicCall("Navigate(const QString&)", "file:///D:/projet/integration_ameni-sarah back up + seif/index.html");
                      //Activité///////////////////////////////////
-
-      //ui->l_id->setValidator(new QRegExpValidator(QRegExp("[0-9]{4}")));
         ui->l_nom->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
            ui->l_description->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-
               ui->l_genre->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-
-
               ui->l_id_2->setValidator(new QRegExpValidator(QRegExp("[0-9]{4}")));
                ui->l_nom_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
                   ui->l_description_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-
                      ui->l_genre_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
-
                      ui->table_act->setModel(Act.afficher()); //chercher
-
                      QComboBox *ComboCLADER = ui->stackedWidget_in->findChild<QComboBox*>("comboBoxcalander");
                          ComboCLADER->clear();
-
                          QSqlQuery query_CALANDER;
                          query_CALANDER.prepare("SELECT IDACTIVITE FROM ACTIVITES");
                      // Executing the query and fetching the IDEVENT from the result set
@@ -264,36 +236,9 @@ MainWindow::MainWindow(QWidget *parent)
                                  QString intString = QString::number(id);
                                  // Add the string representation of the ID_EM to the combobox
                                  ComboCLADER->addItem(intString);
-
-
                              }
-                         }
-   //style agenda
-
-
-                  /*       QString styleSheet = "QCalendarWidget QAbstractItemView:enabled {"
-                                              "background-color: #F0D9FF;"
-                                              "color: #000000;"
-                                              "selection-background-color: #FFCCCC;"
-                                              "selection-color: #FFFFCC;"
-                                              "}";
-
-                         ui->calendarWidget->setStyleSheet(styleSheet);
-                          QTextCharFormat format = ui->calendarWidget->weekdayTextFormat(Qt::Saturday);
-                             format.setForeground(QBrush(Qt::black, Qt::SolidPattern));*/
-                             ui->calendarWidget->setStyleSheet("background-color :rgb(240,217,255);selection-background-color:rgb(207, 77, 206);");
-
-    /*
-    //ctrl de saisie number
-   ui->ajout_id->setValidator(new QIntValidator(1000,9999, this));
-   ui->ajout_quantite->setValidator(new QIntValidator(0,9999, this));
-   ui->ajout_prix->setValidator(new QIntValidator(0,9999999, this));
- //ctrl de saisie string
-   QRegExpValidator *validator = new QRegExpValidator(QRegExp("[a-zA-Z]+"), ui->ajout_nom);
-   ui->ajout_nom->setValidator(validator);
-*/
-
-
+                         }                         
+ui->calendarWidget->setStyleSheet("background-color :rgb(240,217,255);selection-background-color:rgb(207, 77, 206);");
                              //Equipements//////////////////////////
     //ctrl de saisie
     ui->ajout_id->setValidator(new QRegExpValidator(QRegExp("[0-9]{4}")));
@@ -309,8 +254,6 @@ MainWindow::MainWindow(QWidget *parent)
           ui->ajout_prix_2->setValidator(new QRegExpValidator(QRegExp("[0-9]{10}")));
           ui->ajout_descrip_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{100}")));
           ui->ajout_quantite_2->setValidator(new QRegExpValidator(QRegExp("[0-9]{10}")));
-
-
        // placeholder
        ui->ajout_id->setPlaceholderText("Ajoutez l'id...");
            ui->ajout_nom->setPlaceholderText("Ajoutez le nom...");
@@ -327,15 +270,7 @@ MainWindow::MainWindow(QWidget *parent)
    MainWindow::makePlot();
 
 
-
-
    connect(ui->mail, SIGNAL(clicked()),this, SLOT(sendMail()));
-   QMovie *gif_log = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\gif1.gif");
-   QMovie *gif_profif = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\hello_GIF.gif");
-   QMovie *gif_nbEvent = new QMovie("C:\\Users\\Mozrani amine\\Desktop\\cap arduino\\GIF_event.gif");
-
-
-   // ui->tableView->setModel(pat.afficher_patient());
 
 
    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
@@ -346,11 +281,17 @@ MainWindow::MainWindow(QWidget *parent)
    ui->tableView->setSortingEnabled(true);
    ui->tableView->setColumnWidth(8, 150);
    ui->tableView->setGridStyle(Qt::MPenStyle);
-   // ui->tableView->resizeColumnsToContents();
-   //ui->tableView->resizeRowsToContents();
 
+   QSortFilterProxyModel *proxyModelA = new QSortFilterProxyModel(this);
+   proxyModelA->setSourceModel(ui->table_act->model());
+   proxyModelA->setSortCaseSensitivity(Qt::CaseInsensitive);
+   ui->table_act->setModel(proxyModelA);
+   connect(ui->table_act->horizontalHeader(), &QHeaderView::sortIndicatorChanged,proxyModelA, &QSortFilterProxyModel::sort);
+   ui->table_act->setSortingEnabled(true);
+   ui->table_act->setColumnWidth(8, 150);
+   ui->table_act->setGridStyle(Qt::MPenStyle);
 
-           QSortFilterProxyModel *proxyModelE = new QSortFilterProxyModel(this);
+   QSortFilterProxyModel *proxyModelE = new QSortFilterProxyModel(this);
    proxyModelE->setSourceModel(ui->tableView_events->model());
    proxyModelE->setSortCaseSensitivity(Qt::CaseInsensitive);
    ui->tableView_events->setModel(proxyModelE);
@@ -359,10 +300,20 @@ MainWindow::MainWindow(QWidget *parent)
    ui->tableView_events->setColumnWidth(8, 150);
    ui->tableView_events->setGridStyle(Qt::MPenStyle);
 
+   QSortFilterProxyModel *proxyModelEq = new QSortFilterProxyModel(this);
+   proxyModelEq->setSourceModel(ui->table_equip->model());
+   proxyModelEq->setSortCaseSensitivity(Qt::CaseInsensitive);
+   ui->table_equip->setModel(proxyModelEq);
+   connect(ui->table_equip->horizontalHeader(), &QHeaderView::sortIndicatorChanged,proxyModelEq, &QSortFilterProxyModel::sort);
+   ui->table_equip->setSortingEnabled(true);
+   ui->table_equip->setColumnWidth(8, 150);
+   ui->table_equip->setGridStyle(Qt::MPenStyle);
+
    ui->num_patient->setValidator(new QRegExpValidator(QRegExp("[0-9]{8}")));
    ui->num_urg->setValidator(new QRegExpValidator(QRegExp("[0-9]{8}")));
    ui->nom_patient->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
    ui->prenom_patient->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z- ]{15}")));
+   ui->adress->setValidator(new QRegExpValidator(QRegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")));
 
 
 
@@ -380,9 +331,20 @@ MainWindow::MainWindow(QWidget *parent)
    ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
    ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
+   ui-> table_equip->setFocusPolicy(Qt::NoFocus);
+   ui-> table_equip->setSelectionMode(QAbstractItemView::SingleSelection);
+   ui->table_equip->setSelectionBehavior(QAbstractItemView::SelectRows);
+   ui->table_equip->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+   ui->table_equip->setEditTriggers(QAbstractItemView::NoEditTriggers);
+   ui->table_equip->verticalHeader()->setVisible(false);
+   ui->table_equip->horizontalHeader()->setVisible(true);
+   ui-> table_equip->setShowGrid(false);
+   ui->table_equip->setObjectName("table_equip");
+   ui->table_equip->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+   ui->table_equip->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+   ui->table_equip->horizontalHeader()->setStretchLastSection(true);
 
-
-           QSortFilterProxyModel *proxyModelI = new QSortFilterProxyModel(this);
+   QSortFilterProxyModel *proxyModelI = new QSortFilterProxyModel(this);
    proxyModelI->setSourceModel(ui->tableView_2->model());
    proxyModelI->setSortCaseSensitivity(Qt::CaseInsensitive);
    ui->tableView_2->setModel(proxyModelI);
@@ -393,6 +355,107 @@ MainWindow::MainWindow(QWidget *parent)
 
    ui->stackedWidget->setCurrentIndex(2);
    setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+
+
+
+   // Create a new instance of the Sidebar widget
+   sidebar = new Sidebar(ui->frame);
+
+
+connect(ui->sidebarButton, &QPushButton::clicked, sidebar, &Sidebar::toggleSidebar);
+
+
+
+QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+shadow->setBlurRadius(5);
+shadow->setXOffset(2);
+shadow->setYOffset(2);
+shadow->setColor(QColor(0, 0, 0, 128));
+ui->frame->setGraphicsEffect(shadow);
+ui->Ajouter_event_2->setGraphicsEffect(shadow);
+
+
+ui->frame->show();
+////////////////////////////////////////////////////////////////////////////////////////////////
+QGraphicsScene *scene = new QGraphicsScene;
+QGraphicsView *view = new QGraphicsView(scene, ui->label_GIF);// add ui->groupBox as parent widget
+view->setFixedSize(ui->label_GIF->size()); // set the size of the QGraphicsView to match the size of the QGroupBox
+view->setStyleSheet("background-color: transparent");
+view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view->setInteractive(false);
+view->setMouseTracking(true); // enable mouse tracking for the QGraphicsView
+QGraphicsProxyWidget *groupBoxProxy = scene->addWidget(ui->label_GIF); // add ui->groupBox as a widget to the scene
+groupBoxProxy->setPos(ui->label_GIF->pos()); // set the position of the proxy widget to match ui->groupBox
+groupBoxProxy->setFlag(QGraphicsItem::ItemIsSelectable, false); // disable selection for the proxy widget
+
+QPixmap background("D:/projet/mainwindow.jpg");
+QGraphicsPixmapItem *bgItem = new QGraphicsPixmapItem(background);
+bgItem->setOpacity(0.5); // Set the opacity to 0.5
+bgItem->setGraphicsEffect(new QGraphicsBlurEffect()); // Add a blur effect
+scene->addItem(bgItem);
+scene->setSceneRect(view->rect());
+qDebug() <<ui->groupBox_9->pos();
+
+
+
+QGraphicsView *view1 = new QGraphicsView(scene, ui->label_GIF_2);// add ui->groupBox as parent widget
+view1->setFixedSize(ui->label_GIF_2->size()); // set the size of the QGraphicsView to match the size of the QGroupBox
+view1->setStyleSheet("background-color: transparent");
+view1->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view1->setInteractive(false);
+view1->setMouseTracking(true); // enable mouse tracking for the QGraphicsView
+QGraphicsProxyWidget *groupBoxProxy1 = scene->addWidget(ui->label_GIF_2); // add ui->groupBox as a widget to the scene
+groupBoxProxy1->setPos(ui->label_GIF_2->pos()); // set the position of the proxy widget to match ui->groupBox
+groupBoxProxy1->setFlag(QGraphicsItem::ItemIsSelectable, false); // disable selection for the proxy widget
+
+
+bgItem->setOpacity(0.5); // Set the opacity to 0.5
+bgItem->setGraphicsEffect(new QGraphicsBlurEffect()); // Add a blur effect
+scene->addItem(bgItem);
+scene->setSceneRect(view1->rect());
+
+
+    QGraphicsView *view2 = new QGraphicsView(scene, ui->label_GIF_3);// add ui->groupBox as parent widget
+view2->setFixedSize(ui->label_GIF_3->size()); // set the size of the QGraphicsView to match the size of the QGroupBox
+view2->setStyleSheet("background-color: transparent");
+view2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+view2->setInteractive(false);
+view2->setMouseTracking(true); // enable mouse tracking for the QGraphicsView
+QGraphicsProxyWidget *groupBoxProxy2 = scene->addWidget(ui->label_GIF_3); // add ui->groupBox as a widget to the scene
+groupBoxProxy2->setPos(ui->label_GIF_2->pos()); // set the position of the proxy widget to match ui->groupBox
+groupBoxProxy2->setFlag(QGraphicsItem::ItemIsSelectable, false); // disable selection for the proxy widget
+
+
+bgItem->setOpacity(0.5); // Set the opacity to 0.5
+bgItem->setGraphicsEffect(new QGraphicsBlurEffect()); // Add a blur effect
+scene->addItem(bgItem);
+scene->setSceneRect(view1->rect());
+
+
+QStringList headers1 = { "IDPATIENT", "NOM", "PRENOM", "DOB", "NUMPERSO","NUMURGENCE", "ETAT", "PDR", "PHOTO" };
+QList<QStringList> data1 = { headers1, { "1", "John", "Doe", "1990-01-01", "123", "456", "OK", "N/A", "photo.jpg" } };
+populateModel(ui->tableView, headers1, data1);
+
+
+QStringList headers2 = { "ID", "Name", "Age" };
+QList<QStringList> data2 = { headers2, { "1", "Alice", "25" }, { "2", "Bob", "30" }, { "3", "Charlie", "40" } };
+populateModel(ui->table_equip, headers2, data2);
+
+QStringList headers3 = { "ID", "Name", "Age" };
+QList<QStringList> data3 = { headers2, { "1", "Alice", "25" }, { "2", "Bob", "30" }, { "3", "Charlie", "40" } };
+populateModel(ui->tableView_2, headers2, data2);
+
+QStringList headers4 = { "ID", "Name", "Age" };
+QList<QStringList> data4 = { headers2, { "1", "Alice", "25" }, { "2", "Bob", "30" }, { "3", "Charlie", "40" } };
+populateModel(ui->tableView_events, headers2, data2);
+
+QStringList headers5 = { "ID", "Name", "Age" };
+QList<QStringList> data5 = { headers2, { "1", "Alice", "25" }, { "2", "Bob", "30" }, { "3", "Charlie", "40" } };
+populateModel(ui->table_act, headers2, data2);
+
 }
 
 
@@ -426,11 +489,11 @@ void MainWindow::fingerprint()
 }
 //Arduino//////////////////////////////////////////////////////////
 void MainWindow::update_label()
-{
+{   qDebug() << "data";
     QString data = A.read_from_arduino().trimmed();
     qDebug() << data;
     QSqlQuery query2;
-    query2.prepare("SELECT NOM FROM ACTIVITES WHERE IDACTIVITE = :data");
+    query2.prepare("SELECT NOM FROM ACTIVITES WHERE IDACTIVITE =:data");
     query2.bindValue(":data", data);
     if (query2.exec() && query2.next()) {
         qDebug() << "Requête SQL réussie";
@@ -441,6 +504,8 @@ void MainWindow::update_label()
         qDebug() << "Requête SQL échouée";
     }
 }
+
+
 
 void MainWindow::textTOspeech()
 {
@@ -564,7 +629,6 @@ void MainWindow::on_pdf_btn_2_clicked()
 }
 
 
-
 //Crud equipements
 
 
@@ -608,8 +672,6 @@ void MainWindow::on_validation_ajout_clicked()
                              QObject::tr("bien ajouté.\n"
                                          "Click Cancel to exit."), QMessageBox::Cancel);
 
-
-
       //refresh
  ui->table_equip->setModel(E.afficher());
          }
@@ -622,9 +684,6 @@ void MainWindow::on_validation_ajout_clicked()
                                          "Click Cancel to exit."), QMessageBox::Cancel);
   }
 }
-
-
-
 
 
 void MainWindow::on_SUPP_clicked()
@@ -697,13 +756,7 @@ void MainWindow::on_tri_btn_2_clicked()
 void MainWindow::on_search_btn_clicked()
 {
     ui->table_equip->setModel(E.recherche_NOM(ui->entrer_recherche->text()));
-
-/*
-                    QMessageBox::information(nullptr,QObject::tr("OK"),
-                                              QObject::tr("recherche done.\n"
-                                                          "clic cancel to exit."),QMessageBox::Cancel); */
 }
-
 
 
 void MainWindow::on_pdf_btn_clicked()
@@ -714,14 +767,9 @@ void MainWindow::on_pdf_btn_clicked()
            painter.setPen(Qt::red);
            painter.setFont(QFont("Comic Sans MS", 30));
            painter.drawText(1100,1100,"Liste Des Equipemets ");
-           //painter.setPen(Qt::blue);
            painter.setFont(QFont("Comic Sans MS", 50));
-          // painter.drawRect(100,100,7300,1900);
-           //painter.setPen(Qt::blue);
            painter.drawPixmap(QRect(7200,70,2600,2200),QPixmap("D:/projet/integration_ameni-sarah back up + seif/LOGO.png"));
-          // painter.drawRect(0,3000,9600,500);
            painter.setPen(Qt::blue);
-
            painter.setFont(QFont("Comic Sans MS", 15));
            painter.drawText(200,3300,"Identifiant");
            painter.drawText(1750,3300,"Nom");
@@ -729,11 +777,6 @@ void MainWindow::on_pdf_btn_clicked()
            painter.drawText(3700,3300,"Quantite");
            painter.drawText(5200,3300,"Description");
            painter.drawText(6800,3300,"Prix unitaire");
-
-
-
-
-
            QSqlQuery query;
            query.prepare("select * from EQUIPEMENTS");
            query.exec();
@@ -747,13 +790,7 @@ void MainWindow::on_pdf_btn_clicked()
                painter.drawText(4000,i,query.value(3).toString());
                painter.drawText(5200,i,query.value(4).toString());
                painter.drawText(6800,i,query.value(5).toString());
-
-
                painter.setPen(Qt::blue);
-
-
-
-
               i = i + 700;
            }
            int reponse = QMessageBox::question(this, "Génerer PDF", "PDF Enregistré...Vous Voulez Affichez Le PDF ?", QMessageBox::Yes |  QMessageBox::No);
@@ -768,8 +805,6 @@ void MainWindow::on_pdf_btn_clicked()
                }
 }
 
-
-
 void MainWindow::on_statistic_clicked()
 {
     ui->stackedWidget_in->setCurrentIndex(1);
@@ -779,77 +814,16 @@ void MainWindow::on_statistic_clicked()
     StatsLayout->addWidget(e.stat_type(), 0, 0);
 }
 
-void MainWindow::on_qrcode_clicked()
-{ /*
-
-    int tabeq=ui->table_equip->currentIndex().row(); //track selected item
-               QVariant idd=ui->table_equip->model()->data(ui->table_equip->model()->index(tabeq,0));
-               QString IDEQUIPEMENT=idd.toString();
-               QString QUANTITE=idd.toString();
-               QString  PRIX=idd.toString();
-
-               QSqlQuery qry;
-               qry.prepare("select * from Equipements where IDEQUIPEMENT=:id");
-               qry.bindValue(":id",IDEQUIPEMENT);
-               qry.exec();
-
-                QString NOM, DESCRIPTION , TYPE;//attributs
-
-
-
-              while(qry.next()){
-
-                 IDEQUIPEMENT=qry.value(1).toString();
-                   NOM=qry.value(2).toInt();
-                    DESCRIPTION=qry.value(3).toInt();
-                TYPE=qry.value(4).toInt();
-                  QUANTITE=qry.value(5).toString();
-                   PRIX=qry.value(6).toString();
-
-
-
-               }
-               IDEQUIPEMENT=QString(IDEQUIPEMENT);
-                QUANTITE=QString(QUANTITE);
-                 PRIX=QString(PRIX);
-
-                       IDEQUIPEMENT="IDEQUIPEMENT:\t" + IDEQUIPEMENT+ "NOM\t:" +NOM+ "DESCRIPTION:\t" +DESCRIPTION+ "TYPE:\t" +TYPE+ "QUANTITE:\t" +QUANTITE+ "PRIX:\t" +PRIX ;
-               QrCode qr = QrCode::encodeText(IDEQUIPEMENT.toUtf8().constData(), QrCode::Ecc::HIGH);
-
-               // Read the black & white pixels
-               QImage im(qr.getSize(),qr.getSize(), QImage::Format_RGB888);
-               for (int y = 0; y < qr.getSize(); y++) {
-                   for (int x = 0; x < qr.getSize(); x++) {
-                       int color = qr.getModule(x, y);  // 0 for white, 1 for black
-
-                       // You need to modify this part
-                       if(color==0)
-                           im.setPixel(x, y,qRgb(254, 254, 254));
-                       else
-                           im.setPixel(x, y,qRgb(0, 0, 0));
-                   }
-               }
-               im=im.scaled(200,200);
-              ui->qr_code->setPixmap(QPixmap::fromImage(im));
-              */
-}
-
 
 //qr code
 void MainWindow::on_table_equip_activated(const QModelIndex &index)
 {
-
-    //int tabeq=ui->table_equip->currentIndex().row(); //track selected item
-
-
     QString IDEQUIPEMENT=ui->table_equip->model()->data(index).toString();
                QSqlQuery qry;
                qry.prepare("select * from EQUIPEMENTS where IDEQUIPEMENT=:id");
                qry.bindValue(":id",IDEQUIPEMENT);
                qry.exec();
-
                 QString NOM, TYPE,QUANTITE,DESCRIPTION,PRIX;//attributs
-
               while(qry.next())
               {
                    IDEQUIPEMENT=qry.value(0).toString().simplified();
@@ -858,10 +832,7 @@ void MainWindow::on_table_equip_activated(const QModelIndex &index)
                             QUANTITE=qry.value(3).toString().simplified();
                           DESCRIPTION=qry.value(4).toString().simplified();
                               PRIX=qry.value(5).toString().simplified();
-
-
                }
-
 
                        QString message="Voici les information d'équipement sous l'identifant " + IDEQUIPEMENT +  ": \n" + "\n NOM:" + NOM + "\n TYPE:" +TYPE + "\n QUANTITE: " +QUANTITE+ " \n DESCRIPTION: " +DESCRIPTION+  " \n PRIX unitaire : " +PRIX + "DT" ;
                QrCode qr = QrCode::encodeText(message.toUtf8().constData(), QrCode::Ecc::MEDIUM);
@@ -881,12 +852,7 @@ void MainWindow::on_table_equip_activated(const QModelIndex &index)
                }
                im=im.scaled(200,200);
               ui->qr_code_3->setPixmap(QPixmap::fromImage(im));
-
-
-
 }
-
-
 
 
 //Activité///////////////////////////////////
@@ -939,8 +905,6 @@ void MainWindow::on_uploade_fichier_clicked()
 }
 
 
-
-
 void MainWindow::on_valider_ajout_clicked()
 {
     int idactivite;
@@ -963,12 +927,10 @@ bool test=Act.ajouter();
      if (test)
      {
     ui->table_act->setModel(Act.afficher()); // setmodel hyaaa eli lhyaaa bel affichage fi label table_act
-
          QMessageBox::information(nullptr, QObject::tr("database is open"),
                                 QObject::tr("ajout successful.\n"
                                             "Click Cancel to exit."), QMessageBox::Cancel);  }
        else
-
          {
          QMessageBox::critical(nullptr, QObject::tr("database is not open"),
                                 QObject::tr("ajout failed.\n"
@@ -1000,13 +962,6 @@ QMessageBox msgBox;
 }
 
 
-
-
-
-
-
-
-
 void MainWindow::on_validermodif_clicked()
 {
 
@@ -1036,8 +991,6 @@ void MainWindow::on_validermodif_clicked()
     }
 }
 
-
-
 void MainWindow::on_chercher_clicked()
 {
     ui->table_act->setModel(Act.recherche_NOM(ui->le_chercher->text()));
@@ -1049,10 +1002,7 @@ void MainWindow::on_stat_clicked()
       activite A;
        QGridLayout *StatsLayout1 = ui->stackedWidget_in->findChild<QGridLayout*>("gridLayout_act");
        StatsLayout1->addWidget(Act.Stat(), 0, 0);
-
 }
-
-
 
 void MainWindow::on_croissant_clicked()
 {
@@ -1065,58 +1015,6 @@ void MainWindow::on_decroissant_clicked()
 }
 
 
-
-   /*  QString strStream;
-        QTextStream out(&strStream);
-        QPdfWriter pdf("C:/Users/Sarra/Desktop/Volunteer.pdf");
-
-                         QPainter painter(&pdf);
-
-                         int i = 4000;
-                       // 'this' is a pointer to the widget you want to paint
-                         //painter.setStyleSheet("background-color: red;");
-                         painter.drawText(4300,1500,"LIST Of Activites");
-                         painter.setPen(QPen(Qt::black, 6));
-                         //painter.drawRect(5, 5, 8300, 1900);
-                         painter.setFont(QFont("Arial",20));
-                         painter.drawRect(0, 0, 0,39600);
-                         painter.drawRect(0,0,26800,0);
-                         painter.setPen(Qt::black);
-                         painter.setFont(QFont("Arial",9));
-                         painter.drawText(300,3300,"ID");
-                         painter.drawText(1000,3300,"First Name");
-                         painter.drawText(2300,3300,"Last Name");
-                         painter.drawText(3300,3300,"Adresse");
-                         painter.drawText(4300,3300,"DateBirth");
-                         painter.drawText(5300,3300,"DateJoining");
-                         painter.drawText(6300,3300,"nbPart");
-                         painter.drawText(7300,3300,"kind of help");
-                         painter.drawText(8300,3300,"occupation");
-                         painter.drawText(9100,3300,"Fedility");
-
-
-                         QSqlQuery query;
-                         query.prepare("select * from ACTIVITES");
-                         query.exec();
-                         while (query.next())
-                         {
-                             painter.drawText(300,i,query.value(0).toString());
-                             painter.drawText(1000,i,query.value(1).toString());
-                             painter.drawText(2300,i,query.value(2).toString());
-                             painter.drawText(3300,i,query.value(3).toString());
-                             painter.drawText(4300,i,query.value(4).toString());
-                             painter.drawText(5300,i,query.value(5).toString());
-                             painter.drawText(6300,i,query.value(6).toString());
-                             painter.drawText(7300,i,query.value(7).toString());
-                             painter.drawText(8300,i,query.value(8).toString());
-                             painter.drawText(9300,i,query.value(9).toString());
-
-                             i = i +500;
-//                             out <<"<img src=\""<<"C:\\Users\\Ons Ben Maouia\\Downloads\\latifaQT\\media\\logo.png"<<"\"/>\n";
-                         }
-
-}
-*/
 void MainWindow::on_pdf_clicked()
 {
 
@@ -1132,7 +1030,6 @@ void MainWindow::on_pdf_clicked()
 
         painter.drawText(3000,1000,"LIST Of Activites");
         painter.setPen(QPen(Qt::black, 20));
-        //painter.drawRect(5, 5, 8300, 1900);
         painter.setFont(QFont("Arial",20));
         painter.drawRect(0, 0, 0,39600);
         painter.drawRect(0,0,26800,0);
@@ -1157,8 +1054,6 @@ void MainWindow::on_pdf_clicked()
       painter.setFont(font);
       QPen pen(Qt::black);
       painter.setPen(pen);
-
-
       QColor textColor(255, 0, 0); // Rouge
       pen.setColor(textColor);
       painter.setPen(pen);
@@ -1171,7 +1066,6 @@ void MainWindow::on_pdf_clicked()
       painter.drawText(QRect(5500, yPos, 10000, 500), champ5);
             // Incrémentation de la position Y pour passer à la ligne suivante
             yPos += 750;
-
             // Passage à une nouvelle page du document PDF si nécessaire
             if (yPos > writer.height()) {
                 writer.newPage();
@@ -1190,10 +1084,8 @@ void MainWindow::on_agenda_clicked()
             ComboCLADER->clear();
              ComboCLADER->addItem("Select");
              ui->comboBoxcalander->setItemData(0, QVariant(Qt::UserRole), Qt::UserRole);
-
              QSqlQuery query, query1;
                       query.prepare("SELECT IDACTIVITE FROM ACTIVITES");
-
                // Executing the query and fetching the IDEVENT from the result set
                   if (query.exec()) {
                       while (query.next())
@@ -1206,20 +1098,14 @@ void MainWindow::on_agenda_clicked()
                          }
                   }
                   connect(ComboCLADER, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index){
-
-
                          QString selectedItemText = ComboCLADER->currentText();
                          int ID = selectedItemText.toInt();
-
                          // Prepare the SQL query to fetch the data for the selected ID
                          QSqlQuery query1;
-
                          query1.prepare("SELECT NOM FROM ACTIVITES WHERE IDACTIVITE = :id");
                          query1.bindValue(":id", ID);
                          qDebug() << "preparation completed ";
-
                          if (query1.exec() && query1.next()) {
-
                              // Retrieve the values for each column
                              QString Titre_event = query1.value("NOM").toString();
                              QLineEdit *lineEditTitre_activiter = ui->stackedWidget_in->findChild<QLineEdit*>("nom");
@@ -1256,35 +1142,6 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
         ui->nom_activite_2->setText("Aucune activité n'est ajoutée");
     }
 }
-/*
-{
-    QString val=date.toString("yyyy-MM-dd");
-
-           QSqlQuery qry;
- qry.exec(("SELECT * FROM HISTORIQUEACTIVITES WHERE DATEACTIVITE='"+val+"'"));
-
-
-    while (qry.next()) {
-        ui->id_date->setText(qry.value(0).toString());
-         ui->nom_activite->setText(qry.value(1).toString());
-        //ui->affichage_date->setDate(date); //y7ot date baad manenzl al calendrier
-
-         QString val2=qry.value(1).toString();
-
-        QSqlQuery query1;
-
-        query1.exec("SELECT * FROM ACTIVITES WHERE IDACTIVITE ='"+val2+"'");
-
-            while (query1.next()) {
-               ui->nom_activite_2->setText(query1.value(1).toString());
-            }
-
-}
-
-
-}
-
-*/
 
 
 void MainWindow::on_ajoutDate_clicked()
@@ -1313,45 +1170,13 @@ qDebug() << "Message à afficher sur la console";
              }
 }
 
-/*
-void MainWindow::on_supprimer_calendrier_clicked()
-{
-  calender_A H;
-
-          H.setid_C(ui->supp_calendrier->text().toInt());
-    bool test=H.supprmierCalender(H.getid_C());
-QMessageBox msgBox;
-
-    if (test)
-    {
-
-        QMessageBox::information(nullptr, QObject::tr("ok"),
-                               QObject::tr("delete successful.\n"
-                                           "Click Cancel to exit."), QMessageBox::Cancel);
-
-     }
-      else
-
-        {
-        QMessageBox::critical(nullptr, QObject::tr("Not ok"),
-                               QObject::tr("delete failed.\n"
-                                           "Click Cancel to exit."), QMessageBox::Cancel);
-
-
-        }
-
-}
-*/
 void MainWindow::on_le_chercher_textChanged(const QString &arg1)
 {
     ui->table_act->setModel(Act.recherche_NOM(arg1));
 
 }
 
-
-
 void MainWindow::done2()
-
 {
 
     QPushButton* button = qobject_cast<QPushButton*>(sender());
@@ -1366,12 +1191,9 @@ void MainWindow::done2()
 
     delete button;
 
-
-
 }
 
 void MainWindow::done()
-
 {
 
     QPushButton* button = qobject_cast<QPushButton*>(sender());
@@ -1621,11 +1443,6 @@ void MainWindow::on_Events_clicked()
 //add events
 void MainWindow::on_validation_ajout_event_clicked()
 {  int controle=0;
-
-
-
-
-
     if(ui->lineEditTitre_event->text() == "")
     {
         ui->Obligatoirechamp1->setText("Champ Obligatoire*");
@@ -1643,14 +1460,9 @@ void MainWindow::on_validation_ajout_event_clicked()
     }
 
 
-
-
     QString Titre_event=ui->lineEditTitre_event->text();
-
     QString Desc_event=ui->lineEdit_Desc->text();
-
     QString lieuEvent=ui->lineEdit_lieuEvent->text();
-
     QString  genre_event;
 
         if(ui->radioButton_Pub->isChecked()) {
@@ -1659,8 +1471,6 @@ void MainWindow::on_validation_ajout_event_clicked()
         else if(ui->radioButton_Sensib->isChecked()) {
             genre_event = ui->radioButton_Sensib->text();
         }
-
-
 
 QDateTime date_event=ui->dateTimeEdit_event->dateTime();
 
@@ -1675,12 +1485,6 @@ QDateTime date_event=ui->dateTimeEdit_event->dateTime();
     else if(ui->radioButton_present->isChecked()) {
         etat_event = ui->radioButton_present->text();
     }
-
-    //QString etat_event=ui->lineEdit_EtatEvent->text();
-
-
-
-
       //convertir image en binaire BLOB
             QByteArray imageData;
             QBuffer buffer(&imageData);
@@ -1767,11 +1571,6 @@ void MainWindow::on_botton_supprimer_clicked()
   bool test=Evt.supprimer_event(ID);
   if(test)
   {
-      /*QMessageBox::information(nullptr,QObject::tr("ok"),
-                               QObject::tr("suppression effuctue \n"
-                                        "Click cencel to exit."),QMessageBox::Cancel);*/
-
-
       //apdate lel combox apres delate
       Combodelete->clear();
       QComboBox *Combodelete = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_suppr");
@@ -1788,8 +1587,6 @@ void MainWindow::on_botton_supprimer_clicked()
               Combodelete->addItem(intString);
           }
       }
-
-
 
 //apdate lal comtage events baad l delate
         QSqlQuery query;
@@ -1831,14 +1628,12 @@ void MainWindow::on_botton_supprimer_clicked()
 void MainWindow::on_botton_update_events_clicked()
 {
         ui->stackedWidget_in->setCurrentIndex(16);
-
         QComboBox *Comboupdate = ui->stackedWidget_in->findChild<QComboBox*>("comboBox_update");
         Comboupdate->clear();
          Comboupdate->addItem("Select");
          ui->comboBox_update->setItemData(0, QVariant(Qt::UserRole), Qt::UserRole);
          QSqlQuery query, query1;
          query.prepare("SELECT IDEVENT FROM EVENTS");
-
   // Executing the query and fetching the IDEVENT from the result set
      if (query.exec()) {
          while (query.next())
@@ -1850,51 +1645,32 @@ void MainWindow::on_botton_update_events_clicked()
                Comboupdate->addItem(intString);
             }
      }
-
-
    connect(Comboupdate, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index){
-
-
        QString selectedItemText = Comboupdate->currentText();
        int ID = selectedItemText.toInt();
-
        // Prepare the SQL query to fetch the data for the selected ID
        QSqlQuery query1;
-
        query1.prepare("SELECT NOM,DATEEVENT, DESCRIPTION, LIEU, GENRE, ETAT,AFFICHE FROM EVENTS WHERE IDEVENT = :id");
        query1.bindValue(":id", ID);
        qDebug() << "preparation completed ";
-
        if (query1.exec() && query1.next()) {
-
            // Retrieve the values for each column
            QString Titre_event = query1.value("NOM").toString();
            QString Desc_event = query1.value("DESCRIPTION").toString();
            QString lieuEvent = query1.value("LIEU").toString();
            QString genre_event = query1.value("GENRE").toString();
            QString etat_event = query1.value("ETAT").toString();
-          // QString intervenant_event = query1.value("INTERVENANT").toString();
-
            qDebug() << "retrieving completed";
-
            QLineEdit *lineEditTitre_event = ui->stackedWidget_in->findChild<QLineEdit*>("Titre_event_update");
            lineEditTitre_event->setText(Titre_event);
-          // lineEditTitre_event->setReadOnly(true);
            lineEditTitre_event->update();
-
            QLineEdit *lineEdit_Desc = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_Desc_update");
            lineEdit_Desc->setText(Desc_event);
            lineEdit_Desc->update();
-
-
-
            ui->dateTimeEdit_event_update_2->setDateTime(query1.value("DATEEVENT").toDateTime());
-
            QLineEdit *lineEdit_lieuEvent = ui->stackedWidget_in->findChild<QLineEdit*>("lineEdit_lieuEvent_update");
            lineEdit_lieuEvent->setText(lieuEvent);
            lineEdit_lieuEvent->update();
-
-
            if(genre_event=="Publicite"){
                ui->radioButton_Pub_update->setChecked(true);
            }else if(genre_event=="Sensibilisation"){
@@ -1909,11 +1685,6 @@ void MainWindow::on_botton_update_events_clicked()
            else if(etat_event=="Presentiel"){
                 ui->radioButton_Present_update->setChecked(true);
            }
-
-
-
-
-
            QPixmap update_afffiche;
            QByteArray image_data=query1.value("AFFICHE").toByteArray();
            update_afffiche.loadFromData(image_data);
@@ -2031,18 +1802,11 @@ void MainWindow::on_uploade_fichier_event_clicked()
       }
 }
 
-/*
-void MainWindow::on_pushButton_3_clicked_event()
-{
-     ui->stackedWidget_in->setCurrentIndex(2);
-}
-*/
 
 void MainWindow::on_lineEdit_chercheEvent_textChanged(const QString &arg1)
 {
     ui->tableView_events->setModel(Evt.recherche_titreEvent(arg1));
 }
-
 
 
 void MainWindow::on_events_statistics_clicked()
@@ -2076,16 +1840,10 @@ void MainWindow::on_details_events_clicked()
                  ComboSELECT->addItem(name);
              }
          }
-
          connect(ComboSELECT, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=](int index){
-
-
              QString selectedItemText = ComboSELECT->currentText();
-
              QString titre = selectedItemText;
-
              QSqlQuery query2;
-
              query2.prepare("SELECT NOM, DESCRIPTION,LIEU FROM EVENTS WHERE NOM =:titre");
              query2.bindValue(":titre", titre);
                qDebug() << "preparation completed ";
@@ -2095,12 +1853,7 @@ void MainWindow::on_details_events_clicked()
                  QString Titre_eventD = query2.value("NOM").toString();
                  QString Desc_eventD = query2.value("DESCRIPTION").toString();
                  QString lieu_eventD = query2.value("LIEU").toString();
-
-
-
                ui->axWidget->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps?q="+lieu_eventD);
-
-
                  QLineEdit *lineEditTitre_event = ui->stackedWidget_in->findChild<QLineEdit*>("lineEditTitre_event_2");
                  lineEditTitre_event->setText(Titre_eventD);
                  lineEditTitre_event->setReadOnly(true);
@@ -2110,17 +1863,8 @@ void MainWindow::on_details_events_clicked()
                  lineEdit_Desc->setText(Desc_eventD);
                  lineEdit_Desc->setReadOnly(true);
                  lineEdit_Desc->update();
-
-
-
-
-
              }
-
          });
-
-
-
 }
 
 void MainWindow::on_EmissionCO2_clicked()
@@ -2148,8 +1892,6 @@ void MainWindow::on_EmissionCO2_clicked()
    }
 
 }
-
-
 
 
 void MainWindow::on_pdf_Event_test_clicked()
@@ -2234,29 +1976,11 @@ void MainWindow::on_pdf_Event_test_clicked()
 }
 
 
-
-void MainWindow::on_radioButton_2_clicked()
-{
-    QString croissance=ui->radioButton_2->text();
-    ui->tableView_events->setModel(Evt.trierD());
-}
-
-void MainWindow::on_radioButtontrier_eventC_2_clicked()
-{
-    QString croissance=ui->radioButtontrier_eventC_2->text();
-    ui->tableView_events->setModel(Evt.trierC());
-}
 //arduino  project
 void MainWindow::on_Settings_2_clicked()
 {
      ui->stackedWidget_in->setCurrentIndex(7);
-
-
 }
-
-
-
-
 
 void MainWindow::on_botton_selsct_event_2_clicked()
 {
@@ -2352,16 +2076,13 @@ void MainWindow::on_botton_selsct_event_2_clicked()
 }
 
 //moataaaaz
-void MainWindow::populateModel() {
-    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(ui->tableView->model());
-    if (!model)
+void MainWindow::populateModel(QTableView *tableView, const QStringList &headers, const QList<QStringList> &data) {
+             QStandardItemModel *model = qobject_cast<QStandardItemModel *>(tableView->model());
+             if (!model)
         return;
 
-    QStringList headers = { "IDPATIENT", "NOM", "PRENOM", "DOB", "NUMPERSO","NUMURGENCE", "ETAT", "PDR", "PHOTO" };
-    QList<QStringList> data = { headers};
-
-    int j = 0;
-    for (const QStringList &row : data) {
+             int j = 0;
+             for (const QStringList &row : data) {
         model->insertRow(j);
         j++;
         int i = 0;
@@ -2369,19 +2090,17 @@ void MainWindow::populateModel() {
             QModelIndex index = model->index(j - 1, i);
             model->setData(index, x);
             model->setData(index, QColor(255, 255, 255), Qt::ForegroundRole);
-            model->setData(index, font(), Qt::FontRole);
+            model->setData(index, tableView->font(), Qt::FontRole);
 
             if (j == 1 && i <= 4) {
-                model->insertColumn(i, QModelIndex());
-                model->setData(model->index(0, i, QModelIndex()), Qt::AlignCenter, Qt::TextAlignmentRole);
+                                    model->insertColumn(i, QModelIndex());
+                                    model->setData(model->index(0, i, QModelIndex()), Qt::AlignCenter, Qt::TextAlignmentRole);
             }
 
             i++;
         }
-    }
+             }
 }
-
-
 
 
 void MainWindow::on_Ajouter_patient_clicked()
@@ -2397,9 +2116,6 @@ void MainWindow::on_patients_clicked()
 {
      ui->stackedWidget_in->setCurrentIndex(1);
 }
-
-
-
 
 
 void MainWindow::on_validation_ajout_2_clicked()
@@ -2423,8 +2139,9 @@ void MainWindow::on_validation_ajout_2_clicked()
            buffer.open(QIODevice::WriteOnly);
            imagePatient.save(&buffer, "JPG");
            buffer.close();
-
-Patient p(nom_patient, prenom_patient, DOB, num_patient, num_urg, etat_patient, imageData);
+            QString mailpat=ui->adress->text();
+           qDebug() <<mailpat ;
+Patient p(nom_patient, prenom_patient, DOB, num_patient, num_urg, etat_patient, imageData,mailpat);
 
 bool test=p.ajouter_patient();
 
@@ -2438,20 +2155,6 @@ else
     QMessageBox::information(nullptr, QObject::tr("not ok"),
                              QObject::tr("ajouter non effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
 }
-QSqlQuery query;
-QVariant nup = QVariant(num_patient);
-QVariant nur = QVariant(num_urg);
-query.prepare("INSERT INTO PATIENTS (NOM,PRENOM,DOB,NUMPERSO,NUMURGENCE,ETAT,PHOTO) values (:nom_patient,:prenom_patient , :DOB,:num_patient , :num_urg, :etat_patient  , :photo_patient)");
-
-query.bindValue(":nom_patient", nom_patient);
-query.bindValue(":prenom_patient", prenom_patient);
-query.bindValue(":DOB", DOB);
-query.bindValue(":photo_patient", imageData);
-query.bindValue(":num_patient", nup);
-query.bindValue(":num_urg", nur);
-query.bindValue(":etat_patient", etat_patient);
-
-query.exec();
 }
 void MainWindow::on_affichePatient_clicked()
 {
@@ -2511,8 +2214,9 @@ void MainWindow::on_updat_done_clicked()
            buffer.open(QIODevice::WriteOnly);
            imagePatient.save(&buffer, "JPG");
            buffer.close();
+    QString  mailpat=ui->mailpatmodif->text();
 
-Patient p(nom_patient, prenom_patient, DOB, num_patient, num_urg, etat_patient, imageData);
+Patient p(nom_patient, prenom_patient, DOB, num_patient, num_urg, etat_patient, imageData,mailpat);
 
 bool test=p.modifier(id_patient);
 
@@ -2550,52 +2254,49 @@ void MainWindow::on_uploade_photo_clicked()
 
 }
 
-//void MainWindow::on_pdf_2_clicked()
-//{
-//    QSqlQuery query;
-//    query.prepare("SELECT * FROM PATIENTS where IDPATIENT = :id");
-//    query.bindValue(":id",ui->IDPatient_2->text());
-//    query.exec();
-//        QString fileName = QFileDialog::getSaveFileName(this, "Save PDF File", "", "*.pdf");
-//        if (fileName.isEmpty()) {
-//            return;
-//        }
-//        QPdfWriter writer(fileName);
-//        QPainter painter(&writer);
-//        QFont font("Arial", 12);
-//        QPen pen(Qt::black, 1);
-//        int row = 0;
-//        while (query.next()) {
-//            int id = query.value("IDPATIENT").toInt();
-//            QString nom = query.value("NOM").toString();
-//            QString prenom = query.value("PRENOM").toString();
-//            QDateTime DOB = query.value("DOB").toDateTime();
-//            int num_patient=query.value("NUMPERSO").toInt();
-//            int num_urg=query.value("NUMURGENCE").toInt();
-//            QString etat = query.value("ETAT").toString();
+void MainWindow::on_pdf_2_clicked()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM PATIENTS where IDPATIENT = :id");
+    query.bindValue(":id",ui->nom_patient_4->text());
+    query.exec();
+        QString fileName = QFileDialog::getSaveFileName(this, "Save PDF File", "", "*.pdf");
+        if (fileName.isEmpty()) {
+            return;
+        }
+        QPdfWriter writer(fileName);
+        QPainter painter(&writer);
+        QFont font("Arial", 12);
+        QPen pen(Qt::black, 1);
+        int row = 0;
+        while (query.next()) {
+            int id = query.value("IDPATIENT").toInt();
+            QString nom = query.value("NOM").toString();
+            QString prenom = query.value("PRENOM").toString();
+            QDateTime DOB = query.value("DOB").toDateTime();
+            int num_patient=query.value("NUMPERSO").toInt();
+            int num_urg=query.value("NUMURGENCE").toInt();
+            QString etat = query.value("ETAT").toString();
 
 
-//            painter.setFont(font);
-//            painter.setPen(pen);
-//            painter.drawText(100, 100 + row * 20, QString("%1 %2 %3 %4 %5 %6 %7").arg(id).arg(nom).arg(prenom).arg(etat).arg(QString::number(num_patient, 'f', 2)).arg(QString::number(num_urg, 'f', 2)).arg(DOB.toString()));
-//            row++;
-//        }
-//        painter.end();
-//        QMessageBox::information(this, "Exported", "Data exported to PDF file.");
+            painter.setFont(font);
+            painter.setPen(pen);
+            painter.drawText(100, 100 + row * 20, QString("%1 %2 %3 %4 %5 %6 %7").arg(id).arg(nom).arg(prenom).arg(etat).arg(QString::number(num_patient, 'f', 2)).arg(QString::number(num_urg, 'f', 2)).arg(DOB.toString()));
+            row++;
+        }
+        painter.end();
+       QMessageBox::information(this, "Exported", "Data exported to PDF file.");
 
 
-
-
-
-//}
+}
 
 void MainWindow::makePlot()
 {
     QSqlQuery query;
-    query.exec("SELECT COUNT(IDPATIENT) FROM PATIENTS WHERE ETAT='adult' ");
+    query.exec("SELECT COUNT(IDPATIENT) FROM PATIENTS WHERE ETAT='Adult' ");
     query.next();
     int res = query.value(0).toInt();
-    query.exec("SELECT COUNT(IDPATIENT) FROM PATIENTS WHERE ETAT='enfant' ");
+    query.exec("SELECT COUNT(IDPATIENT) FROM PATIENTS WHERE ETAT='Enfant' ");
     query.next();
     int res1 = query.value(0).toInt();
     QCPBars *myBars = new QCPBars(ui->customPlot->xAxis, ui->customPlot->yAxis);
@@ -2625,38 +2326,20 @@ void MainWindow::on_photo_patient_clicked()
 
 void MainWindow::sendMail()
 {
+        QSqlQuery query;
+        query.prepare("SELECT * FROM PATIENTS where IDPATIENT =:id");
+        query.bindValue(":id",ui->nom_patient_4->text());
+        query.exec();
+        query.next();
+        QString mail=query.value("MAIL").toString();
+        qDebug() << mail << "this is my mailllllllllllll" ;
 
     Smtp* smtp = new Smtp("gmootaz3@gmail.com", "dieitpkjiqrcnwmm", "smtp.gmail.com", 465);
     connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
 
 
-    smtp->sendMail("gmootaz3@gmail.com", "gmootaz3@gmail.com" , "hyperflow","you have a meeting with your doctor tomorow dont forget");
+    smtp->sendMail("HYPERFLOW",mail, "doctor meeting","you have a meeting with your doctor tomorow dont forget");
 }
-
-
-
-
-//void MainWindow::on_supprimerPatient_3_clicked()
-//{
-//    int id=ui->IDPatient->text().toInt();
-//    bool test=pat.supprimer_patient(id);
-//    if(test)
-//    {
-//            QMessageBox::information(nullptr, QObject::tr("ok"),
-//                                     QObject::tr("suppression effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
-//            ui->tableView->setModel(pat.afficher_patient());
-//    }
-//    else
-//    {
-//            QMessageBox::information(nullptr, QObject::tr("not ok"),
-//                                     QObject::tr("suppression non effectue\n" "Click cancel to exite."),QMessageBox::Cancel);
-//    }
-//}
-
-
-
-
-
 
 
 void MainWindow::on_expoterdb_clicked()
@@ -2848,15 +2531,6 @@ while (query.next())
 }
 
 }
-
-/*
-void MainWindow::on_pushButton_7_clicked()
-{
-A.write_to_arduino("6");
-ui->label_12->setText("Speaker:Paused");
-
-}
-*/
 
 void MainWindow::on_pushButton_8_clicked()
 {
@@ -4351,8 +4025,13 @@ void MainWindow::on_Ajouter_event_27_clicked()
 
 void MainWindow::on_Ajouter_event_31_clicked()
 {
-        QString fileName = "Vid1.mp4";
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Audio and Video Files (*.mp3 *.mp4)"));
+
         if (!fileName.isEmpty()) {
+                QFileInfo fileInfo(fileName);
+                QString ext = fileInfo.suffix().toLower();
+
+                if (ext == "mp4") {
                 // Create a video widget
                 QVideoWidget *videoWidget = new QVideoWidget(this);
                 videoWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -4372,6 +4051,55 @@ void MainWindow::on_Ajouter_event_31_clicked()
 
                 // Play the video
                 player->play();
+                } else if (ext == "mp3") {
+                // Create an audio player
+                QMediaPlayer *player = new QMediaPlayer(this);
+                player->setMedia(QUrl::fromLocalFile(fileName));
+
+                // Play the audio
+                player->play();
+                } else {
+                // Display an error message for unsupported file types
+                QMessageBox::warning(this, tr("Unsupported File Type"), tr("The selected file is not supported."));
+                }
         }
 }
+
+
+
+
+
+
+void MainWindow::on_updat_done_2_clicked()
+{
+
+            QSqlQuery query;
+        query.prepare("SELECT PDR FROM PATIENTS where IDPATIENT = :id");
+        query.bindValue(":id",ui->nom_patient_4->text());
+        query.exec();
+        while (query.next())
+        {
+        ui->lcdNumber_2->display(query.value("PDR").toString());
+        }
+}
+
+
+void MainWindow::on_quit_clicked()
+{
+
+        QSqlQuery query;
+
+        query.prepare("SELECT * FROM SESSIONS");
+        if (query.exec() && query.next()) {
+        qDebug() << query.value(1);
+        closesession(query.value(1).toInt());
+        QObject::connect(ui->quit, &QPushButton::clicked, &QCoreApplication::quit);
+        ui->quit->show();
+        }
+        else
+        {
+        qDebug() << "Error";
+        }
+}
+
 

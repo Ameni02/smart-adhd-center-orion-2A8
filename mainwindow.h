@@ -40,8 +40,10 @@
 #include"activite.h"
 #include"notification.h"
 #include"event.h"
+#include <QPropertyAnimation>
 #include "chatbot.h"
 #include "intervenants.h"
+#include "sidebar.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -92,8 +94,6 @@ private slots:
     void on_pdf_btn_clicked();
 
     void on_statistic_clicked();
-
-    void on_qrcode_clicked();
 
     void on_table_equip_activated(const QModelIndex &index);
 
@@ -186,10 +186,6 @@ private slots:
 
    void on_pdf_Event_test_clicked();
 
-   void on_radioButton_2_clicked();
-
-   void on_radioButtontrier_eventC_2_clicked();
-
    void on_Settings_2_clicked();
 
    void on_botton_selsct_event_2_clicked();
@@ -211,7 +207,6 @@ private slots:
   // void on_Ajouter_event_clicked();
    void on_Ajouter_patient_clicked();
 
-   void populateModel();
 
 
   // void on_Events_clicked();
@@ -328,8 +323,20 @@ private slots:
 
    void on_Ajouter_event_31_clicked();
 
+
+   void on_pdf_2_clicked();
+
+   void on_updat_done_2_clicked();
+
+   void on_quit_clicked();
+
+   // void on_toggleSidebar_clicked();
+
+   void populateModel(QTableView *tableView, const QStringList &headers, const QList<QStringList> &data);
    private:
     Ui::MainWindow *ui;
+    Sidebar *sidebar;
+    QPropertyAnimation *animation;
     activite Act;
     Patient pat;
     QImage imagePatient,imagePatientTable;

@@ -9,12 +9,12 @@
 class Patient
 {
     int id_patient,num_patient,num_urg,point ;
-    QString nom_patient,prenom_patient,etat_patient;
+    QString nom_patient,prenom_patient,etat_patient,mailpat;
     QDateTime DOB;
     QByteArray photo_patient;
 public:
     Patient();
-    Patient(QString,QString,QDateTime,int,int,QString,QByteArray);
+    Patient(QString,QString,QDateTime,int,int,QString,QByteArray,QString);
 
 
     QString getnom_patient(){return nom_patient;}
@@ -25,6 +25,7 @@ public:
     int getnum_urg(){return num_urg;}
     QString getetat_patient(){return etat_patient;}
     int getpoint(){return point;}
+    QString getmailpat(){return mailpat;}
 
 
     void  setnom_patient(QString np){nom_patient=np;}
@@ -35,6 +36,7 @@ public:
     void  setnum_urg(int nur){num_urg=nur;}
     void  setetat_patient(QString ep){etat_patient=ep;}
     void  setpoint(int pnt){point=pnt;}
+    void  setmailpat(QString mp){mailpat=mp;}
 
 
     bool ajouter_patient();

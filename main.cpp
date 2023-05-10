@@ -14,16 +14,6 @@ int main(int argc, char *argv[])
     if(test)
     {w.show();
 
-        QSystemTrayIcon trayIcon;
-        trayIcon.setIcon(QIcon("D:/projet/integration_ameni-sarah back up + seif/exit2.png")); // set the icon for the tray
-        trayIcon.show(); // show the tray icon
-
-        // create a menu for the tray icon
-        QMenu menu;
-        QAction *exitAction = menu.addAction("Exit");
-        QObject::connect(exitAction, &QAction::triggered, &a, &QApplication::quit); // exit the application when "Exit" is clicked
-
-        trayIcon.setContextMenu(&menu); // set the menu for the tray icon
 }
     else
         QMessageBox::critical(nullptr, QObject::tr("database is not open"),
