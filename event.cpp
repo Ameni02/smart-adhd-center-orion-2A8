@@ -14,6 +14,9 @@
 #include <QPrinter>
 #include <QTableView>
 #include <QPrintDialog>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
 
 Event::Event()
 {
@@ -278,27 +281,36 @@ QSqlQueryModel * Event::trierD( )
 
    return model;
 }
-  void Event::exportToPDF(QTableView *tableView)
-  {
+void Event::exportToPDF(QTableView *tableView)
+{
+   QPrinter printer(QPrinter::HighResolution);
+   printer.setPrinterName("Printer Name"); // Set the printer name
 
-     QPrinter printer(QPrinter::HighResolution);
-     printer.setPrinterName("Printer Name"); // Définir le nom de l'imprimante
-     QPrintDialog dialog(&printer, nullptr);
-     if (dialog.exec() != QDialog::Accepted)
-     {
-               return; // Annuler si l'utilisateur annule la boîte de dialogue
-     }
-      QPainter painter(&printer);
-      painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-       double xscale = printer.pageRect().width() / double(tableView->width());
+   QPrintDialog dialog(&printer, nullptr);
+   if (dialog.exec() != QDialog::Accepted)
+   {
+        return; // Cancel if the user cancels the dialog
+   }
 
-     painter.scale(xscale, xscale);
-     // Calculate the y-position to center the table on the page
-     double ypos = (printer.pageRect().height() / xscale - tableView->height()) / 1500;
-      // Translate the painter to center the table on the page
-     painter.translate(0, ypos);
-           // Dessiner le TableView sur le QPainter
-     tableView->render(&painter);
+   QPainter painter(&printer);
+   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-          painter.end();
-  }
+   // Calculate the scaling factor to fit the table on the page
+   double xscale = printer.pageRect(QPrinter::DevicePixel).width() / double(tableView->width());
+
+   painter.scale(xscale, xscale);
+
+   // Calculate the y-position to center the table on the page
+   double ypos = (printer.pageRect(QPrinter::DevicePixel).height() / xscale - tableView->height()) / 1500;
+
+
+   // Translate the painter to center the table on the page
+   painter.translate(0, ypos);
+
+   // Draw the TableView on the QPainter
+   tableView->render(&painter);
+
+   painter.end();
+}
+
+

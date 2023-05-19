@@ -9,13 +9,12 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include<QIntValidator>
-#include<QRegExpValidator>
+#include<QRegularExpressionValidator>
 #include <QPdfWriter>
 #include <QPainter>
 #include <QDesktopServices>
 #include"Qrcode.h"
 #include <QPixmap>
-
 #include <QtGui/QPixmap>
 #include <QtGui/QPainter>
 #include <QtCore/QBuffer>
@@ -36,7 +35,7 @@ Notification::Notification()
 void Notification::notification_ajoutEquipement()
 {
 
-
+    float S;
     QSqlQuery qry;
       qry.prepare("SELECT * from HISTORIQUEEQUIPEMENTS");
       if (!qry.exec()) {
@@ -47,7 +46,7 @@ void Notification::notification_ajoutEquipement()
       {
           QDateTime date = QDateTime::currentDateTime();
           int nbjours = qry.value("DATEUTILISATION").toDateTime().daysTo(date);
-          QSqlQuery qry1;
+          QSqlQuery qry1,qry2;
           qry1.prepare("SELECT count(*) CNT FROM HISTORIQUEEQUIPEMENTS where IDEQUIPEMENT = :id");
           qry1.bindValue(":id", qry.value("IDEQUIPEMENT"));
           if (!qry1.exec()) {
@@ -55,15 +54,21 @@ void Notification::notification_ajoutEquipement()
               continue;
           }
           if (qry1.next()) {
-              float S = nbjours * 0.5 + qry1.value("CNT").toFloat() * 0.5;
-              S=7;
+              S = nbjours * 0.5 + qry1.value("CNT").toFloat() * 0.5;
+              //S=7;
               if (S > 3.5)
               {
-                  QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
-                  QIcon icon("C:/Users/zbira/Desktop/Projetameni/LOGO.png");
-                  notifyIcon->setIcon(icon);
-                  notifyIcon->show();
-                     notifyIcon->showMessage("un équipement qui n'a pas été utilisé pendant plus de 7 jours "," veuillez vérifier son état ",QSystemTrayIcon::Information,15000);
+                  qry2.prepare("SELECT NOM FROM EQUIPEMENTS where IDEQUIPEMENT = :id");
+                  qry2.bindValue(":id", qry.value("IDEQUIPEMENT"));
+                  qry2.exec();
+                  while (qry2.next())
+                  {
+                      QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+                      QIcon icon("D:/projet/integration_ameni-sarah back up + seif/LOGO.png");
+                      notifyIcon->setIcon(icon);
+                      notifyIcon->show();
+                      notifyIcon->showMessage(qry2.value("NOM").toString()+" n'a pas été utilisé pendant plus de 7 jours "," veuillez vérifier son état ",QSystemTrayIcon::Information,15000);
+                  }
 
               }
           }
